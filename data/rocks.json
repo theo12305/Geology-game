@@ -16,7 +16,8 @@
       "diagnostic": "Gritty feel; visible sand grains",
       "setting": "beaches, rivers, deserts",
       "tier": 1,
-      "protolith": null
+      "protolith": null,
+      "wiki": "Sandstone"
     },
     {
       "id": "shale",
@@ -33,7 +34,8 @@
       "diagnostic": "Smooth, splits into thin sheets; may hold fossils",
       "setting": "lakes, deep marine, river floodplains",
       "tier": 1,
-      "protolith": null
+      "protolith": null,
+      "wiki": "Shale"
     },
     {
       "id": "conglomerate",
@@ -49,7 +51,8 @@
       "diagnostic": "Rounded pebbles cemented together (angular clasts would make breccia)",
       "setting": "river channels, alluvial fans, beaches",
       "tier": 1,
-      "protolith": null
+      "protolith": null,
+      "wiki": "Conglomerate (geology)"
     },
     {
       "id": "limestone",
@@ -64,7 +67,25 @@
       "diagnostic": "Fizzes in HCl; often fossil-rich",
       "setting": "warm shallow seas, reefs",
       "tier": 1,
-      "protolith": null
+      "protolith": null,
+      "wiki": "Limestone"
+    },
+    {
+      "id": "dolostone",
+      "name": "Dolostone",
+      "family": "sedimentary",
+      "subtype": "carbonate",
+      "texture": "crystalline, often sugary",
+      "grain_size": "fine to medium",
+      "minerals": [
+        "dolomite",
+        "calcite"
+      ],
+      "diagnostic": "Like limestone but only fizzes in HCl when powdered",
+      "setting": "altered limestone in basins and tidal flats",
+      "tier": 2,
+      "protolith": null,
+      "wiki": "Dolomite (rock)"
     },
     {
       "id": "chert",
@@ -79,7 +100,8 @@
       "diagnostic": "Very hard, waxy, conchoidal fracture; sparks with steel",
       "setting": "deep marine, nodules in limestone",
       "tier": 2,
-      "protolith": null
+      "protolith": null,
+      "wiki": "Chert"
     },
     {
       "id": "coal",
@@ -94,7 +116,8 @@
       "diagnostic": "Black, light, burns; plant fossils",
       "setting": "swamps and deltas",
       "tier": 2,
-      "protolith": null
+      "protolith": null,
+      "wiki": "Coal"
     },
     {
       "id": "granite",
@@ -114,7 +137,8 @@
       "diagnostic": "Pink or white feldspar, glassy grey quartz, black mica",
       "setting": "continental crust plutons",
       "tier": 4,
-      "protolith": null
+      "protolith": null,
+      "wiki": "Granite"
     },
     {
       "id": "rhyolite",
@@ -132,7 +156,8 @@
       "diagnostic": "Light-colored, fine-grained; same chemistry as granite",
       "setting": "continental volcanoes, calderas",
       "tier": 7,
-      "protolith": null
+      "protolith": null,
+      "wiki": "Rhyolite"
     },
     {
       "id": "obsidian",
@@ -145,7 +170,8 @@
       "diagnostic": "Black glass with conchoidal fracture",
       "setting": "rhyolitic lava flows",
       "tier": 7,
-      "protolith": null
+      "protolith": null,
+      "wiki": "Obsidian"
     },
     {
       "id": "basalt",
@@ -163,7 +189,8 @@
       "diagnostic": "Dark, fine-grained, may have gas holes (vesicles)",
       "setting": "mid-ocean ridges, hotspots, flood basalts",
       "tier": 7,
-      "protolith": null
+      "protolith": null,
+      "wiki": "Basalt"
     },
     {
       "id": "gabbro",
@@ -181,7 +208,8 @@
       "diagnostic": "Dark, coarse; same chemistry as basalt",
       "setting": "oceanic crust, layered intrusions",
       "tier": 7,
-      "protolith": null
+      "protolith": null,
+      "wiki": "Gabbro"
     },
     {
       "id": "slate",
@@ -198,7 +226,8 @@
       "diagnostic": "Splits into flat sheets; rings when tapped",
       "setting": "low-grade regional metamorphism",
       "tier": 3,
-      "protolith": "shale"
+      "protolith": "shale",
+      "wiki": "Slate"
     },
     {
       "id": "schist",
@@ -217,7 +246,8 @@
       "diagnostic": "Sparkly aligned mica flakes; often garnet porphyroblasts",
       "setting": "medium-grade regional metamorphism",
       "tier": 3,
-      "protolith": "shale"
+      "protolith": "shale",
+      "wiki": "Schist"
     },
     {
       "id": "gneiss",
@@ -237,7 +267,8 @@
       "diagnostic": "Light and dark mineral bands",
       "setting": "high-grade regional metamorphism",
       "tier": 5,
-      "protolith": "granite or shale"
+      "protolith": "granite or shale",
+      "wiki": "Gneiss"
     },
     {
       "id": "marble",
@@ -254,7 +285,8 @@
       "diagnostic": "Fizzes in HCl; sugary interlocking crystals",
       "setting": "contact or regional metamorphism of limestone",
       "tier": 3,
-      "protolith": "limestone"
+      "protolith": "limestone",
+      "wiki": "Marble"
     }
   ]
 }

@@ -29,7 +29,8 @@
       ],
       "diagnostic": "Scratches glass; hexagonal prisms with pyramid ends",
       "occurrence": "granite, sandstone, quartzite, veins",
-      "tier": 1
+      "tier": 1,
+      "wiki": "Quartz"
     },
     {
       "id": "calcite",
@@ -51,7 +52,8 @@
       ],
       "diagnostic": "Fizzes strongly in cold dilute HCl; clear crystals show double refraction",
       "occurrence": "limestone, marble, veins, caves",
-      "tier": 1
+      "tier": 1,
+      "wiki": "Calcite"
     },
     {
       "id": "dolomite",
@@ -74,7 +76,8 @@
       ],
       "diagnostic": "Fizzes in HCl only when powdered; curved saddle-shaped crystals",
       "occurrence": "dolostone, hydrothermal veins",
-      "tier": 2
+      "tier": 2,
+      "wiki": "Dolomite (mineral)"
     },
     {
       "id": "halite",
@@ -97,7 +100,8 @@
       ],
       "diagnostic": "Salty taste; dissolves in water",
       "occurrence": "evaporite beds, salt domes",
-      "tier": 1
+      "tier": 1,
+      "wiki": "Halite"
     },
     {
       "id": "gypsum",
@@ -119,7 +123,8 @@
       ],
       "diagnostic": "Scratched by a fingernail; flexible thin sheets",
       "occurrence": "evaporite beds, desert crusts",
-      "tier": 1
+      "tier": 1,
+      "wiki": "Gypsum"
     },
     {
       "id": "anhydrite",
@@ -142,7 +147,8 @@
       ],
       "diagnostic": "Harder than gypsum; no water in structure",
       "occurrence": "deep evaporites, salt dome caprock",
-      "tier": 2
+      "tier": 2,
+      "wiki": "Anhydrite"
     },
     {
       "id": "hematite",
@@ -165,7 +171,8 @@
       ],
       "diagnostic": "Red-brown streak even when the sample is grey",
       "occurrence": "banded iron formation, red beds, hydrothermal veins",
-      "tier": 1
+      "tier": 1,
+      "wiki": "Hematite"
     },
     {
       "id": "magnetite",
@@ -186,7 +193,8 @@
       ],
       "diagnostic": "Strongly magnetic",
       "occurrence": "mafic igneous rocks, black sands, banded iron formation",
-      "tier": 1
+      "tier": 1,
+      "wiki": "Magnetite"
     },
     {
       "id": "goethite",
@@ -208,7 +216,8 @@
       ],
       "diagnostic": "Yellow-brown streak separates it from hematite",
       "occurrence": "weathered iron-bearing rocks, bog iron, gossans",
-      "tier": 1
+      "tier": 1,
+      "wiki": "Goethite"
     },
     {
       "id": "pyrite",
@@ -229,7 +238,8 @@
       ],
       "diagnostic": "Striated cubes; harder than a steel knife, unlike chalcopyrite",
       "occurrence": "shale, coal, hydrothermal veins",
-      "tier": 2
+      "tier": 2,
+      "wiki": "Pyrite"
     },
     {
       "id": "galena",
@@ -250,7 +260,8 @@
       ],
       "diagnostic": "Very heavy; breaks into small cubes",
       "occurrence": "hydrothermal veins, carbonate-hosted Pb-Zn deposits",
-      "tier": 2
+      "tier": 2,
+      "wiki": "Galena"
     },
     {
       "id": "sphalerite",
@@ -274,7 +285,8 @@
       ],
       "diagnostic": "Light streak despite dark color; smells of H2S in HCl",
       "occurrence": "hydrothermal veins, carbonate-hosted Pb-Zn deposits",
-      "tier": 2
+      "tier": 2,
+      "wiki": "Sphalerite"
     },
     {
       "id": "chalcopyrite",
@@ -296,7 +308,8 @@
       ],
       "diagnostic": "Softer than pyrite (knife scratches it); deeper yellow",
       "occurrence": "porphyry copper, VMS deposits, veins",
-      "tier": 4
+      "tier": 4,
+      "wiki": "Chalcopyrite"
     },
     {
       "id": "fluorite",
@@ -320,7 +333,8 @@
       ],
       "diagnostic": "Often fluoresces under UV light; cubic crystals",
       "occurrence": "hydrothermal veins, granite pegmatites",
-      "tier": 2
+      "tier": 2,
+      "wiki": "Fluorite"
     },
     {
       "id": "barite",
@@ -343,7 +357,8 @@
       ],
       "diagnostic": "Unusually heavy for a light-colored mineral",
       "occurrence": "hydrothermal veins, sedimentary nodules",
-      "tier": 2
+      "tier": 2,
+      "wiki": "Baryte"
     },
     {
       "id": "orthoclase",
@@ -366,7 +381,8 @@
       ],
       "diagnostic": "Pink color and Carlsbad twins; no striations",
       "occurrence": "granite, syenite, pegmatite, arkose",
-      "tier": 4
+      "tier": 4,
+      "wiki": "Orthoclase"
     },
     {
       "id": "plagioclase",
@@ -389,7 +405,8 @@
       ],
       "diagnostic": "Fine parallel striations on cleavage faces from polysynthetic twinning",
       "occurrence": "nearly all igneous rocks, many metamorphic rocks",
-      "tier": 4
+      "tier": 4,
+      "wiki": "Plagioclase"
     },
     {
       "id": "muscovite",
@@ -412,7 +429,8 @@
       ],
       "diagnostic": "Peels into clear, elastic sheets",
       "occurrence": "granite, pegmatite, schist",
-      "tier": 3
+      "tier": 3,
+      "wiki": "Muscovite"
     },
     {
       "id": "biotite",
@@ -434,7 +452,8 @@
       ],
       "diagnostic": "Dark elastic sheets",
       "occurrence": "granite, diorite, schist, gneiss",
-      "tier": 4
+      "tier": 4,
+      "wiki": "Biotite"
     },
     {
       "id": "chlorite",
@@ -456,7 +475,8 @@
       ],
       "diagnostic": "Flexible but not elastic sheets, unlike mica",
       "occurrence": "greenschist, altered mafic rocks",
-      "tier": 3
+      "tier": 3,
+      "wiki": "Clinochlore"
     },
     {
       "id": "olivine",
@@ -478,7 +498,8 @@
       ],
       "diagnostic": "Granular green crystals; no cleavage",
       "occurrence": "peridotite, basalt, gabbro, mantle xenoliths",
-      "tier": 7
+      "tier": 7,
+      "wiki": "Olivine"
     },
     {
       "id": "augite",
@@ -500,7 +521,8 @@
       ],
       "diagnostic": "Stubby crystals; near-90 deg cleavage separates it from hornblende",
       "occurrence": "basalt, gabbro, andesite",
-      "tier": 7
+      "tier": 7,
+      "wiki": "Augite"
     },
     {
       "id": "hornblende",
@@ -522,7 +544,8 @@
       ],
       "diagnostic": "Elongate crystals; 56/124 deg cleavage",
       "occurrence": "diorite, andesite, amphibolite",
-      "tier": 4
+      "tier": 4,
+      "wiki": "Hornblende"
     },
     {
       "id": "almandine",
@@ -544,7 +567,8 @@
       ],
       "diagnostic": "Dodecahedral crystals; index mineral of the garnet zone",
       "occurrence": "schist, gneiss, amphibolite",
-      "tier": 3
+      "tier": 3,
+      "wiki": "Almandine"
     },
     {
       "id": "kaolinite",
@@ -566,7 +590,8 @@
       ],
       "diagnostic": "Earthy smell when breathed on; plastic when wet",
       "occurrence": "weathered granite, soils, shale",
-      "tier": 1
+      "tier": 1,
+      "wiki": "Kaolinite"
     },
     {
       "id": "talc",
@@ -589,7 +614,8 @@
       ],
       "diagnostic": "Soapy feel; softest mineral on the Mohs scale",
       "occurrence": "soapstone, altered ultramafic rocks",
-      "tier": 3
+      "tier": 3,
+      "wiki": "Talc"
     },
     {
       "id": "graphite",
@@ -611,7 +637,8 @@
       ],
       "diagnostic": "Writes on paper; greasy feel",
       "occurrence": "marble, schist, gneiss from organic-rich protoliths",
-      "tier": 3
+      "tier": 3,
+      "wiki": "Graphite"
     },
     {
       "id": "copper",
@@ -633,7 +660,8 @@
       ],
       "diagnostic": "Malleable; bends instead of breaking",
       "occurrence": "basalt vesicles, oxidized zones of copper deposits",
-      "tier": 4
+      "tier": 4,
+      "wiki": "Native copper"
     },
     {
       "id": "malachite",
@@ -654,7 +682,8 @@
       ],
       "diagnostic": "Banded green; fizzes in HCl",
       "occurrence": "oxidized zones of copper deposits",
-      "tier": 4
+      "tier": 4,
+      "wiki": "Malachite"
     },
     {
       "id": "kyanite",
@@ -676,7 +705,8 @@
       ],
       "diagnostic": "Bladed blue crystals; hardness about 4.5 along the blade and 6.5 to 7 across it",
       "occurrence": "high-pressure schist and gneiss",
-      "tier": 5
+      "tier": 5,
+      "wiki": "Kyanite"
     }
   ]
 }
