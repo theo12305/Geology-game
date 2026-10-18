@@ -453,5 +453,12 @@
     "author": "GYassineMrabetTalk✉ This  structure was created with PyMOL.",
     "license": "Public domain",
     "source": "https://commons.wikimedia.org/wiki/File:Carbon_lattice_diamond.png"
+  },
+  "lesson_igneous_rocks": {
+    "image": "res://images/lesson_igneous_rocks.jpg",
+    "file": "World_geologic_provinces.jpg",
+    "author": "USGS",
+    "license": "Public domain",
+    "source": "https://commons.wikimedia.org/wiki/File:World_geologic_provinces.jpg"
   }
 }
