@@ -139,7 +139,7 @@
       "id": "igneous_rocks",
       "title": "Igneous rocks and Bowen's series",
       "unlock": {"type": "zone", "value": "pluton"},
-      "wiki": "Bowen's reaction series",
+      "wiki": "Igneous rock",
       "books": ["physical"],
       "text": "Igneous rocks are classified by texture and composition. Texture shows the cooling rate: magma that cools slowly deep underground (plutonic) grows large crystals you can see (phaneritic, like granite and gabbro); lava that cools fast at the surface (volcanic) makes tiny crystals (aphanitic, like basalt and rhyolite) or glass (obsidian). Gas bubbles leave holes called vesicles.\n\nComposition runs from felsic (rich in silica, feldspar and quartz, light coloured: granite, rhyolite) through intermediate (diorite, andesite) to mafic (rich in iron and magnesium, dark: gabbro, basalt). Granite and rhyolite have the same composition and differ only in cooling rate, as do gabbro and basalt.\n\nIn the 1920s Norman Bowen showed by experiment that minerals crystallise from a cooling magma in a predictable order. On one branch olivine forms first, then pyroxene, amphibole and biotite; on the other, plagioclase changes from calcium-rich to sodium-rich. Orthoclase, muscovite and quartz crystallise last. Minerals that form at high temperature weather fastest at the surface, which is why sand is mostly quartz.",
       "quiz": [

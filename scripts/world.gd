@@ -526,12 +526,17 @@ func _paint_tile(img: Image, index: int) -> void:
 					elif v.length() < 6.0:
 						c = Color("8f8670")
 				CRYSTAL:
-					# Dark rock studded with glowing crystal points.
-					var roll := float(hash(Vector2i(px / 2, py / 3)) % 1000) / 1000.0
-					if roll < 0.22:
-						c = Color("9fe8ff").lerp(Color("c99bff"), float(px) / TILE)
-					elif roll < 0.3:
-						c = Color("f3ecf7")
+					# Dark rock with three pointed crystals growing out of it.
+					for k in 3:
+						var cx: int = [4, 9, 13][k]
+						var tip: int = [3, 1, 6][k]
+						var half: float = (py - tip) * 0.35
+						if py >= tip and absf(px - cx) <= half + 0.5:
+							c = Color("9fe8ff") if k != 1 else Color("c99bff")
+							if px < cx:
+								c = c.lightened(0.3)
+							elif absf(px - cx) > half - 0.6:
+								c = c.darkened(0.25)
 				GEODE:
 					# Round rock with a hollow of purple crystals.
 					var d := Vector2(px - 7.5, py - 7.5).length()

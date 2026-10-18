@@ -12,6 +12,8 @@ var list_scroll: ScrollContainer
 var list_box: VBoxContainer
 var lesson_page: VBoxContainer
 var lesson_text: RichTextLabel
+var lesson_pic: TextureRect
+var lesson_credit: Label
 var quiz_page: VBoxContainer
 var quiz_question: Label
 var quiz_grid: GridContainer
@@ -33,11 +35,28 @@ func _ready() -> void:
 	lesson_page = VBoxContainer.new()
 	lesson_page.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	body.add_child(lesson_page)
+	var row := HBoxContainer.new()
+	row.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	row.add_theme_constant_override("separation", 10)
+	lesson_page.add_child(row)
+	var left := VBoxContainer.new()
+	left.custom_minimum_size = Vector2(210, 0)
+	row.add_child(left)
+	lesson_pic = TextureRect.new()
+	lesson_pic.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	lesson_pic.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	lesson_pic.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	left.add_child(lesson_pic)
+	lesson_credit = Label.new()
+	lesson_credit.theme_type_variation = "Muted"
+	lesson_credit.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	lesson_credit.add_theme_font_size_override("font_size", 10)
+	left.add_child(lesson_credit)
 	lesson_text = RichTextLabel.new()
 	lesson_text.bbcode_enabled = true
-	lesson_text.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	lesson_text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	lesson_text.meta_clicked.connect(GameData.open_link)
-	lesson_page.add_child(lesson_text)
+	row.add_child(lesson_text)
 	var take := big_button("Take the quiz", "check", true)
 	take.pressed.connect(_start_quiz)
 	lesson_page.add_child(take)
@@ -141,12 +160,13 @@ func open_lesson(id: String) -> void:
 	Sfx.play("tap")
 	GameState.read_lesson(id)
 	title_label.text = l["title"]
+	var key: String = "lesson_" + id
+	var has_pic: bool = GameData.credits.has(key) and ResourceLoader.exists(GameData.credits[key]["image"])
+	lesson_pic.get_parent().visible = has_pic
+	if has_pic:
+		lesson_pic.texture = load(GameData.credits[key]["image"])
+		lesson_credit.text = GameData.photo_credit(key)
 	var parts := []
-	var photo := GameData.photo_bbcode("lesson_" + id, 280)
-	if photo != "":
-		parts.append(photo)
-		parts.append("[color=#%s][font_size=10]%s[/font_size][/color]" % [UiTheme.colors()["muted"].to_html(false),
-			GameData.photo_credit("lesson_" + id)])
 	parts.append(l["text"])
 	parts.append("")
 	parts.append(GameData.links_bbcode(l["wiki"], l["books"]))

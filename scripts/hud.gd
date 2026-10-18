@@ -409,11 +409,15 @@ func show_card(title: String, subtitle: String, body: String, photo_id := "", mo
 		row.add_child(pic)
 	var v := VBoxContainer.new()
 	v.add_theme_constant_override("separation", 6)
-	v.custom_minimum_size = Vector2(300, 0)
+	v.custom_minimum_size = Vector2(340, 0)
 	row.add_child(v)
-	v.add_child(label(title, "Title"))
+	var t := label(title, "Title")
+	t.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	v.add_child(t)
 	if subtitle != "":
-		v.add_child(label(subtitle, "Muted"))
+		var st := label(subtitle, "Muted")
+		st.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		v.add_child(st)
 	var l := label(body)
 	l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	v.add_child(l)
