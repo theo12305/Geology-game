@@ -1,12 +1,14 @@
 extends Node
-## Player progress: samples, identifications, crafting, XP, coins, goals, upgrades and changes made to the
-## world. Saved as JSON. Settings live in their own file so a new game keeps them.
+## Player progress: samples, identifications, fossils, zones, Field School lessons, crafting, XP, coins,
+## goals, upgrades and changes made to the world. Saved as JSON. Settings live in their own file so a new
+## game keeps them.
 
 signal changed
 signal toast(text: String)
 signal xp_gained(amount: int, coins: int)
 signal leveled_up(level: int)
 signal goal_completed(goal: Dictionary)
+signal milestone(title: String, text: String)
 signal settings_changed
 
 const PICKS := [
@@ -59,6 +61,16 @@ const XP_DIG := 1
 const XP_SAMPLE := 5
 const XP_GEODE := 25
 const XP_FIRST_FIND := 30
+const XP_FOSSIL := 40
+const XP_ZONE := 50
+const XP_LESSON_READ := 10
+const XP_LESSON_PASS := 60
+const XP_PHOTO_QUIZ := 8
+## Times named correctly for bronze, silver and gold mastery of a mineral or rock.
+const MASTERY := [3, 6, 10]
+const MASTERY_NAMES := ["", "bronze", "silver", "gold"]
+## Every this many distinct finds (minerals, rocks and fossils) pays a collection bonus.
+const COLLECTION_STEP := 5
 ## Shop upgrades bought with coins. Cost of level n+1 is base * (n+1) * (n+2) / 2.
 const UPGRADES := [
 	{"id": "bag", "name": "Bigger sample bag", "icon": "bag", "max": 5, "base": 30, "info": "+6 sample slots per level."},
@@ -87,6 +99,9 @@ const GOAL_TEMPLATES := [
 	{"event": "build", "text": "Place %d blocks", "targets": [5, 10]},
 	{"event": "depth", "text": "Reach %d m deep", "max": true},
 	{"event": "class", "text": "Name a %s mineral"},
+	{"event": "fossil", "text": "Find a fossil", "targets": [1]},
+	{"event": "lesson", "text": "Pass a Field School quiz", "targets": [1]},
+	{"event": "photo", "text": "Name %d photos in the photo quiz", "targets": [3, 5, 8]},
 ]
 ## Mineral class goals: word to match in mineral_class, and how the goal names it.
 const CLASS_WORDS := [["carbonate", "carbonate"], ["sulfate", "sulfate"], ["oxide", "oxide"], ["sulfide", "sulfide"],
@@ -115,7 +130,10 @@ var streak := 0
 var best_streak := 0
 var max_depth := 0
 var blocks_dug := 0
-var daily := {"day": -1, "streak": 0}
+var fossils_found: Dictionary = {}    # fossil id -> times found
+var zones_found: Array = []
+var lessons_read: Dictionary = {}     # lesson id -> true
+var lessons_passed: Dictionary = {}   # lesson id -> true
 var upgrades := {}                    # upgrade id -> level
 var goals: Array = []
 var tutorial_step := 0
@@ -151,7 +169,10 @@ func new_game(seed := -1) -> void:
 	best_streak = 0
 	max_depth = 0
 	blocks_dug = 0
-	daily = {"day": -1, "streak": 0}
+	fossils_found = {}
+	zones_found = []
+	lessons_read = {}
+	lessons_passed = {}
 	upgrades = {}
 	tutorial_step = 0
 	goals = []
@@ -230,22 +251,126 @@ func add_coins(amount: int) -> void:
 	changed.emit()
 
 
-## Daily reward, once per calendar day. Logging in on consecutive days grows it. Returns {} if already claimed.
-func claim_daily() -> Dictionary:
-	var today := _day_number()
-	if int(daily["day"]) == today:
-		return {}
-	var days := int(daily["streak"]) + 1 if int(daily["day"]) == today - 1 else 1
-	daily = {"day": today, "streak": days}
-	var reward := {"days": days, "coins": 20 + 10 * mini(days, 7), "xp": 10 * mini(days, 7)}
-	add_xp(reward["xp"], reward["coins"])
+# --- Fossils, zones and the Field School ---
+
+## A fossil from rock at this tier, favouring ones you have not found. Returns {id, first}.
+func find_fossil(tier: int) -> Dictionary:
+	var pool := []
+	for id in GameData.fossils:
+		if int(GameData.fossil(id)["tier"]) <= tier:
+			pool.append(id)
+	pool.sort()
+	var weights := pool.map(func(id): return 1.0 if fossils_found.has(id) else 3.0)
+	var pick: float = rng.randf() * weights.reduce(func(a, b): return a + b, 0.0)
+	var id: String = pool[-1]
+	for i in pool.size():
+		pick -= weights[i]
+		if pick <= 0.0:
+			id = pool[i]
+			break
+	var first := not fossils_found.has(id)
+	fossils_found[id] = fossils_found.get(id, 0) + 1
+	if first:
+		add_xp(XP_FOSSIL, 15)
+		_check_collection()
+	else:
+		add_xp(5, 3)
+	track("fossil")
+	return {"id": id, "first": first}
+
+
+## Records entering a zone. True the first time.
+func discover_zone(id: String) -> bool:
+	if id == "" or id in zones_found:
+		return false
+	zones_found.append(id)
+	add_xp(XP_ZONE, 10)
+	changed.emit()
+	return true
+
+
+func lesson_unlocked(l: Dictionary) -> bool:
+	var u: Dictionary = l["unlock"]
+	match u["type"]:
+		"level":
+			return level() >= int(u["value"])
+		"zone":
+			return u["value"] in zones_found
+		"fossil":
+			return not fossils_found.is_empty()
+	return true
+
+
+## What unlocks a locked lesson, in words.
+func lesson_lock_text(l: Dictionary) -> String:
+	var u: Dictionary = l["unlock"]
+	match u["type"]:
+		"level":
+			return "Reach level %d" % int(u["value"])
+		"zone":
+			return "Discover the %s" % load("res://scripts/world.gd").ZONES[u["value"]][0]
+		"fossil":
+			return "Find your first fossil"
+	return ""
+
+
+## Lessons you can open but have not passed yet.
+func lessons_waiting() -> int:
+	var n := 0
+	for l in GameData.lessons:
+		if lesson_unlocked(l) and not lessons_passed.has(l["id"]):
+			n += 1
+	return n
+
+
+func read_lesson(id: String) -> void:
+	if lessons_read.has(id):
+		return
+	lessons_read[id] = true
+	add_xp(XP_LESSON_READ)
+
+
+## Records a finished quiz. Passing (every answer right) the first time pays a big reward. Returns true
+## if this attempt passed.
+func finish_quiz(id: String, right: int, total: int) -> bool:
+	var passed := right == total
+	if passed and not lessons_passed.has(id):
+		lessons_passed[id] = true
+		Sfx.play("goal")
+		add_xp(XP_LESSON_PASS, 25)
+		track("lesson")
+	elif right > 0:
+		add_xp(2 * right)
 	save_game()
-	return reward
+	return passed
 
 
-func _day_number() -> int:
-	var bias: int = Time.get_time_zone_from_system().get("bias", 0)
-	return int((Time.get_unix_time_from_system() + bias * 60) / 86400)
+func photo_quiz_answer(correct: bool) -> void:
+	if correct:
+		add_xp(XP_PHOTO_QUIZ, 1)
+		track("photo")
+
+
+## 0 none, 1 bronze, 2 silver, 3 gold, from how often you have named it.
+func mastery(id: String) -> int:
+	var n: int = correct_ids.get(id, 0)
+	var m := 0
+	for i in MASTERY.size():
+		if n >= MASTERY[i]:
+			m = i + 1
+	return m
+
+
+func distinct_finds() -> int:
+	return correct_ids.size() + fossils_found.size()
+
+
+func _check_collection() -> void:
+	var n := distinct_finds()
+	if n > 0 and n % COLLECTION_STEP == 0:
+		var bonus := 10 * n
+		add_coins(bonus)
+		milestone.emit("Collection: %d finds!" % n, "+%d coins bonus" % bonus)
 
 
 # --- Upgrades ---
@@ -379,6 +504,22 @@ func _random_goal() -> Dictionary:
 			var pair: Array = options[rng.randi_range(0, options.size() - 1)]
 			g.merge({"target": 1, "filter": pair[0], "text": tpl["text"] % pair[1]})
 			difficulty = 1
+		"lesson":
+			if lessons_waiting() == 0:
+				return {}
+			g["target"] = 1
+			g["text"] = tpl["text"]
+			difficulty = 2
+		"photo":
+			if correct_ids.size() < 4:
+				return {}
+			difficulty = rng.randi_range(0, tpl["targets"].size() - 1)
+			g["target"] = tpl["targets"][difficulty]
+			g["text"] = tpl["text"] % g["target"]
+		"fossil":
+			g["target"] = 1
+			g["text"] = tpl["text"]
+			difficulty = 1
 		"build":
 			if blocks_dug < 30:
 				return {}
@@ -507,9 +648,10 @@ func identify(uid: int, guess: String) -> bool:
 	var kind: String = sample["kind"]
 	samples.erase(sample)
 	var correct := guess == answer
-	last_reward = {"xp": 0, "coins": 0, "streak": 0, "first": false}
+	last_reward = {"xp": 0, "coins": 0, "streak": 0, "first": false, "mastery": 0}
 	if correct:
 		var first := not correct_ids.has(answer)
+		var old_mastery := mastery(answer)
 		correct_ids[answer] = correct_ids.get(answer, 0) + 1
 		stock[answer] = stock.get(answer, 0) + 1
 		if pending_misses.get(answer, 0) > 0:
@@ -522,9 +664,15 @@ func identify(uid: int, guess: String) -> bool:
 		if first:
 			gained += XP_FIRST_FIND
 			gold += 10
-		last_reward = {"xp": gained, "coins": gold, "streak": streak, "first": first}
+		var new_mastery := mastery(answer)
+		if new_mastery > old_mastery:
+			gained += 25 * new_mastery
+			gold += 10 * new_mastery
+		last_reward = {"xp": gained, "coins": gold, "streak": streak, "first": first, "mastery": new_mastery if new_mastery > old_mastery else 0}
 		Sfx.play("correct")
 		add_xp(gained, gold)
+		if first:
+			_check_collection()
 		track("identify")
 		track("streak", streak)
 		if kind == "rock":
@@ -534,7 +682,7 @@ func identify(uid: int, guess: String) -> bool:
 	else:
 		pending_misses[answer] = pending_misses.get(answer, 0) + 1
 		streak = 0
-		last_reward = {"xp": 2, "coins": 0, "streak": 0, "first": false}
+		last_reward = {"xp": 2, "coins": 0, "streak": 0, "first": false, "mastery": 0}
 		Sfx.play("wrong")
 		add_xp(2)
 	changed.emit()
@@ -598,7 +746,9 @@ func save_game() -> void:
 		"correct_ids": correct_ids, "pending_misses": pending_misses, "stock": stock,
 		"pick_level": pick_level, "built": built, "changed_cells": changed_cells, "player_pos": player_pos,
 		"rubble": rubble, "xp": xp, "coins": coins, "streak": streak, "best_streak": best_streak,
-		"max_depth": max_depth, "blocks_dug": blocks_dug, "daily": daily, "upgrades": upgrades, "goals": goals,
+		"max_depth": max_depth, "blocks_dug": blocks_dug, "upgrades": upgrades, "goals": goals,
+		"fossils_found": fossils_found, "zones_found": zones_found, "lessons_read": lessons_read,
+		"lessons_passed": lessons_passed,
 		"tutorial_step": tutorial_step,
 	}
 	var file := FileAccess.open(save_path, FileAccess.WRITE)
@@ -636,8 +786,10 @@ func load_game() -> bool:
 	best_streak = int(parsed.get("best_streak", 0))
 	max_depth = int(parsed.get("max_depth", 0))
 	blocks_dug = int(parsed.get("blocks_dug", 0))
-	var d: Dictionary = parsed.get("daily", {})
-	daily = {"day": int(d.get("day", -1)), "streak": int(d.get("streak", 0))}
+	fossils_found = _int_values(parsed.get("fossils_found", {}))
+	zones_found = parsed.get("zones_found", [])
+	lessons_read = parsed.get("lessons_read", {})
+	lessons_passed = parsed.get("lessons_passed", {})
 	upgrades = _int_values(parsed.get("upgrades", {}))
 	goals = parsed.get("goals", [])
 	for g in goals:

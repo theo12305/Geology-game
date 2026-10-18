@@ -39,14 +39,15 @@ func open() -> void:
 		+ "Tap a block once to dig it. Glittering veins give mineral samples; rock sometimes gives rock samples.\n"
 		+ "Open the Bag, run tests, then name each sample for XP and coins. A streak of right answers pays more.\n"
 		+ "Craft harder picks in the Workshop to dig through the hard bands into deeper, rarer rock.\n"
+		+ "Read lessons and pass quizzes in the Field School (the School button, or tap the tent). Fossils hide in the sedimentary beds.\n"
 		+ "Stuck in a hole? Rope up takes you back to the surface.")
 	list.add_child(help)
 	var stats := Label.new()
 	stats.theme_type_variation = "Muted"
 	stats.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	stats.text = "Your stats: %d blocks dug, deepest %d m, best streak %d, %d minerals and %d rocks found, daily streak %d." % [
+	stats.text = "Your stats: %d blocks dug, deepest %d m, best streak %d, %d minerals, %d rocks and %d fossils found, %d Field School quizzes passed." % [
 		GameState.blocks_dug, GameState.max_depth, GameState.best_streak, GameState.identified_count("mineral"),
-		GameState.identified_count("rock"), int(GameState.daily["streak"])]
+		GameState.identified_count("rock"), GameState.fossils_found.size(), GameState.lessons_passed.size()]
 	list.add_child(stats)
 
 

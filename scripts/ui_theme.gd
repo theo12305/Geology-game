@@ -91,6 +91,14 @@ const ICONS := {
 		"...rr..rr...", "....rrrr....", "rrrrrrrrrrrr", "ccccrrrrcccc", "ccccrrrrcccc", "............",
 		".cccrrrrccc.", ".cccrrrrccc.", ".cccrrrrccc.", ".cccrrrrccc.", ".cccrrrrccc.", "............",
 	],
+	"cap": [
+		"............", "............", ".....dd.....", "...ddkkdd...", ".ddkkkkkkdd.", "dkkkkkkkkkkd",
+		".ddkkkkkkddc", "..dkddddkd.c", "..dkkkkkkd.c", "...dddddd..c", "..........cc", "............",
+	],
+	"fossil": [
+		"............", "...wwwww....", "..wgggggw...", ".wgwwwwwgw..", ".wgwgggwgw..", ".wgwgwwgwgw.",
+		".wgwgwgwgw..", ".wgwggwgw...", ".wgwwwwgw...", "..wgggggw...", "...wwwww....", "............",
+	],
 	"hand": [
 		"....ww......", "....ww......", "....ww......", "....wwww....", "....wwwwww..", "ww..wwwwwww.",
 		"www.wwwwwww.", ".wwwwwwwwww.", "..wwwwwwwww.", "..wwwwwwww..", "...wwwwww...", "...wwwwww...",

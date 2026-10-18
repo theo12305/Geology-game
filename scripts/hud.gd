@@ -1,6 +1,6 @@
 extends CanvasLayer
 ## On-screen interface: info card (level, XP, depth, pick, coins, streak), goal tracker, big thumb buttons,
-## messages, floating rewards, level-up banner, daily reward and the menu panels.
+## messages, floating rewards, level-up banner, discovery cards and the menu panels.
 
 signal build_toggled(on: bool)
 signal rope_pressed
@@ -10,8 +10,9 @@ const FieldKit := preload("res://scripts/field_kit.gd")
 const Codex := preload("res://scripts/codex.gd")
 const Workshop := preload("res://scripts/craft.gd")
 const Settings := preload("res://scripts/settings.gd")
+const School := preload("res://scripts/school.gd")
 
-enum { PANEL_BAG, PANEL_CODEX, PANEL_WORKSHOP, PANEL_SETTINGS }
+enum { PANEL_BAG, PANEL_CODEX, PANEL_WORKSHOP, PANEL_SETTINGS, PANEL_SCHOOL }
 const MARGIN := 8
 const HUD_BUTTON := Vector2(62, 54)
 
@@ -35,6 +36,7 @@ var right_bar: HBoxContainer
 var bag_button: Button
 var codex_button: Button
 var workshop_button: Button
+var school_button: Button
 var build_button: Button
 var rope_button: Button
 var toast_card: PanelContainer
@@ -60,7 +62,7 @@ func _ready() -> void:
 	_build_goal_card()
 	_build_buttons()
 	_build_messages()
-	for script in [FieldKit, Codex, Workshop, Settings]:
+	for script in [FieldKit, Codex, Workshop, Settings, School]:
 		var p: Control = script.new()
 		p.visible = false
 		root.add_child(p)
@@ -69,6 +71,7 @@ func _ready() -> void:
 	GameState.settings_changed.connect(_apply_settings)
 	GameState.leveled_up.connect(func(level: int):
 		show_banner("Level %d!" % level, GameState.rank_name()))
+	GameState.milestone.connect(show_banner)
 	GameState.goal_completed.connect(func(g: Dictionary):
 		show_toast("Goal complete: %s  +%d XP  +%d coins" % [g["text"], g["xp"], g["coins"]]))
 	_refresh()
@@ -208,6 +211,9 @@ func _build_buttons() -> void:
 	workshop_button.custom_minimum_size.x = 76
 	workshop_button.pressed.connect(func(): open_panel(PANEL_WORKSHOP))
 	left_bar.add_child(workshop_button)
+	school_button = _hud_button("School", "cap")
+	school_button.pressed.connect(func(): open_panel(PANEL_SCHOOL))
+	left_bar.add_child(school_button)
 	right_bar = HBoxContainer.new()
 	right_bar.add_theme_constant_override("separation", 6)
 	pin(right_bar, true, true)
@@ -298,6 +304,9 @@ func _refresh() -> void:
 		shop_ready = shop_ready or gs.can_craft(r)
 	workshop_button.text = "Workshop!" if shop_ready else "Workshop"
 	build_button.text = "Build %d" % gs.rubble if build_button.button_pressed else "Build"
+	var waiting := gs.lessons_waiting()
+	school_button.text = "School %d" % waiting if waiting > 0 else "School"
+	school_button.custom_minimum_size.x = 78 if waiting > 0 else HUD_BUTTON.x
 	_refresh_goals()
 
 
@@ -375,45 +384,65 @@ func float_text(screen_pos: Vector2, text: String, color: Color, icon := "") -> 
 	tween.chain().tween_callback(box.queue_free)
 
 
-## The once-a-day reward, as a popup with a Collect button.
-func show_daily(reward: Dictionary) -> void:
+## A discovery card (new fossil, new zone) with an optional photo, a short explanation and up to two
+## buttons. The first button closes the card; `more` runs when the second is pressed.
+func show_card(title: String, subtitle: String, body: String, photo_id := "", more_label := "",
+		more := Callable()) -> void:
+	if popup != null:
+		popup.queue_free()
 	popup = PanelContainer.new()
 	popup.theme_type_variation = "Card"
 	popup.set_anchors_preset(Control.PRESET_CENTER)
 	popup.grow_horizontal = Control.GROW_DIRECTION_BOTH
 	popup.grow_vertical = Control.GROW_DIRECTION_BOTH
 	root.add_child(popup)
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 10)
+	popup.add_child(row)
+	var credits: Dictionary = GameData.credits.get(photo_id, {})
+	if not credits.is_empty() and ResourceLoader.exists(credits["image"]):
+		var pic := TextureRect.new()
+		pic.texture = load(credits["image"])
+		pic.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		pic.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		pic.custom_minimum_size = Vector2(150, 150)
+		row.add_child(pic)
 	var v := VBoxContainer.new()
-	v.alignment = BoxContainer.ALIGNMENT_CENTER
-	v.add_theme_constant_override("separation", 8)
-	popup.add_child(v)
-	var title_row := HBoxContainer.new()
-	title_row.alignment = BoxContainer.ALIGNMENT_CENTER
-	v.add_child(title_row)
-	title_row.add_child(icon_rect("gift", 28))
-	title_row.add_child(label("Daily field grant", "Title"))
-	var days: int = reward["days"]
-	var text := "Day %d in a row! Come back tomorrow for more." % days if days > 1 else "Welcome back! Come back tomorrow to start a streak."
-	var l := label(text)
-	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	v.add_theme_constant_override("separation", 6)
+	v.custom_minimum_size = Vector2(300, 0)
+	row.add_child(v)
+	v.add_child(label(title, "Title"))
+	if subtitle != "":
+		v.add_child(label(subtitle, "Muted"))
+	var l := label(body)
+	l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	v.add_child(l)
-	var pay := HBoxContainer.new()
-	pay.alignment = BoxContainer.ALIGNMENT_CENTER
-	v.add_child(pay)
-	pay.add_child(icon_rect("coin", 22))
-	pay.add_child(label("+%d   " % reward["coins"], "Title"))
-	pay.add_child(icon_rect("star", 22))
-	pay.add_child(label("+%d XP" % reward["xp"], "Title"))
+	var buttons := HBoxContainer.new()
+	v.add_child(buttons)
 	var ok := Button.new()
 	ok.theme_type_variation = "Accent"
-	ok.text = "Collect"
-	ok.custom_minimum_size = Vector2(180, UiTheme.TAP)
-	ok.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	ok.pressed.connect(func():
-		Sfx.play("coin")
+	ok.text = "Keep digging"
+	ok.custom_minimum_size = Vector2(130, UiTheme.TAP)
+	ok.pressed.connect(close_card)
+	buttons.add_child(ok)
+	if more_label != "":
+		var m := Button.new()
+		m.text = more_label
+		m.custom_minimum_size = Vector2(130, UiTheme.TAP)
+		m.pressed.connect(func():
+			close_card()
+			more.call())
+		buttons.add_child(m)
+	popup.pivot_offset = popup.size / 2.0
+	popup.modulate.a = 0.0
+	create_tween().tween_property(popup, "modulate:a", 1.0, 0.2)
+
+
+func close_card() -> void:
+	Sfx.play("tap")
+	if popup != null:
 		popup.queue_free()
-		popup = null)
-	v.add_child(ok)
+		popup = null
 
 
 func _process(delta: float) -> void:
@@ -433,6 +462,9 @@ func _process(delta: float) -> void:
 	var glow := Color.WHITE.lerp(UiTheme.colors()["accent"], 0.5 + 0.5 * sin(_time * 6.0))
 	bag_button.modulate = glow if hint == "bag" and not panel_open() else Color.WHITE
 	codex_button.modulate = glow if hint == "codex" and not panel_open() else Color.WHITE
+	# A new lesson waiting makes the School button glow softly.
+	var soft := Color.WHITE.lerp(UiTheme.colors()["accent"], 0.25 + 0.25 * sin(_time * 3.0))
+	school_button.modulate = soft if GameState.lessons_waiting() > 0 and not panel_open() else Color.WHITE
 
 
 func open_panel(index: int) -> void:

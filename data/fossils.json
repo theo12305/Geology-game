@@ -1,0 +1,92 @@
+{
+  "fossils": [
+    {
+      "id": "trilobite",
+      "name": "Trilobite",
+      "group": "Arthropod (class Trilobita)",
+      "age": "Cambrian to Permian, 521 to 252 million years ago",
+      "tier": 1,
+      "hosts": ["shale", "limestone"],
+      "wiki": "Trilobite",
+      "fact": "Its eyes had lenses made of single calcite crystals.",
+      "explanation": "Marine arthropods with a three-lobed body: a central axis between two side (pleural) lobes, and a head shield, segmented thorax and tail shield. Their exoskeleton was mineralised with calcite, so they fossilise well, and most fossils are moulted shells rather than dead animals. Trilobites evolved quickly and many species lived only a few million years, so they are index fossils for dividing the Cambrian into zones. The group dwindled through the Devonian and vanished in the end-Permian mass extinction."
+    },
+    {
+      "id": "graptolite",
+      "name": "Graptolite",
+      "group": "Hemichordate colony (Graptolithina)",
+      "age": "Mostly Ordovician and Silurian, 485 to 419 million years ago",
+      "tier": 1,
+      "hosts": ["shale"],
+      "wiki": "Graptolithina",
+      "fact": "Graptolite zones split the Ordovician and Silurian into slices about a million years long.",
+      "explanation": "Colonies of tiny filter-feeding animals that lived in cups (thecae) along branches called stipes. Most drifted in the open ocean, so a species spread worldwide fast and is found in rocks of the same age on many continents. Their organic skeletons are usually preserved as shiny carbon films that look like pencil marks on dark shale, which is where the name (Greek for 'written stone') comes from. Rapid evolution plus wide distribution make them some of the best index fossils for the Lower Palaeozoic."
+    },
+    {
+      "id": "brachiopod",
+      "name": "Brachiopod",
+      "group": "Lamp shell (phylum Brachiopoda)",
+      "age": "Cambrian to today; most common in the Palaeozoic",
+      "tier": 1,
+      "hosts": ["limestone", "shale"],
+      "wiki": "Brachiopod",
+      "fact": "A brachiopod is symmetric across each shell; a clam is symmetric between its two shells.",
+      "explanation": "Sea-floor animals with two shells (valves) of unequal size, one above and one below the body, unlike clams whose two shells sit left and right. A line through the middle of a brachiopod shell divides it into mirror images; a line between the two valves of a clam does. They fed with a coiled feeding organ, the lophophore, and many were anchored by a fleshy stalk through a hole in the larger valve. Brachiopods dominated Palaeozoic sea floors and are common in limestone, but most groups died out in the end-Permian extinction."
+    },
+    {
+      "id": "crinoid",
+      "name": "Crinoid stem",
+      "group": "Sea lily (echinoderm, class Crinoidea)",
+      "age": "Ordovician to today; peak in the Carboniferous",
+      "tier": 1,
+      "hosts": ["limestone", "dolostone"],
+      "wiki": "Crinoid",
+      "fact": "Each disc of the stem is one calcite crystal, so it breaks along smooth cleavage planes.",
+      "explanation": "Relatives of starfish and sea urchins that stood on long stalks made of stacked discs (ossicles) and caught food with feathery arms. When they died the stalks fell apart, and the discs, each a single crystal of calcite, piled up on the sea floor. Whole beds of crinoidal limestone formed this way, especially in the Early Carboniferous, sometimes called the Age of Crinoids. The round discs with a central hole were once strung as beads and called St Cuthbert's beads."
+    },
+    {
+      "id": "rugose_coral",
+      "name": "Horn coral",
+      "group": "Rugose coral (Rugosa)",
+      "age": "Ordovician to Permian, 485 to 252 million years ago",
+      "tier": 1,
+      "hosts": ["limestone"],
+      "wiki": "Rugosa",
+      "fact": "Daily growth lines on Devonian corals show a year of about 400 days, because Earth spun faster.",
+      "explanation": "Extinct corals, often solitary and shaped like a curved horn, with a skeleton of calcite divided by radiating plates called septa. Like modern reef corals they needed warm, clear, shallow seas, so they mark tropical shelf environments. In 1963 John Wells counted fine daily growth ridges within yearly bands on Devonian corals and found about 400 days per year, evidence that tidal friction has been slowing Earth's rotation. Rugose corals died out at the end of the Permian; today's corals (Scleractinia) evolved later in the Triassic."
+    },
+    {
+      "id": "ammonite",
+      "name": "Ammonite",
+      "group": "Cephalopod mollusc (Ammonoidea)",
+      "age": "Devonian to Cretaceous, about 400 to 66 million years ago",
+      "tier": 1,
+      "hosts": ["shale", "limestone"],
+      "wiki": "Ammonoidea",
+      "fact": "The more complex the suture lines, the younger the ammonoid: Jurassic ones look like ferns.",
+      "explanation": "Swimming relatives of squid and octopus that lived in a coiled, chambered shell and adjusted their buoyancy like the living nautilus. Where the walls between chambers met the outer shell they made suture lines, which became more and more folded through time, so suture shape helps date a specimen. Ammonites evolved so quickly and spread so widely that Jurassic and Cretaceous rocks are divided into ammonite zones, some under a million years long. They died out with the dinosaurs at the end of the Cretaceous."
+    },
+    {
+      "id": "lepidodendron",
+      "name": "Scale tree bark",
+      "group": "Lycopsid plant (Lepidodendron)",
+      "age": "Carboniferous, about 359 to 299 million years ago",
+      "tier": 2,
+      "hosts": ["coal", "shale"],
+      "wiki": "Lepidodendron",
+      "fact": "Scale trees grew up to 30 m tall and are a big part of the world's coal.",
+      "explanation": "Tree-sized relatives of today's small club mosses. Their bark is covered in diamond-shaped leaf scars, which is why the fossils look like snake or crocodile skin. They grew in vast tropical swamps; when they died, waterlogged and low in oxygen, the plant matter did not rot but became peat, and burial and heat later turned that peat into coal. The Carboniferous ('coal-bearing') period is named after these coal measures."
+    },
+    {
+      "id": "stromatolite",
+      "name": "Stromatolite",
+      "group": "Microbial mat structure",
+      "age": "3.5 billion years ago to today",
+      "tier": 2,
+      "hosts": ["dolostone", "limestone"],
+      "wiki": "Stromatolite",
+      "fact": "Living stromatolites still grow in Shark Bay, Western Australia.",
+      "explanation": "Layered mounds built by mats of microbes, mainly cyanobacteria, that trap sediment and help precipitate carbonate, growing upward one thin layer at a time. They are among the oldest evidence of life on Earth, over 3.4 billion years old. Photosynthesising cyanobacteria released the oxygen that built up in the atmosphere during the Great Oxidation Event about 2.4 billion years ago. Stromatolites were common in shallow seas for billions of years and are often preserved in dolostone; they became rare once grazing animals evolved."
+    }
+  ]
+}
