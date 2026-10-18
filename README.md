@@ -22,7 +22,13 @@ lens, heft), name them, and craft better tools from what you identify.
 
 ## Play it on your Android phone
 
-### Option A: straight on the phone, no computer
+### Easiest: the web version (always up to date)
+
+Open **https://theo12305.github.io/Geology-game/** in Chrome on your phone. Every merge to `main`
+rebuilds it automatically, so you never download anything again; just reload. In Chrome's menu choose
+**Add to Home screen** to get an app icon that opens it full screen. Your progress is saved in the browser.
+
+### Option A: in the Godot editor app on the phone
 
 1. Install **Godot Engine 4** (the editor) from the
    [Google Play Store](https://play.google.com/store/apps/details?id=org.godotengine.editor.v4).
