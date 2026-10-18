@@ -185,6 +185,7 @@ func _build_result_page() -> void:
 	result_lesson = RichTextLabel.new()
 	result_lesson.bbcode_enabled = true
 	result_lesson.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	result_lesson.meta_clicked.connect(GameData.open_link)
 	result_page.add_child(result_lesson)
 	var actions := HBoxContainer.new()
 	result_page.add_child(actions)
@@ -417,6 +418,8 @@ func _answer(guess: String) -> void:
 			parts.append("Streak x%d" % r["streak"])
 		if r["first"]:
 			parts.append("New Codex entry!")
+		if r.get("mastery", 0) > 0:
+			parts.append("%s mastery!" % GameState.MASTERY_NAMES[r["mastery"]].capitalize())
 		result_reward.text = "   ".join(parts)
 	else:
 		GameState.buzz(120)
@@ -425,7 +428,11 @@ func _answer(guess: String) -> void:
 		result_title.text = "Not %s. It was %s." % [GameData.entry(kind, guess)["name"], what]
 		result_reward.text = "Streak reset. You will find %s more often until you get it right." % e["name"]
 	var clue: String = e["diagnostic"].trim_suffix(".") + "."
-	result_lesson.text = "[b]Key clue:[/b] %s\n\n%s" % [clue, GameData.lesson_bbcode(kind, id)]
+	var text := "[b]Key clue:[/b] %s\n\n" % clue
+	if not correct:
+		text += GameData.comparison_bbcode(kind, id, guess) + "\n\n"
+	text += GameData.lesson_bbcode(kind, id, 200) + "\n\n" + GameData.entry_links_bbcode(kind, id)
+	result_lesson.text = text
 	result_lesson.scroll_to_line(0)
 	title_label.text = "Result"
 	next_button.visible = not GameState.samples.is_empty()

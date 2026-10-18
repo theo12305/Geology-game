@@ -1,4 +1,4 @@
-# Downloads mineral and rock photos from Wikimedia Commons and commits them to the branch.
+# Downloads mineral, rock, fossil and lesson pictures from Wikimedia Commons and commits them to the branch.
 # Runs when the photo list changes; images and credits land in images/ and data/image_credits.json.
 name: Fetch photos
 
@@ -8,6 +8,8 @@ on:
       - tools/fetch_photos.py
       - data/minerals.json
       - data/rocks.json
+      - data/fossils.json
+      - data/lessons.json
   workflow_dispatch:
 
 permissions:

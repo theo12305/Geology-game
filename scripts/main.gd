@@ -100,9 +100,20 @@ func _ready() -> void:
 		hud.show_toast("Welcome, geologist! Follow the goals at the top right to learn the ropes.")
 	else:
 		hud.show_toast("Welcome back! Tap a glittering vein to collect samples.")
-	var reward := GameState.claim_daily()
-	if not reward.is_empty():
-		hud.show_daily(reward)
+	# Saves from before zones: count the zones above your deepest point as already found.
+	var deepest_row := World.SURFACE_Y + GameState.max_depth / World.METERS_PER_TILE
+	for y in range(World.SURFACE_Y, deepest_row + 1):
+		var z := world.zone_at(y)
+		if z != "" and not z in GameState.zones_found:
+			GameState.zones_found.append(z)
+	for c in world.caverns:
+		var glow := PointLight2D.new()
+		glow.texture = player.lamp.texture
+		glow.texture_scale = 1.6
+		glow.color = Color("b58cff")
+		glow.energy = 0.8
+		glow.position = c
+		world.add_child(glow)
 
 
 func _setup_input() -> void:
@@ -148,6 +159,8 @@ func press_pointer(id: int, screen_pos: Vector2) -> void:
 	var t := world.get_tile(cell)
 	if build_mode and t == World.AIR:
 		try_place(cell)
+	elif t == World.AIR and world.scenery.camp_rect.has_point(world_pos):
+		hud.open_panel(hud.PANEL_SCHOOL)
 	elif t == World.AIR:
 		cancel_mining()
 		GameState.track("walk")
@@ -221,6 +234,9 @@ func _process(delta: float) -> void:
 	if _depth_check > 0.5:
 		_depth_check = 0.0
 		GameState.track("depth", depth)
+		var zone := world.zone_at(int(player.position.y / World.TILE))
+		if GameState.discover_zone(zone):
+			_announce_zone(zone)
 	if _shake > 0.0:
 		_shake = maxf(_shake - delta * 12.0, 0.0)
 		player.camera.offset = Vector2(randf_range(-1, 1), randf_range(-1, 1)) * _shake
@@ -255,6 +271,12 @@ func finish_mining(cell: Vector2i) -> void:
 	var t := world.get_tile(cell)
 	if t == World.GEODE:
 		_open_geode(cell)
+		return
+	if t == World.FOSSIL:
+		_dig_fossil(cell)
+		return
+	if t == World.CRYSTAL:
+		_dig_crystal(cell)
 		return
 	if not world.is_vein(t):
 		world.set_tile(cell, World.AIR)
@@ -362,6 +384,54 @@ func rope_to_surface() -> void:
 	player.stop_walking()
 	player.camera.reset_smoothing()
 	Sfx.play("craft")
+
+
+func _dig_fossil(cell: Vector2i) -> void:
+	world.set_tile(cell, World.AIR)
+	GameState.rubble += 1
+	Sfx.play("geode")
+	GameState.buzz(60)
+	_burst(cell, Color("efe6cf"), 16)
+	shake(2.5)
+	var found := GameState.find_fossil(world.tier_at(cell.y))
+	var f := GameData.fossil(found["id"])
+	if found["first"]:
+		hud.show_card("New fossil: %s" % f["name"], "%s. %s" % [f["group"], f["age"]], f["fact"], found["id"],
+			"Read more", func():
+				hud.open_panel(hud.PANEL_CODEX)
+				hud.panels[hud.PANEL_CODEX].show_entry("fossil", found["id"]))
+	else:
+		hud.show_toast("Another %s fossil (%d found)." % [f["name"].to_lower(), GameState.fossils_found[found["id"]]])
+
+
+func _dig_crystal(cell: Vector2i) -> void:
+	var id := GameState.roll_geode_crystal()
+	var tier := maxi(world.tier_at(cell.y), int(GameData.mineral(id)["tier"]))
+	var sample := GameState.add_sample(id, world.depth_m(cell.y * World.TILE), tier, GameState.GEODE_CRYSTALS[id])
+	if sample.is_empty():
+		hud.show_toast("Your bag is full. Open the Bag and name some samples first.")
+		Sfx.play("blocked")
+		return
+	world.set_tile(cell, World.AIR)
+	Sfx.play("sample")
+	GameState.buzz(30)
+	_burst(cell, Color("c99bff"), 14)
+	GameState.add_xp(GameState.XP_SAMPLE)
+	GameState.track("sample")
+
+
+func _announce_zone(zone: String) -> void:
+	var info: Array = World.ZONES[zone]
+	var unlocked := []
+	for l in GameData.lessons:
+		if l["unlock"]["type"] == "zone" and l["unlock"]["value"] == zone:
+			unlocked.append(l["title"])
+	var text: String = info[1]
+	if unlocked:
+		text += "\n\nNew lesson in the Field School: %s." % ", ".join(unlocked)
+	Sfx.play("rank")
+	hud.show_card("New zone: %s" % info[0], "%d m down. +%d XP" % [world.depth_m(player.position.y), GameState.XP_ZONE],
+		text, "", "Open School" if unlocked else "", func(): hud.open_panel(hud.PANEL_SCHOOL))
 
 
 ## Digging rock sometimes turns up gold flakes, worth a few coins.

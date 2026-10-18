@@ -1,10 +1,12 @@
 extends Node
-## Mineral and rock reference data loaded from res://data.
-## Everything the game says about a mineral, and every field test result, comes from here.
+## Mineral, rock, fossil and lesson data loaded from res://data.
+## Everything the game says about a mineral, every field test result, and the Field School come from here.
 
 const MINERALS_PATH := "res://data/minerals.json"
 const ROCKS_PATH := "res://data/rocks.json"
 const CREDITS_PATH := "res://data/image_credits.json"
+const FOSSILS_PATH := "res://data/fossils.json"
+const LESSONS_PATH := "res://data/lessons.json"
 
 ## Swatch colors for the color words used in minerals.json, checked in order.
 const COLOR_KEYWORDS := [
@@ -26,11 +28,18 @@ const ACID_REACTIONS := {
 var minerals: Dictionary = {}
 var rocks: Dictionary = {}
 var credits: Dictionary = {}
+var fossils: Dictionary = {}
+var lessons: Array = []        # in teaching order
+var books: Dictionary = {}     # id -> {title, url}: open textbooks and databases for further study
 
 
 func _ready() -> void:
 	minerals = _load_entries(MINERALS_PATH, "minerals")
 	rocks = _load_entries(ROCKS_PATH, "rocks")
+	fossils = _load_entries(FOSSILS_PATH, "fossils")
+	var school: Variant = JSON.parse_string(FileAccess.get_file_as_string(LESSONS_PATH))
+	lessons = school["lessons"]
+	books = school["books"]
 	if FileAccess.file_exists(CREDITS_PATH):
 		credits = JSON.parse_string(FileAccess.get_file_as_string(CREDITS_PATH))
 
@@ -55,9 +64,49 @@ func rock(id: String) -> Dictionary:
 	return rocks.get(id, {})
 
 
-## A mineral or rock entry, by sample kind ("mineral" or "rock").
+func fossil(id: String) -> Dictionary:
+	return fossils.get(id, {})
+
+
+func lesson(id: String) -> Dictionary:
+	for l in lessons:
+		if l["id"] == id:
+			return l
+	return {}
+
+
+## A mineral, rock or fossil entry, by kind ("mineral", "rock" or "fossil").
 func entry(kind: String, id: String) -> Dictionary:
+	if kind == "fossil":
+		return fossil(id)
 	return rock(id) if kind == "rock" else mineral(id)
+
+
+func wiki_url(article: String) -> String:
+	return "https://en.wikipedia.org/wiki/" + article.replace(" ", "_").uri_encode()
+
+
+## "Learn more" links for an entry or lesson, as BBCode [url] tags. RichTextLabels that show them open
+## links with open_link().
+func links_bbcode(article: String, book_ids: Array) -> String:
+	var links := ["[url=%s]Wikipedia: %s[/url]" % [wiki_url(article), article]]
+	for b in book_ids:
+		if books.has(b):
+			links.append("[url=%s]%s[/url]" % [books[b]["url"], books[b]["title"]])
+	return "[b]Learn more[/b]\n" + "\n".join(links)
+
+
+func entry_links_bbcode(kind: String, id: String) -> String:
+	var e := entry(kind, id)
+	if kind != "mineral":
+		return links_bbcode(e["wiki"], ["physical"])
+	var name: String = e["name"]
+	return links_bbcode(e["wiki"], ["mineralogy"]) + "\n[url=https://www.mindat.org/search.php?search=%s]Mindat: %s[/url]" % [
+		name.uri_encode(), name]
+
+
+func open_link(meta: Variant) -> void:
+	OS.shell_open(str(meta))
 
 
 func ids_up_to_tier(kind: String, tier: int) -> Array:
@@ -87,11 +136,11 @@ func photo_credit(id: String) -> String:
 	return "Photo: %s, %s, via Wikimedia Commons." % [c["author"], c["license"]]
 
 
-## The full lesson for a mineral or rock: photo, explanation and photo credit.
-func lesson_bbcode(kind: String, id: String) -> String:
+## The full lesson for a mineral, rock or fossil: photo, explanation and photo credit.
+func lesson_bbcode(kind: String, id: String, photo_width := 150) -> String:
 	var e := entry(kind, id)
 	var parts := []
-	var photo := photo_bbcode(id)
+	var photo := photo_bbcode(id, photo_width)
 	if photo != "":
 		parts.append(photo)
 	parts.append(e.get("explanation", ""))
@@ -116,6 +165,34 @@ func color_of(word: String) -> Color:
 		if word.contains(pair[0]):
 			return pair[1]
 	return Color("9a9a9a")
+
+
+## Side-by-side properties of the real answer and a wrong guess, so a miss teaches how to tell them apart.
+func comparison_bbcode(kind: String, answer: String, guess: String) -> String:
+	var a := entry(kind, answer)
+	var g := entry(kind, guess)
+	var rows := []
+	if kind == "mineral":
+		rows = [
+			["Hardness", hardness_text(a), hardness_text(g)],
+			["Streak", a["streak"], g["streak"]],
+			["Luster", a["luster"], g["luster"]],
+			["Density", "%s" % a["specific_gravity"], "%s" % g["specific_gravity"]],
+			["Cleavage", a["cleavage"], g["cleavage"]],
+			["Key test", a["diagnostic"], g["diagnostic"]],
+		]
+	else:
+		rows = [
+			["Family", a["family"], g["family"]],
+			["Texture", a["texture"], g["texture"]],
+			["Grain size", a["grain_size"], g["grain_size"]],
+			["Key test", a["diagnostic"], g["diagnostic"]],
+		]
+	var out := "[b]How to tell them apart[/b]\n[table=3]"
+	out += "[cell] [/cell][cell][b]%s[/b]  [/cell][cell][b]%s[/b][/cell]" % [a["name"], g["name"]]
+	for r in rows:
+		out += "[cell]%s  [/cell][cell]%s  [/cell][cell]%s[/cell]" % r
+	return out + "[/table]"
 
 
 func hardness_text(m: Dictionary) -> String:

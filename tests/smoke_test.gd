@@ -17,6 +17,23 @@ func _ready() -> void:
 	# Data
 	check(GameData.minerals.size() == 30, "30 minerals loaded")
 	check(GameData.rocks.size() == 16, "16 rocks loaded")
+	check(GameData.fossils.size() == 8, "8 fossils loaded")
+	check(GameData.lessons.size() == 12, "12 lessons loaded")
+	for id in GameData.fossils:
+		var f := GameData.fossil(id)
+		check(f.get("explanation", "").length() > 100 and f.has("fact") and f.has("age"), "%s fossil text" % id)
+	for l in GameData.lessons:
+		check(l["text"].length() > 600, "%s lesson text" % l["id"])
+		check(l["quiz"].size() == 3, "%s has 3 questions" % l["id"])
+		for q in l["quiz"]:
+			check(q["options"].size() == 4 and int(q["answer"]) >= 0 and int(q["answer"]) < 4 and q["why"] != "",
+				"%s question well formed" % l["id"])
+		for b in l["books"]:
+			check(GameData.books.has(b), "%s book %s exists" % [l["id"], b])
+		var u: Dictionary = l["unlock"]
+		check(u["type"] in ["start", "level", "zone", "fossil"], "%s unlock type" % l["id"])
+		if u["type"] == "zone":
+			check(load("res://scripts/world.gd").ZONES.has(u["value"]), "%s zone exists" % l["id"])
 	for id in GameData.minerals:
 		check(GameData.mineral(id).get("explanation", "").length() > 100, "%s has an explanation" % id)
 	for id in GameData.rocks:
@@ -62,6 +79,17 @@ func _ready() -> void:
 				if first_vein.x < 0 and world.tier_at(y) == 1:
 					first_vein = Vector2i(x, y)
 	print("veins per tier: ", veins)
+	var counts := {"fossil": 0, "crystal": 0}
+	for y in world.HEIGHT:
+		for x in world.WIDTH:
+			var t2: int = world.get_tile(Vector2i(x, y))
+			if t2 == world.FOSSIL:
+				counts["fossil"] += 1
+			elif t2 == world.CRYSTAL:
+				counts["crystal"] += 1
+	print("fossils, crystals, decorations: ", counts, " ", world.deco.size())
+	check(counts["fossil"] > 20 and counts["crystal"] > 20 and world.deco.size() > 50, "fossils, caverns and formations exist")
+	check(world.zone_at(world.SURFACE_Y + 10) == "beds" and world.zone_at(world.GRANITE_TOP + 1) == "pluton", "zones by depth")
 	for tier in veins:
 		check(veins[tier] > 20, "enough veins in tier %d" % tier)
 
@@ -192,10 +220,26 @@ func _ready() -> void:
 	check(GameState.buy_upgrade("bag") and GameState.max_samples() == slots + 6, "bag upgrade adds slots")
 	check(GameState.upgrade_cost("bag") == 90, "upgrade cost rises")
 	check(GameState.buy_upgrade("speed") and GameState.dig_speed() > 1.0, "speed upgrade")
-	GameState.daily = {"day": GameState._day_number() - 1, "streak": 3}
-	var daily := GameState.claim_daily()
-	check(daily.get("days", 0) == 4, "daily streak continues")
-	check(GameState.claim_daily().is_empty(), "daily reward only once a day")
+
+	# Fossils, zones, lessons and mastery
+	var fossil := GameState.find_fossil(1)
+	check(fossil["first"] and GameState.fossils_found.has(fossil["id"]), "first fossil recorded")
+	check(int(GameData.fossil(fossil["id"])["tier"]) == 1, "tier 1 rock gives a tier 1 fossil")
+	check(GameState.discover_zone("beds") and not GameState.discover_zone("beds"), "zone discovered once")
+	var sed := GameData.lesson("sedimentary_rocks")
+	check(GameState.lesson_unlocked(sed), "zone unlocks its lesson")
+	check(not GameState.lesson_unlocked(GameData.lesson("igneous_rocks")), "deeper lesson still locked")
+	check(GameState.lesson_unlocked(GameData.lesson("fossils_and_time")), "fossil unlocks the fossil lesson")
+	var xp_quiz: int = GameState.xp
+	check(not GameState.finish_quiz("sedimentary_rocks", 2, 3), "2 of 3 does not pass")
+	check(GameState.finish_quiz("sedimentary_rocks", 3, 3) and GameState.xp >= xp_quiz + GameState.XP_LESSON_PASS, "passing pays")
+	check(GameState.lessons_passed.has("sedimentary_rocks"), "pass recorded")
+	GameState.correct_ids["quartz"] = 5
+	var q6 := GameState.add_sample("quartz", 1, 1)
+	GameState.identify(q6["uid"], "quartz")
+	check(GameState.mastery("quartz") == 2 and GameState.last_reward["mastery"] == 2, "silver mastery at 6")
+	check(GameData.comparison_bbcode("mineral", "quartz", "calcite").contains("Streak"), "comparison table")
+	check(GameData.comparison_bbcode("rock", "granite", "basalt").contains("Texture"), "rock comparison table")
 
 	# Climbing out of a shaft
 	var sx := 70
@@ -225,9 +269,34 @@ func _ready() -> void:
 		await get_tree().process_frame
 	check(world.get_tile(tap_cell) == world.AIR, "a single tap mines the block")
 
-	# UI panels open without errors, including every Bag page
-	for i in 4:
+	# UI panels open without errors, including every Bag, Codex and School page
+	for i in 5:
 		main.hud.open_panel(i)
+	var codex = main.hud.panels[1]
+	codex.show_entry("fossil", fossil["id"])
+	check(codex.details.text.contains(GameData.fossil(fossil["id"])["name"]), "codex shows the fossil")
+	for id in ["calcite", "halite", "gypsum", "hematite", "quartz"]:
+		GameState.correct_ids[id] = maxi(GameState.correct_ids.get(id, 0), 1)
+	codex.kind = "mineral"
+	codex.open()
+	check(codex.quiz_button.visible, "photo quiz available")
+	codex._start_quiz()
+	var xp_photo: int = GameState.xp
+	codex._quiz_answer(codex.quiz_id)
+	check(GameState.xp > xp_photo, "photo quiz pays")
+	var school = main.hud.panels[4]
+	main.hud.open_panel(4)
+	school.open_lesson("what_is_a_mineral")
+	check(GameState.lessons_read.has("what_is_a_mineral"), "lesson marked read")
+	school._start_quiz()
+	for qi in 3:
+		school._answer(int(GameData.lesson("what_is_a_mineral")["quiz"][qi]["answer"]))
+		school._next()
+	check(GameState.lessons_passed.has("what_is_a_mineral"), "school quiz passed through the UI")
+	school.close_panel()
+	main.hud.show_card("Test", "sub", "body", "trilobite", "More", func(): pass)
+	check(main.hud.panel_open(), "card blocks taps")
+	main.hud.close_card()
 	var kit = main.hud.panels[0]
 	var ks := GameState.add_sample("quartz", 5, 1)
 	main.hud.open_panel(0)
@@ -256,6 +325,8 @@ func _ready() -> void:
 	check(GameState.world_seed == 1234 and GameState.pick_level == 2, "progress restored")
 	check(GameState.upgrade_level("bag") == 1 and GameState.coins > 0 and GameState.xp > 0, "XP, coins and upgrades restored")
 	check(GameState.goals.size() == 3 and not GameState.in_tutorial(), "goals restored")
+	check(not GameState.fossils_found.is_empty() and "beds" in GameState.zones_found and GameState.lessons_passed.size() == 2,
+		"fossils, zones and lessons restored")
 	check(GameState.changed_cells.size() == cells, "world changes restored")
 	DirAccess.remove_absolute(ProjectSettings.globalize_path(GameState.save_path))
 

@@ -1,7 +1,10 @@
-"""Download a photo for every mineral and rock from Wikipedia/Wikimedia Commons.
+"""Download a photo for every mineral, rock and fossil, and a picture for every lesson, from
+Wikipedia/Wikimedia Commons.
 
 Uses each entry's "wiki" article (its lead image) or an explicit "photo" Commons file name, saves a
-320 px wide image to images/<id>.jpg (or .png) and records author and license in data/image_credits.json.
+320 px wide image (480 px for lessons) to images/<id>.jpg (or .png) and records author and license in
+data/image_credits.json. Lesson ids get a "lesson_" prefix; lessons may use diagrams (SVG files are
+rendered to PNG by Commons).
 Runs in GitHub Actions (tools/../.github/workflows/photos.yml); needs only the Python standard library.
 """
 import html
@@ -36,9 +39,9 @@ def lead_image_file(article: str) -> str:
     return page.get("pageimage", "")
 
 
-def commons_info(file_name: str) -> dict:
+def commons_info(file_name: str, width: int) -> dict:
     q = urllib.parse.urlencode({"action": "query", "titles": f"File:{file_name}", "prop": "imageinfo",
-                                "iiprop": "url|extmetadata", "iiurlwidth": WIDTH, "format": "json"})
+                                "iiprop": "url|extmetadata", "iiurlwidth": width, "format": "json"})
     pages = get_json(f"https://commons.wikimedia.org/w/api.php?{q}")["query"]["pages"]
     page = next(iter(pages.values()))
     return page["imageinfo"][0]
@@ -53,14 +56,20 @@ def main() -> int:
     credits = json.loads(credits_path.read_text()) if credits_path.exists() else {}
     entries = json.loads((ROOT / "data" / "minerals.json").read_text())["minerals"]
     entries += json.loads((ROOT / "data" / "rocks.json").read_text())["rocks"]
+    entries += json.loads((ROOT / "data" / "fossils.json").read_text())["fossils"]
+    for lesson in json.loads((ROOT / "data" / "lessons.json").read_text())["lessons"]:
+        entries.append({**lesson, "id": "lesson_" + lesson["id"], "diagram_ok": True})
     failed = []
     for e in entries:
         try:
             file_name = e.get("photo") or lead_image_file(e["wiki"])
-            if not file_name or file_name.lower().endswith(".svg"):
+            if not file_name or (file_name.lower().endswith(".svg") and not e.get("diagram_ok")):
                 failed.append(f"{e['id']}: no photo on '{e['wiki']}' (lead image: {file_name or 'none'})")
                 continue
-            info = commons_info(file_name)
+            if e["id"] in credits and credits[e["id"]]["file"] == file_name and \
+                    (ROOT / credits[e["id"]]["image"].replace("res://", "")).exists():
+                continue  # already downloaded
+            info = commons_info(file_name, 480 if e.get("diagram_ok") else WIDTH)
             meta = info.get("extmetadata", {})
             data = get(info["thumburl"])
             ext = ".png" if data[:8] == b"\x89PNG\r\n\x1a\n" else ".jpg"

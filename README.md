@@ -8,6 +8,10 @@ lens, heft), name them, and craft better tools from what you identify.
 ![Testing a sample in the Bag](docs/screenshot-field-kit.png)
 ![The result, reward and lesson](docs/screenshot-result.png)
 ![Workshop: tools and upgrades](docs/screenshot-workshop.png)
+![A Field School lesson](docs/screenshot-school.png)
+![Finding a fossil](docs/screenshot-fossil.png)
+![Comparing a wrong guess with the answer](docs/screenshot-compare.png)
+![The photo quiz](docs/screenshot-photo-quiz.png)
 
 ## What is in this first build
 
@@ -83,8 +87,22 @@ the goal card to fold it away.
   are in `data/image_credits.json` and shown under each photo.
 - **Progression**: XP and levels for digging, collecting and naming (ranks from Field assistant to
   Professor), coins, a streak bonus for right answers in a row, three goals at a time that refresh as you
-  finish them, a daily reward that grows on consecutive days, and Workshop upgrades (bigger bag, faster
+  finish them, collection milestones, bronze, silver and gold mastery for each mineral and rock, and
+  Workshop upgrades (bigger bag, faster
   digging, brighter lamp, more luck). In the Bag you can spend coins on a hint that drops a wrong answer.
+- **Field School**: 12 short university-level lessons (minerals, the Mohs scale, streak and luster,
+  cleavage, the rock cycle, sedimentary rocks, fossils and time, mineral classes and silicates, ore veins,
+  metamorphism, igneous rocks and Bowen's series, crystal systems), each with a picture, links to
+  Wikipedia and free open textbooks, and a three-question quiz with explanations. Lessons unlock as you
+  level up, find fossils and discover zones. Tap the tent at the camp, or the School button.
+- **Learning from mistakes**: a wrong answer shows a side-by-side table of the real mineral or rock and
+  your guess (hardness, streak, luster, density, cleavage, or texture and grain size). The Codex has a
+  **photo quiz** on real photos of everything you have found, and "learn more" links for every entry.
+- **Fossils**: trilobites, graptolites, brachiopods, crinoids, horn corals, ammonites, scale trees and
+  stromatolites hide in the sedimentary beds, each with a photo and what it tells geologists.
+- **A richer world**: six zones to discover, each with a card explaining its geology; glowing crystal
+  caverns in the deep rock; stalactites and stalagmites in limestone caves; mushrooms, grass, flowers,
+  trees, clouds and a field camp.
 - **Phone-first interface**: big thumb buttons with icons, an info card, crisp text at any screen size,
   and accessibility settings (four text sizes, high contrast, sound, vibration and screen shake toggles).
   Right and wrong are shown with icons and words, not only color.
@@ -100,14 +118,15 @@ files and push; the **Fetch photos** workflow downloads them and commits the res
 
 | Path | What it holds |
 | --- | --- |
-| `data/minerals.json`, `data/rocks.json` | All mineral and rock facts. Add a mineral here and the game picks it up. |
+| `data/minerals.json`, `data/rocks.json`, `data/fossils.json` | All mineral, rock and fossil facts. Add one here and the game picks it up. |
+| `data/lessons.json` | Field School lessons, quizzes, unlock rules and study links. |
 | `scripts/game_data.gd` | Loads the data and produces field test results. |
 | `scripts/game_state.gd` | Samples, identification, spaced repetition, crafting, XP, coins, goals, upgrades, settings, saving. |
 | `scripts/world.gd` | World generation and tiles (painted in code for now). |
 | `scripts/main.gd`, `player.gd`, `hud.gd` | Game loop, tap controls, mining and building, effects, the geologist, the on-screen interface. |
 | `scripts/ui_theme.gd` | Interface theme, high-contrast palette and pixel icons. |
 | `scripts/sfx.gd` | Sound effects synthesised at startup. |
-| `scripts/field_kit.gd`, `codex.gd`, `craft.gd`, `settings.gd` | The Bag, Codex, Workshop and Settings menus. |
+| `scripts/field_kit.gd`, `codex.gd`, `craft.gd`, `school.gd`, `settings.gd` | The Bag, Codex, Workshop, Field School and Settings menus. |
 | `tests/smoke_test.gd` | Automated check of data, world, identification, crafting, progression, menus and saving. |
 
 Run the test with `godot --headless --path . res://tests/smoke_test.tscn` (exit code 0 means it passed).

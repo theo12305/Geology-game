@@ -1,0 +1,165 @@
+{
+  "books": {
+    "mineralogy": {"title": "Mineralogy, an open textbook by Dexter Perkins", "url": "https://opengeology.org/Mineralogy/"},
+    "physical": {"title": "Physical Geology (2nd ed.), an open textbook by Steven Earle", "url": "https://opentextbc.ca/physicalgeology2ed/"},
+    "mindat": {"title": "Mindat.org, the mineral database", "url": "https://www.mindat.org/"}
+  },
+  "lessons": [
+    {
+      "id": "what_is_a_mineral",
+      "title": "What is a mineral?",
+      "unlock": {"type": "start"},
+      "wiki": "Mineral",
+      "books": ["mineralogy", "mindat"],
+      "text": "A mineral is a naturally occurring, usually inorganic solid with a definite chemical composition and an ordered internal arrangement of atoms (a crystal structure). Each part of the definition matters: glass has no ordered structure, so obsidian is not a mineral but a rock; synthetic quartz is not a mineral because it was not formed naturally.\n\nComposition and structure together decide a mineral's properties. Diamond and graphite are both pure carbon, but in diamond every atom is bonded to four others in a rigid 3D framework, making it the hardest natural material, while graphite's carbon sheets are only weakly held together and slide past each other. Minerals with the same composition but different structures are called polymorphs; kyanite, andalusite and sillimanite (all Al2SiO5) are another set.\n\nA rock is an aggregate of one or more minerals (or glass, or organic matter). Granite is a rock made of quartz, feldspar and mica. Learning to recognise a few dozen common minerals lets you name most rocks you will ever see.",
+      "quiz": [
+        {"q": "Why is obsidian not a mineral?", "options": ["It is too soft", "It has no ordered crystal structure", "It contains silicon", "It forms from lava"], "answer": 1, "why": "Obsidian is volcanic glass: its atoms are disordered, so it lacks a crystal structure."},
+        {"q": "Diamond and graphite are both carbon. What makes them different minerals?", "options": ["Their colour", "Their age", "How their atoms are arranged", "Where they are found"], "answer": 2, "why": "They are polymorphs: the same composition with different crystal structures."},
+        {"q": "Granite is best described as...", "options": ["A mineral", "A rock made of several minerals", "A type of glass", "A polymorph of quartz"], "answer": 1, "why": "Granite is an aggregate of quartz, feldspars and mica, so it is a rock."}
+      ]
+    },
+    {
+      "id": "mohs_hardness",
+      "title": "Hardness and the Mohs scale",
+      "unlock": {"type": "start"},
+      "wiki": "Mohs scale",
+      "books": ["mineralogy"],
+      "text": "Hardness is a mineral's resistance to being scratched. In 1812 Friedrich Mohs ranked ten minerals from softest to hardest: 1 talc, 2 gypsum, 3 calcite, 4 fluorite, 5 apatite, 6 orthoclase, 7 quartz, 8 topaz, 9 corundum, 10 diamond. A mineral scratches everything below it on the scale and is scratched by everything above it.\n\nThe scale is relative, not linear: diamond (10) is about four times harder than corundum (9) in absolute terms, while the gap between talc and gypsum is tiny. In the field you test with everyday objects: a fingernail is about 2.5, a copper coin about 3.5, a steel knife or glass about 5.5, and a piece of quartz 7.\n\nHardness follows bond strength. Talc's silicate sheets are held together by weak bonds, so it feels soapy and smears; quartz's framework of strong Si-O bonds in every direction makes it hard. Make sure you have scratched the sample and not just left a powder streak of the softer tool: rub the mark and see if a groove remains.",
+      "quiz": [
+        {"q": "A sample scratches a copper coin but a steel knife scratches it. Its hardness is about...", "options": ["2", "4 to 5", "6.5", "8"], "answer": 1, "why": "Harder than the coin (3.5) and softer than steel (5.5) puts it between about 4 and 5, like fluorite."},
+        {"q": "Which mineral is 7 on the Mohs scale?", "options": ["Calcite", "Orthoclase", "Quartz", "Topaz"], "answer": 2, "why": "Quartz is 7, which is why it scratches glass and steel."},
+        {"q": "Is diamond (10) only a little harder than corundum (9)?", "options": ["Yes, the scale is linear", "No, it is several times harder", "They are the same", "Corundum is harder"], "answer": 1, "why": "Mohs is an order, not a measurement; on absolute scales diamond is about four times harder than corundum."}
+      ]
+    },
+    {
+      "id": "streak_luster",
+      "title": "Colour, streak and luster",
+      "unlock": {"type": "start"},
+      "wiki": "Streak (mineralogy)",
+      "books": ["mineralogy"],
+      "text": "Colour is the first thing you notice and often the least reliable. Small amounts of impurity can colour a mineral strongly: quartz can be clear, white, purple (amethyst), pink or smoky. Minerals that owe their colour to impurities are called allochromatic.\n\nStreak is the colour of a mineral's powder, made by rubbing it on unglazed porcelain. Powder colour is much more consistent than the colour of a crystal. Hematite can look silver-grey, black or red, but its streak is always red-brown; pyrite looks like brass but leaves a greenish-black streak. Minerals harder than the plate (about 6.5) leave no streak, only scratch the plate.\n\nLuster describes how a surface reflects light. Metallic luster (galena, pyrite) looks like polished metal and goes with opaque minerals and dark streaks. Non-metallic lusters include vitreous (glassy, like quartz), pearly (talc, the cleavage faces of mica), resinous (sphalerite), silky (fibrous gypsum) and earthy or dull (kaolinite).",
+      "quiz": [
+        {"q": "Why is streak more useful than colour?", "options": ["Streak never changes for a mineral", "Streak is prettier", "Only metals have a streak", "Colour can only be seen in sunlight"], "answer": 0, "why": "Powder colour is far less affected by impurities and grain size than the colour of a crystal."},
+        {"q": "A grey metallic sample leaves a red-brown streak. It is most likely...", "options": ["Galena", "Hematite", "Magnetite", "Graphite"], "answer": 1, "why": "Red-brown streak is the classic hematite test; magnetite and galena streak grey to black."},
+        {"q": "Quartz has which luster?", "options": ["Metallic", "Earthy", "Vitreous", "Pearly"], "answer": 2, "why": "Quartz looks glassy, which is called vitreous luster."}
+      ]
+    },
+    {
+      "id": "cleavage",
+      "title": "Cleavage, fracture and habit",
+      "unlock": {"type": "level", "value": 2},
+      "wiki": "Cleavage (crystal)",
+      "books": ["mineralogy"],
+      "text": "When a mineral breaks along flat, repeatable planes it has cleavage. Cleavage planes are directions of weak bonding in the crystal structure. Mica has one perfect cleavage and peels into thin sheets; feldspars have two cleavages at nearly 90 degrees; calcite has three directions not at right angles, so it breaks into rhombs; halite has three at 90 degrees and breaks into cubes; fluorite has four and breaks into octahedra.\n\nMinerals with no weak planes fracture instead. Quartz shows conchoidal fracture: smooth, curved, shell-like surfaces, the same as glass and flint, which is why chert and obsidian were used for stone tools.\n\nHabit is the shape a crystal grows in when it has space: prismatic (long columns, like tourmaline), tabular (flat plates, like barite), cubic (pyrite, galena, halite), bladed (kyanite), fibrous (some gypsum and asbestos), or botryoidal (grape-like bunches, like some hematite and malachite). Do not confuse crystal faces, which grew, with cleavage faces, which broke: cleavage faces repeat as parallel steps.",
+      "quiz": [
+        {"q": "Calcite breaks into rhombs because it has...", "options": ["No cleavage", "One cleavage", "Three cleavages not at 90 degrees", "Conchoidal fracture"], "answer": 2, "why": "Three cleavage directions at about 75 and 105 degrees give rhombohedral pieces."},
+        {"q": "Quartz has no cleavage. How does it break?", "options": ["Into sheets", "Into cubes", "With conchoidal fracture", "Into fibres"], "answer": 2, "why": "Strong bonds in all directions mean quartz fractures in curved, shell-like surfaces."},
+        {"q": "Mica peels into thin sheets. That shows...", "options": ["One perfect cleavage", "A cubic habit", "High hardness", "Metallic luster"], "answer": 0, "why": "Mica's silicate sheets are held by weak bonds, giving one perfect cleavage."}
+      ]
+    },
+    {
+      "id": "rock_cycle",
+      "title": "The rock cycle",
+      "unlock": {"type": "level", "value": 3},
+      "wiki": "Rock cycle",
+      "books": ["physical"],
+      "text": "Rocks are grouped by how they form. Igneous rocks crystallise from molten rock (magma underground, lava at the surface). Sedimentary rocks form at the surface from fragments of older rocks, from minerals that precipitate out of water, or from the remains of living things. Metamorphic rocks form when existing rocks are changed by heat and pressure without melting.\n\nAny rock can become any other. Uplift exposes granite, weathering breaks it into sand and clay, rivers carry the grains to the sea, and burial and cementation turn them into sandstone and shale. Bury those deeper during mountain building and they become schist and gneiss; heat them further and they partly melt, making new magma. Plate tectonics drives the whole cycle.\n\nThe world in this game follows a cycle in its layers: sedimentary beds at the top, a metamorphic belt below them, and a granite pluton at depth, whose heat and fluids metamorphosed the rocks around it and fed the mineral veins you mine.",
+      "quiz": [
+        {"q": "Which rock type forms by heat and pressure without melting?", "options": ["Igneous", "Sedimentary", "Metamorphic", "Volcanic"], "answer": 2, "why": "Metamorphic rocks recrystallise in the solid state."},
+        {"q": "Sand grains cemented together form...", "options": ["Sandstone", "Granite", "Marble", "Basalt"], "answer": 0, "why": "Sandstone is a clastic sedimentary rock made of sand-sized grains."},
+        {"q": "What drives the rock cycle on Earth?", "options": ["Only rain", "Plate tectonics and the Sun's energy at the surface", "Meteorite impacts", "Ocean tides"], "answer": 1, "why": "Internal heat moves plates (burial, melting, uplift); solar energy drives weathering and erosion."}
+      ]
+    },
+    {
+      "id": "sedimentary_rocks",
+      "title": "Reading sedimentary rocks",
+      "unlock": {"type": "zone", "value": "beds"},
+      "wiki": "Sedimentary rock",
+      "books": ["physical"],
+      "text": "Clastic sedimentary rocks are made of broken grains and are named by grain size: conglomerate (gravel, rounded clasts), sandstone (sand, 0.0625 to 2 mm), siltstone, and shale or mudstone (clay and silt). Grain size records energy: fast rivers and beaches move gravel and sand, while mud settles only in quiet water such as deep sea floors and lakes. Rounding and sorting tell you how far the grains travelled.\n\nChemical and biochemical sedimentary rocks form from dissolved material. Limestone is calcite, usually from shells and skeletons of marine organisms, and fizzes in dilute acid. Dolostone is limestone in which magnesium-rich fluids have replaced calcite with dolomite. Chert is microcrystalline quartz, often from the silica skeletons of plankton. Coal is compacted plant material.\n\nSedimentary rocks are deposited in layers, oldest at the bottom (the law of superposition). Features like ripple marks, cross-bedding and mud cracks show whether the sediment was laid down by currents, wind or in pools that dried out.",
+      "quiz": [
+        {"q": "Shale forms from mud. What does that say about the water?", "options": ["Fast and turbulent", "Quiet and still", "Boiling hot", "Frozen"], "answer": 1, "why": "Clay-sized particles settle only where water is calm."},
+        {"q": "Which rock fizzes strongly in cold dilute acid?", "options": ["Sandstone", "Chert", "Limestone", "Shale"], "answer": 2, "why": "Limestone is calcite, which reacts with acid and releases carbon dioxide."},
+        {"q": "In undisturbed layers, the oldest bed is...", "options": ["At the top", "At the bottom", "In the middle", "Impossible to tell"], "answer": 1, "why": "The law of superposition: each layer is deposited on top of older ones."}
+      ]
+    },
+    {
+      "id": "fossils_and_time",
+      "title": "Fossils and geological time",
+      "unlock": {"type": "fossil"},
+      "wiki": "Index fossil",
+      "books": ["physical"],
+      "text": "Fossils are the preserved remains or traces of ancient life. Hard parts such as shells, bones and wood fossilise best; they may survive almost unchanged, be replaced mineral by mineral (petrification), or leave a mould that is later filled to make a cast. Soft-bodied animals are rarely preserved, so the fossil record is biased toward animals with skeletons.\n\nIndex fossils let geologists match rocks of the same age in different places. A good index fossil evolved quickly (so each species lived only briefly), spread widely, was common and is easy to recognise. Trilobites, graptolites and ammonites are classic examples. Combining fossils with superposition gives a relative age: which rocks are older or younger. Radiometric dating of volcanic layers then puts numbers, in millions of years, on the timescale.\n\nFossils also record environments: corals and crinoids mean warm, shallow seas; scale-tree bark means coal swamps; stromatolites mean shallow water with microbial mats. Metamorphism usually destroys fossils, which is why you will not find them in the schist below.",
+      "quiz": [
+        {"q": "What makes a good index fossil?", "options": ["Lived for a very long time in one small place", "Evolved fast, spread widely and is common", "Is very large", "Is still alive today"], "answer": 1, "why": "Short species ranges and wide distribution let one fossil date rocks precisely across regions."},
+        {"q": "Corals and crinoids in a limestone suggest...", "options": ["A desert", "A cold deep ocean trench", "A warm, shallow sea", "A glacier"], "answer": 2, "why": "Like modern reefs they needed warm, clear, shallow water."},
+        {"q": "Why are fossils rare in schist and gneiss?", "options": ["Those rocks are too young", "Metamorphism recrystallises and destroys them", "Animals avoided those rocks", "They are igneous rocks"], "answer": 1, "why": "Heat, pressure and recrystallisation erase most fossil structures."}
+      ]
+    },
+    {
+      "id": "mineral_classes",
+      "title": "Mineral classes and silicates",
+      "unlock": {"type": "level", "value": 4},
+      "wiki": "Silicate mineral",
+      "books": ["mineralogy", "mindat"],
+      "text": "Minerals are classified by their anion (negatively charged) group: native elements (copper, graphite), sulfides (S2-: pyrite, galena, sphalerite), oxides (O2-: hematite, magnetite), halides (Cl-, F-: halite, fluorite), carbonates (CO3 2-: calcite, dolomite, malachite), sulfates (SO4 2-: gypsum, barite, anhydrite) and silicates (SiO4 4-).\n\nSilicates make up about 90 percent of Earth's crust. Their building block is the silica tetrahedron, one silicon atom surrounded by four oxygens. How tetrahedra link defines the subclasses: isolated (nesosilicates: olivine, garnet, kyanite), single chains (pyroxenes such as augite), double chains (amphiboles such as hornblende), sheets (phyllosilicates: micas, talc, chlorite, clays) and 3D frameworks (tectosilicates: quartz and feldspars).\n\nStructure explains properties: sheet silicates have one perfect cleavage, pyroxenes and amphiboles have two cleavages (about 90 degrees for pyroxene, 56 and 124 for amphibole), and framework quartz has none. Linking more oxygen between tetrahedra also generally means a mineral crystallises at lower temperature and resists weathering better.",
+      "quiz": [
+        {"q": "Galena (PbS) belongs to which class?", "options": ["Oxides", "Sulfides", "Sulfates", "Silicates"], "answer": 1, "why": "Its anion is sulfur on its own (S2-), making it a sulfide; sulfates contain SO4."},
+        {"q": "Micas peel into sheets because their tetrahedra are linked into...", "options": ["Isolated units", "Single chains", "Sheets", "3D frameworks"], "answer": 2, "why": "Micas are phyllosilicates: sheets of tetrahedra held together by weaker bonds."},
+        {"q": "About how much of the crust is made of silicate minerals?", "options": ["10 percent", "35 percent", "60 percent", "90 percent"], "answer": 3, "why": "Oxygen and silicon are the two most abundant elements in the crust, so silicates dominate."}
+      ]
+    },
+    {
+      "id": "ore_veins",
+      "title": "Hydrothermal veins and ores",
+      "unlock": {"type": "zone", "value": "basin"},
+      "wiki": "Vein (geology)",
+      "books": ["physical", "mindat"],
+      "text": "A vein is a sheet of minerals that crystallised in a crack from hot, water-rich fluids. These hydrothermal fluids come from cooling magma, from heated groundwater, or from water squeezed out of deeply buried sediments. Metals such as lead, zinc, copper and gold dissolve as chloride or sulfide complexes in hot brine and precipitate when the fluid cools, boils, mixes with other water or reacts with the wall rock.\n\nVeins have typical mineral associations. Quartz and calcite are common gangue (non-ore) minerals. Galena (lead), sphalerite (zinc) and chalcopyrite (copper) are the main ore sulfides, often with pyrite, fluorite and barite. Mississippi Valley-type deposits form in limestone and dolostone basins from warm basin brines, much like the veins in this game's dolostone basin. Near granite intrusions, hotter fluids deposit copper and tin minerals.\n\nWhere sulfide ores reach the surface they weather: pyrite oxidises to rusty goethite and acid water, and copper sulfides become green malachite and blue azurite. Prospectors used these colourful stains (gossans) to find ore.",
+      "quiz": [
+        {"q": "Where do vein minerals crystallise?", "options": ["From lava flowing at the surface", "From hot fluids in cracks", "From wind-blown dust", "From melting ice"], "answer": 1, "why": "Hydrothermal veins precipitate from hot water-rich fluids moving through fractures."},
+        {"q": "Which mineral is the main ore of zinc?", "options": ["Galena", "Sphalerite", "Barite", "Fluorite"], "answer": 1, "why": "Sphalerite is zinc sulfide, (Zn,Fe)S; galena is the lead ore."},
+        {"q": "Green stains of malachite at the surface hint at...", "options": ["Copper ore below", "Coal below", "Salt below", "Nothing useful"], "answer": 0, "why": "Malachite forms when copper sulfides weather near the surface."}
+      ]
+    },
+    {
+      "id": "metamorphism",
+      "title": "Metamorphism: from shale to gneiss",
+      "unlock": {"type": "zone", "value": "metamorphic"},
+      "wiki": "Barrovian metamorphism",
+      "books": ["physical"],
+      "text": "When rocks are buried and heated during mountain building, their minerals recrystallise into new ones that are stable at higher temperature and pressure, without melting. Under directed pressure, platy minerals like mica grow aligned, giving the rock a foliation.\n\nShale shows the classic sequence of increasing grade. At low grade it becomes slate, with microscopic micas and perfect slaty cleavage. Next comes phyllite, with a silky sheen, then schist, with visible mica flakes and often garnet, and finally gneiss, where minerals separate into light (quartz, feldspar) and dark (biotite, hornblende) bands. George Barrow mapped zones of index minerals in Scotland in the 1890s: chlorite, biotite, garnet, staurolite, kyanite and sillimanite appear in that order as temperature rises.\n\nRocks made mostly of one mineral do not foliate much. Limestone recrystallises into marble (interlocking calcite crystals, still fizzes in acid) and quartz sandstone into quartzite, which breaks through the grains rather than around them.",
+      "quiz": [
+        {"q": "Put these in order of increasing metamorphic grade.", "options": ["Gneiss, schist, slate", "Slate, schist, gneiss", "Schist, slate, gneiss", "Slate, gneiss, schist"], "answer": 1, "why": "Shale becomes slate, then phyllite, schist and gneiss as temperature rises."},
+        {"q": "Limestone metamorphoses into...", "options": ["Quartzite", "Slate", "Marble", "Granite"], "answer": 2, "why": "Calcite recrystallises into the interlocking crystals of marble."},
+        {"q": "Finding kyanite in a schist tells you...", "options": ["It formed at the surface", "It reached fairly high pressure and temperature", "It is a sedimentary rock", "It contains no aluminium"], "answer": 1, "why": "Kyanite is a Barrovian index mineral of medium to high grade, especially higher pressure."}
+      ]
+    },
+    {
+      "id": "igneous_rocks",
+      "title": "Igneous rocks and Bowen's series",
+      "unlock": {"type": "zone", "value": "pluton"},
+      "wiki": "Igneous rock",
+      "books": ["physical"],
+      "text": "Igneous rocks are classified by texture and composition. Texture shows the cooling rate: magma that cools slowly deep underground (plutonic) grows large crystals you can see (phaneritic, like granite and gabbro); lava that cools fast at the surface (volcanic) makes tiny crystals (aphanitic, like basalt and rhyolite) or glass (obsidian). Gas bubbles leave holes called vesicles.\n\nComposition runs from felsic (rich in silica, feldspar and quartz, light coloured: granite, rhyolite) through intermediate (diorite, andesite) to mafic (rich in iron and magnesium, dark: gabbro, basalt). Granite and rhyolite have the same composition and differ only in cooling rate, as do gabbro and basalt.\n\nIn the 1920s Norman Bowen showed by experiment that minerals crystallise from a cooling magma in a predictable order. On one branch olivine forms first, then pyroxene, amphibole and biotite; on the other, plagioclase changes from calcium-rich to sodium-rich. Orthoclase, muscovite and quartz crystallise last. Minerals that form at high temperature weather fastest at the surface, which is why sand is mostly quartz.",
+      "quiz": [
+        {"q": "Granite has large crystals because it...", "options": ["Cooled quickly at the surface", "Cooled slowly deep underground", "Was never molten", "Contains glass"], "answer": 1, "why": "Slow cooling gives atoms time to build large crystals: a plutonic, phaneritic texture."},
+        {"q": "Which rock has the same composition as granite but cooled fast?", "options": ["Basalt", "Gabbro", "Rhyolite", "Marble"], "answer": 2, "why": "Rhyolite is the volcanic, fine-grained equivalent of granite."},
+        {"q": "According to Bowen's series, which mineral crystallises first from a mafic magma?", "options": ["Quartz", "Olivine", "Muscovite", "Orthoclase"], "answer": 1, "why": "Olivine crystallises at the highest temperature; quartz is last."}
+      ]
+    },
+    {
+      "id": "crystal_systems",
+      "title": "Crystal systems and symmetry",
+      "unlock": {"type": "level", "value": 6},
+      "wiki": "Crystal system",
+      "books": ["mineralogy"],
+      "text": "A crystal structure is a repeating 3D pattern of atoms. The smallest repeating box is the unit cell, described by three edge lengths (a, b, c) and three angles. Based on symmetry, all crystals fall into seven crystal systems: cubic (isometric), tetragonal, orthorhombic, hexagonal, trigonal, monoclinic and triclinic.\n\nCubic minerals have three equal axes at right angles and the highest symmetry: halite, pyrite, galena, fluorite, garnet and magnetite. Quartz and calcite are trigonal, with a threefold axis of symmetry. Barite is orthorhombic, gypsum and orthoclase are monoclinic, and plagioclase and kyanite are triclinic, the lowest symmetry.\n\nSymmetry controls physical properties. Cubic minerals are optically isotropic: light travels at the same speed in every direction, so they look dark between crossed polarisers in a microscope. Other minerals split light into two rays (birefringence); calcite's double refraction is strong enough to see with the naked eye. Kyanite's hardness even changes with direction: about 4.5 along the crystal and 6.5 across it.",
+      "quiz": [
+        {"q": "Which mineral is cubic?", "options": ["Quartz", "Gypsum", "Halite", "Kyanite"], "answer": 2, "why": "Halite (rock salt) is cubic, which is why it cleaves into cubes."},
+        {"q": "How many crystal systems are there (counting trigonal separately)?", "options": ["3", "5", "7", "14"], "answer": 2, "why": "Seven: cubic, tetragonal, orthorhombic, hexagonal, trigonal, monoclinic and triclinic. 14 is the number of Bravais lattices."},
+        {"q": "What strange property does kyanite have?", "options": ["It glows in the dark", "Its hardness depends on direction", "It is magnetic", "It dissolves in water"], "answer": 1, "why": "Kyanite is about 4.5 along its length and 6.5 across it, a clear case of anisotropy."}
+      ]
+    }
+  ]
+}
