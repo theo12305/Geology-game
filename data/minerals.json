@@ -29,7 +29,9 @@
       ],
       "diagnostic": "Scratches glass; hexagonal prisms with pyramid ends",
       "occurrence": "granite, sandstone, quartzite, veins",
-      "tier": 1
+      "tier": 1,
+      "wiki": "Quartz",
+      "explanation": "A framework silicate in which every SiO4 tetrahedron shares all four corners, so the structure is strongly bonded in three dimensions. That explains its hardness of 7, its lack of cleavage and its conchoidal fracture. Quartz is the last mineral to crystallise in Bowen's series, which is why it is common in granite and survives weathering to become most of the sand on Earth. Colour varieties such as amethyst (Fe and natural irradiation) and smoky quartz come from trace impurities and lattice defects."
     },
     {
       "id": "calcite",
@@ -51,7 +53,9 @@
       ],
       "diagnostic": "Fizzes strongly in cold dilute HCl; clear crystals show double refraction",
       "occurrence": "limestone, marble, veins, caves",
-      "tier": 1
+      "tier": 1,
+      "wiki": "Calcite",
+      "explanation": "The stable form of CaCO3 at Earth's surface and the main mineral of limestone and marble. Its perfect rhombohedral cleavage and very strong birefringence (the double image through a clear 'Iceland spar' crystal) are classic teaching examples. Calcite reacts with dilute HCl to release CO2, the quickest field test for carbonates. It forms by chemical precipitation and by organisms building shells, so it records ocean chemistry through time."
     },
     {
       "id": "dolomite",
@@ -74,7 +78,9 @@
       ],
       "diagnostic": "Fizzes in HCl only when powdered; curved saddle-shaped crystals",
       "occurrence": "dolostone, hydrothermal veins",
-      "tier": 2
+      "tier": 2,
+      "wiki": "Dolomite (mineral)",
+      "explanation": "CaMg(CO3)2, a carbonate with ordered layers of Ca and Mg between the CO3 groups. Most dolomite forms when Mg-rich fluids replace calcite in limestone (dolomitisation), which shrinks the volume and creates pore space important for oil reservoirs. It reacts with cold HCl only when powdered, because its stronger structure dissolves more slowly than calcite. The 'dolomite problem' is that it hardly precipitates directly from modern seawater."
     },
     {
       "id": "halite",
@@ -97,7 +103,9 @@
       ],
       "diagnostic": "Salty taste; dissolves in water",
       "occurrence": "evaporite beds, salt domes",
-      "tier": 1
+      "tier": 1,
+      "wiki": "Halite",
+      "explanation": "Rock salt, NaCl, with the cubic rock-salt structure in which each Na is surrounded by six Cl. It forms when seawater or lake water evaporates to about 10 percent of its volume, after gypsum. Buried halite is weak and less dense than surrounding rock, so it flows upward as salt domes that trap oil and gas. Its perfect cubic cleavage and salty taste make it easy to identify."
     },
     {
       "id": "gypsum",
@@ -119,7 +127,9 @@
       ],
       "diagnostic": "Scratched by a fingernail; flexible thin sheets",
       "occurrence": "evaporite beds, desert crusts",
-      "tier": 1
+      "tier": 1,
+      "wiki": "Gypsum",
+      "explanation": "Hydrated calcium sulfate, CaSO4·2H2O, the first major evaporite mineral to precipitate as seawater evaporates. Water molecules sit between sheets of the structure, which is why gypsum is so soft (Mohs 2) and has one perfect cleavage. Heated to about 150 °C it loses water to make plaster of Paris. On burial below about 1 km it dehydrates to anhydrite."
     },
     {
       "id": "anhydrite",
@@ -142,7 +152,9 @@
       ],
       "diagnostic": "Harder than gypsum; no water in structure",
       "occurrence": "deep evaporites, salt dome caprock",
-      "tier": 2
+      "tier": 2,
+      "wiki": "Anhydrite",
+      "explanation": "Anhydrous calcium sulfate, CaSO4. It forms when gypsum is buried and heated, or directly in very hot, salty settings such as coastal sabkhas. It has three cleavages at right angles and is harder and denser than gypsum. When anhydrite is brought back near the surface and meets water, it rehydrates to gypsum with a large volume increase that can buckle rock layers."
     },
     {
       "id": "hematite",
@@ -165,7 +177,9 @@
       ],
       "diagnostic": "Red-brown streak even when the sample is grey",
       "occurrence": "banded iron formation, red beds, hydrothermal veins",
-      "tier": 1
+      "tier": 1,
+      "wiki": "Hematite",
+      "explanation": "Iron(III) oxide, Fe2O3, with the corundum structure. Its red-brown streak is diagnostic even when crystals look metallic grey, and finely dispersed hematite colours red beds and the planet Mars. Hematite is the main iron ore, mostly mined from Precambrian banded iron formations that record the rise of oxygen in the atmosphere about 2.4 billion years ago."
     },
     {
       "id": "magnetite",
@@ -186,7 +200,9 @@
       ],
       "diagnostic": "Strongly magnetic",
       "occurrence": "mafic igneous rocks, black sands, banded iron formation",
-      "tier": 1
+      "tier": 1,
+      "wiki": "Magnetite",
+      "explanation": "Fe3O4, a spinel-structure oxide containing both Fe2+ and Fe3+. It is the most magnetic natural mineral and a common accessory in mafic igneous rocks, where it records Earth's magnetic field as the rock cools (palaeomagnetism). Its black streak separates it from hematite. Magnetite concentrates in black beach sands because it is dense and resistant to weathering."
     },
     {
       "id": "goethite",
@@ -208,7 +224,9 @@
       ],
       "diagnostic": "Yellow-brown streak separates it from hematite",
       "occurrence": "weathered iron-bearing rocks, bog iron, gossans",
-      "tier": 1
+      "tier": 1,
+      "wiki": "Goethite",
+      "explanation": "Iron oxide-hydroxide, FeO(OH), the main component of rust and of the brown iron ore 'limonite'. It forms by weathering of iron-bearing minerals such as pyrite and olivine, so it colours soils yellow-brown and caps ore bodies as gossans that prospectors follow. Its yellow-brown streak distinguishes it from hematite. Heating goethite turns it into red hematite."
     },
     {
       "id": "pyrite",
@@ -229,7 +247,9 @@
       ],
       "diagnostic": "Striated cubes; harder than a steel knife, unlike chalcopyrite",
       "occurrence": "shale, coal, hydrothermal veins",
-      "tier": 2
+      "tier": 2,
+      "wiki": "Pyrite",
+      "explanation": "Iron disulfide, FeS2, 'fool's gold'. It is harder (6 to 6.5) and paler than gold, brittle rather than malleable, and gives a greenish-black streak. Pyrite forms in reducing environments, for example in organic-rich muds where bacteria reduce sulfate, and in hydrothermal veins. When exposed to air and water it oxidises to sulfuric acid, the cause of acid mine drainage."
     },
     {
       "id": "galena",
@@ -250,7 +270,9 @@
       ],
       "diagnostic": "Very heavy; breaks into small cubes",
       "occurrence": "hydrothermal veins, carbonate-hosted Pb-Zn deposits",
-      "tier": 2
+      "tier": 2,
+      "wiki": "Galena",
+      "explanation": "Lead sulfide, PbS, the main ore of lead and often a source of silver. It has the rock-salt structure, so it breaks into perfect cubes, and it is very dense (7.6) because lead is heavy. Galena forms in hydrothermal veins and in Mississippi Valley-type deposits where brines deposited metals in limestone. Lead is toxic, so wash your hands after handling it."
     },
     {
       "id": "sphalerite",
@@ -274,7 +296,9 @@
       ],
       "diagnostic": "Light streak despite dark color; smells of H2S in HCl",
       "occurrence": "hydrothermal veins, carbonate-hosted Pb-Zn deposits",
-      "tier": 2
+      "tier": 2,
+      "wiki": "Sphalerite",
+      "explanation": "Zinc sulfide, ZnS, the main ore of zinc. Iron substitutes for zinc, so colour ranges from honey-yellow (low Fe) to black (high Fe), yet the streak stays pale: a good example of why streak beats colour. Its six perfect cleavages and resinous lustre are diagnostic. It usually occurs with galena in carbonate-hosted deposits."
     },
     {
       "id": "chalcopyrite",
@@ -296,7 +320,9 @@
       ],
       "diagnostic": "Softer than pyrite (knife scratches it); deeper yellow",
       "occurrence": "porphyry copper, VMS deposits, veins",
-      "tier": 4
+      "tier": 4,
+      "wiki": "Chalcopyrite",
+      "explanation": "CuFeS2, the most important copper ore. It has a deeper brass yellow than pyrite, is soft enough to scratch with a knife, and often tarnishes iridescent. Huge low-grade porphyry copper deposits form where hot fluids from cooling granitic magma deposit chalcopyrite in a fractured shell around the intrusion. Weathering of chalcopyrite produces malachite and azurite at the surface."
     },
     {
       "id": "fluorite",
@@ -320,7 +346,9 @@
       ],
       "diagnostic": "Often fluoresces under UV light; cubic crystals",
       "occurrence": "hydrothermal veins, granite pegmatites",
-      "tier": 2
+      "tier": 2,
+      "wiki": "Fluorite",
+      "explanation": "Calcium fluoride, CaF2, with octahedral cleavage in four directions and a hardness of 4 on the Mohs scale. Colour comes from trace elements and defects, and many specimens fluoresce under UV light, which gave the effect its name. It forms in hydrothermal veins and is mined as fluorspar, used as a flux in steelmaking and to make hydrofluoric acid."
     },
     {
       "id": "barite",
@@ -343,7 +371,9 @@
       ],
       "diagnostic": "Unusually heavy for a light-colored mineral",
       "occurrence": "hydrothermal veins, sedimentary nodules",
-      "tier": 2
+      "tier": 2,
+      "wiki": "Baryte",
+      "explanation": "Barium sulfate, BaSO4, unusually heavy (specific gravity 4.5) for a light-coloured, non-metallic mineral, which is its quickest field test. It forms in hydrothermal veins, at seafloor vents and as concretions in sediments. Ground barite is used to make drilling mud heavy so that oil wells do not blow out."
     },
     {
       "id": "orthoclase",
@@ -366,7 +396,9 @@
       ],
       "diagnostic": "Pink color and Carlsbad twins; no striations",
       "occurrence": "granite, syenite, pegmatite, arkose",
-      "tier": 4
+      "tier": 4,
+      "wiki": "Orthoclase",
+      "explanation": "Potassium feldspar, KAlSi3O8, a framework silicate and a defining mineral of granite. It has two good cleavages at 90 degrees and often forms Carlsbad twins, but lacks the fine striations of plagioclase. Its pink colour in many granites comes from tiny hematite inclusions. Feldspars weather to clay minerals such as kaolinite, the main source of mud."
     },
     {
       "id": "plagioclase",
@@ -389,7 +421,9 @@
       ],
       "diagnostic": "Fine parallel striations on cleavage faces from polysynthetic twinning",
       "occurrence": "nearly all igneous rocks, many metamorphic rocks",
-      "tier": 4
+      "tier": 4,
+      "wiki": "Plagioclase",
+      "explanation": "A solid-solution series from albite (NaAlSi3O8) to anorthite (CaAl2Si2O8) and the most abundant mineral group in Earth's crust. In Bowen's continuous series, the first plagioclase to crystallise from a basalt melt is Ca-rich, and later crystals become more Na-rich, which produces zoned crystals. Polysynthetic twinning shows as fine parallel striations on cleavage faces in hand sample and as stripes under crossed polarisers."
     },
     {
       "id": "muscovite",
@@ -412,7 +446,9 @@
       ],
       "diagnostic": "Peels into clear, elastic sheets",
       "occurrence": "granite, pegmatite, schist",
-      "tier": 3
+      "tier": 3,
+      "wiki": "Muscovite",
+      "explanation": "White mica, a sheet silicate in which aluminium-silicate layers are bonded by potassium ions. The weak bonds between sheets give one perfect cleavage, so it peels into thin, clear, elastic flakes. Muscovite grows in granites and pegmatites and during metamorphism of shale, where it aligns to give slate and schist their foliation. Its sheets were once used as window glass and as electrical insulation."
     },
     {
       "id": "biotite",
@@ -434,7 +470,9 @@
       ],
       "diagnostic": "Dark elastic sheets",
       "occurrence": "granite, diorite, schist, gneiss",
-      "tier": 4
+      "tier": 4,
+      "wiki": "Biotite",
+      "explanation": "Black mica, a sheet silicate rich in iron and magnesium. Like muscovite it peels into elastic sheets, but it is dark because of iron. Biotite crystallises in the middle of Bowen's discontinuous series and is common in granite, diorite, schist and gneiss. It weathers quickly to clay and iron oxides, which helps break granite down into sand-sized grains."
     },
     {
       "id": "chlorite",
@@ -456,7 +494,9 @@
       ],
       "diagnostic": "Flexible but not elastic sheets, unlike mica",
       "occurrence": "greenschist, altered mafic rocks",
-      "tier": 3
+      "tier": 3,
+      "wiki": "Clinochlore",
+      "explanation": "A group of green sheet silicates; clinochlore is the most common member. Chlorite forms at low temperatures when mafic minerals react with water, so it gives greenschist-facies rocks their green colour. Its sheets are flexible but not elastic, which distinguishes it from mica. It also forms when hydrothermal fluids alter igneous rocks around ore deposits."
     },
     {
       "id": "olivine",
@@ -478,7 +518,9 @@
       ],
       "diagnostic": "Granular green crystals; no cleavage",
       "occurrence": "peridotite, basalt, gabbro, mantle xenoliths",
-      "tier": 7
+      "tier": 7,
+      "wiki": "Olivine",
+      "explanation": "(Mg,Fe)2SiO4, an island silicate made of isolated SiO4 tetrahedra linked by Mg and Fe. It is the first mineral to crystallise from basalt magma at the top of Bowen's discontinuous series, and it makes up most of the upper mantle. Olivine weathers quickly at the surface. The gem variety is peridot, and green olivine sand beaches form where basalt erodes."
     },
     {
       "id": "augite",
@@ -500,7 +542,9 @@
       ],
       "diagnostic": "Stubby crystals; near-90 deg cleavage separates it from hornblende",
       "occurrence": "basalt, gabbro, andesite",
-      "tier": 7
+      "tier": 7,
+      "wiki": "Augite",
+      "explanation": "The commonest pyroxene, a single-chain silicate. Two cleavages meet at nearly 90 degrees (about 87 and 93), which separates it from amphiboles (56 and 124 degrees). Augite crystallises after olivine in Bowen's series and is a main dark mineral in basalt and gabbro. Pyroxene composition is used to estimate the temperature and pressure of crystallisation."
     },
     {
       "id": "hornblende",
@@ -522,7 +566,9 @@
       ],
       "diagnostic": "Elongate crystals; 56/124 deg cleavage",
       "occurrence": "diorite, andesite, amphibolite",
-      "tier": 4
+      "tier": 4,
+      "wiki": "Hornblende",
+      "explanation": "The commonest amphibole, a double-chain silicate containing OH groups. Its cleavages at 56 and 124 degrees are the classic test against pyroxene. Hornblende crystallises in intermediate magmas such as diorite and andesite, where water is present, and gives amphibolite (metamorphosed basalt) its name."
     },
     {
       "id": "almandine",
@@ -544,7 +590,9 @@
       ],
       "diagnostic": "Dodecahedral crystals; index mineral of the garnet zone",
       "occurrence": "schist, gneiss, amphibolite",
-      "tier": 3
+      "tier": 3,
+      "wiki": "Almandine",
+      "explanation": "Iron-aluminium garnet, Fe3Al2(SiO4)3, an island silicate with cubic symmetry that grows as dodecahedra. In metamorphic rocks its first appearance marks the garnet isograd in the Barrovian sequence of zones of increasing temperature. Zoned garnets record how pressure and temperature changed as the rock was buried and uplifted. Garnet is also used as an abrasive because it is hard and has no cleavage."
     },
     {
       "id": "kaolinite",
@@ -566,7 +614,9 @@
       ],
       "diagnostic": "Earthy smell when breathed on; plastic when wet",
       "occurrence": "weathered granite, soils, shale",
-      "tier": 1
+      "tier": 1,
+      "wiki": "Kaolinite",
+      "explanation": "A 1:1 clay mineral, Al2Si2O5(OH)4, in which one tetrahedral sheet bonds to one octahedral sheet. It forms when feldspar is chemically weathered in warm, wet climates, so it is common in tropical soils and around decomposed granite. Pure kaolinite deposits (china clay) are used for porcelain and paper coating. Its crystals are microscopic, so in hand sample it is earthy and soft."
     },
     {
       "id": "talc",
@@ -589,7 +639,9 @@
       ],
       "diagnostic": "Soapy feel; softest mineral on the Mohs scale",
       "occurrence": "soapstone, altered ultramafic rocks",
-      "tier": 3
+      "tier": 3,
+      "wiki": "Talc",
+      "explanation": "Mg3Si4O10(OH)2, a sheet silicate held together only by weak van der Waals bonds between neutral layers. That makes it the softest mineral, number 1 on the Mohs scale, with a soapy feel. Talc forms when Mg-rich ultramafic rocks or dolomites react with hot water during metamorphism; massive talc rock is soapstone."
     },
     {
       "id": "graphite",
@@ -611,7 +663,9 @@
       ],
       "diagnostic": "Writes on paper; greasy feel",
       "occurrence": "marble, schist, gneiss from organic-rich protoliths",
-      "tier": 3
+      "tier": 3,
+      "wiki": "Graphite",
+      "explanation": "Pure carbon arranged in flat hexagonal sheets held together by weak forces, so it is soft (1 to 2), greasy and marks paper. Diamond is the high-pressure polymorph of the same element, a textbook example of how pressure controls crystal structure. Graphite in marble and schist usually comes from organic matter in the original sediment."
     },
     {
       "id": "copper",
@@ -633,7 +687,9 @@
       ],
       "diagnostic": "Malleable; bends instead of breaking",
       "occurrence": "basalt vesicles, oxidized zones of copper deposits",
-      "tier": 4
+      "tier": 4,
+      "wiki": "Native copper",
+      "explanation": "Native copper is one of the few metals found as the pure element. It forms where copper-bearing fluids meet reducing conditions, famously in vesicles of the basalts around Lake Superior. It is malleable and ductile because metallic bonds let atoms slide without breaking, and it tarnishes green at the surface."
     },
     {
       "id": "malachite",
@@ -654,7 +710,9 @@
       ],
       "diagnostic": "Banded green; fizzes in HCl",
       "occurrence": "oxidized zones of copper deposits",
-      "tier": 4
+      "tier": 4,
+      "wiki": "Malachite",
+      "explanation": "A green copper carbonate hydroxide, Cu2CO3(OH)2, that forms in the oxidised zone above copper sulfide deposits when acidic water meets carbonate rock. Its banded, botryoidal masses record changes in fluid chemistry. Because it is a carbonate it fizzes in HCl. Green stains on outcrops guided early prospectors to buried copper ore."
     },
     {
       "id": "kyanite",
@@ -676,7 +734,9 @@
       ],
       "diagnostic": "Bladed blue crystals; hardness about 4.5 along the blade and 6.5 to 7 across it",
       "occurrence": "high-pressure schist and gneiss",
-      "tier": 5
+      "tier": 4,
+      "wiki": "Kyanite",
+      "explanation": "Al2SiO5, one of three polymorphs with andalusite and sillimanite. Kyanite is the high-pressure form, so it marks rocks that were buried deep, as in subduction and continental collision zones; the Al2SiO5 phase diagram is a key tool for estimating metamorphic conditions. Its hardness differs with direction (about 4.5 along the blade, 7 across), a striking example of anisotropy."
     }
   ]
 }

@@ -1,12 +1,14 @@
 extends CharacterBody2D
-## The geologist: walks to where you tap, hops up single steps, carries the camera and a headlamp.
+## The geologist: walks to where you tap, hops up single steps, climbs walls and shafts, carries the
+## camera and a headlamp.
 
 const SPEED := 95.0
 const JUMP_VELOCITY := -250.0
 const GRAVITY := 650.0
-const CAMERA_ZOOM := 2.0
+const CLIMB_SPEED := 85.0
+const CAMERA_ZOOM := 3.0
 const ARRIVE_DISTANCE := 3.0
-const GIVE_UP_SECONDS := 0.6
+const CLIMB_GIVE_UP_SECONDS := 4.0
 
 ## 10 x 16 pixel sprite. y helmet, s skin, k eyes, b shirt, p trousers, o boots, l lamp.
 const SPRITE := [
@@ -38,7 +40,9 @@ var lamp: PointLight2D
 var has_target := false
 var target_x := 0.0
 var jump_requested := false
-var _blocked_time := 0.0
+var climbing := false
+var climb_target_y := INF    # climb walls until above this height
+var _climb_time := 0.0
 
 
 func _ready() -> void:
@@ -72,15 +76,26 @@ func set_camera_limits(size_px: Vector2) -> void:
 func walk_to(x: float) -> void:
 	has_target = true
 	target_x = x
-	_blocked_time = 0.0
+
+
+## Head for a point above: jump if standing, and climb any wall or shaft side on the way.
+func climb_to(y: float) -> void:
+	climb_target_y = y
+	_climb_time = 0.0
+	jump_requested = true
 
 
 func stop_walking() -> void:
 	has_target = false
+	climb_target_y = INF
+
+
+func _touching_wall() -> bool:
+	return test_move(transform, Vector2(-5, 0)) or test_move(transform, Vector2(5, 0))
 
 
 func _physics_process(delta: float) -> void:
-	if not is_on_floor():
+	if not is_on_floor() and not climbing:
 		velocity.y += GRAVITY * delta
 	var dir := Input.get_axis("move_left", "move_right")
 	if dir != 0.0:
@@ -93,15 +108,17 @@ func _physics_process(delta: float) -> void:
 			dir = signf(dx)
 	var wants_jump := Input.is_action_just_pressed("jump") or jump_requested
 	jump_requested = false
-	# Walking into a wall hops up it; if the wall is too high, give up instead of pushing forever.
+	# Walking into a wall hops up it; a wall too high to hop is climbed.
 	if has_target and is_on_wall() and is_on_floor():
 		wants_jump = true
-	if has_target and is_on_wall():
-		_blocked_time += delta
-		if _blocked_time > GIVE_UP_SECONDS:
-			has_target = false
-	else:
-		_blocked_time = 0.0
+	var wants_up := (climb_target_y < position.y - 2.0) or Input.is_action_pressed("jump")
+	if climb_target_y < INF:
+		_climb_time += delta
+		if climb_target_y >= position.y - 2.0 or _climb_time > CLIMB_GIVE_UP_SECONDS:
+			climb_target_y = INF
+	climbing = (wants_up or (has_target and is_on_wall())) and _touching_wall() and not is_on_floor()
+	if climbing:
+		velocity.y = -CLIMB_SPEED
 	if wants_jump and is_on_floor():
 		velocity.y = JUMP_VELOCITY
 	velocity.x = dir * SPEED
@@ -128,6 +145,6 @@ func _lamp_texture() -> GradientTexture2D:
 	tex.fill = GradientTexture2D.FILL_RADIAL
 	tex.fill_from = Vector2(0.5, 0.5)
 	tex.fill_to = Vector2(1.0, 0.5)
-	tex.width = 192
-	tex.height = 192
+	tex.width = 160
+	tex.height = 160
 	return tex

@@ -16,7 +16,21 @@ func _ready() -> void:
 
 	# Data
 	check(GameData.minerals.size() == 30, "30 minerals loaded")
-	check(GameData.rocks.size() == 15, "15 rocks loaded")
+	check(GameData.rocks.size() == 16, "16 rocks loaded")
+	for id in GameData.minerals:
+		check(GameData.mineral(id).get("explanation", "").length() > 100, "%s has an explanation" % id)
+	for id in GameData.rocks:
+		var r := GameData.rock(id)
+		check(r.get("explanation", "").length() > 100, "%s has an explanation" % id)
+		for mid in r["minerals"]:
+			check(GameData.minerals.has(mid), "%s mineral %s exists" % [id, mid])
+		for line in [GameData.rock_texture_test(r), GameData.rock_grain_test(r), GameData.rock_minerals_test(r), GameData.rock_acid_test(r)]:
+			check(line.length() > 5, "%s rock test text" % id)
+	for id in GameData.credits:
+		check(ResourceLoader.exists(GameData.credits[id]["image"]), "photo for %s loads" % id)
+	print("photos: ", GameData.credits.size())
+	check(GameData.rock_acid_test(GameData.rock("dolostone")).contains("powder"), "dolostone fizzes only as powder")
+	check(GameData.rock_acid_test(GameData.rock("marble")).contains("strongly"), "marble fizzes")
 	for id in GameData.minerals:
 		var m := GameData.mineral(id)
 		for key in ["name", "formula", "crystal_system", "hardness", "streak", "luster", "cleavage", "specific_gravity", "colors", "diagnostic", "tier"]:
@@ -35,7 +49,10 @@ func _ready() -> void:
 	for x in range(1, world.WIDTH - 1):
 		for y in range(world.BAND_TOP, world.BAND_BOTTOM):
 			check(world.get_tile(Vector2i(x, y)) == world.SANDSTONE, "sandstone band intact at %d,%d" % [x, y])
-	var veins := {1: 0, 2: 0}
+	var veins := {1: 0, 2: 0, 3: 0, 4: 0}
+	for x in range(1, world.WIDTH - 1):
+		for y in range(world.CHERT_TOP, world.CHERT_BOTTOM):
+			check(world.get_tile(Vector2i(x, y)) == world.CHERT, "chert band intact at %d,%d" % [x, y])
 	var first_vein := Vector2i(-1, -1)
 	for y in world.HEIGHT:
 		for x in world.WIDTH:
@@ -45,20 +62,21 @@ func _ready() -> void:
 				if first_vein.x < 0 and world.tier_at(y) == 1:
 					first_vein = Vector2i(x, y)
 	print("veins per tier: ", veins)
-	check(veins[1] > 20 and veins[2] > 20, "enough veins in both tiers")
+	for tier in veins:
+		check(veins[tier] > 20, "enough veins in tier %d" % tier)
 
 	# Mining a vein gives a sample
 	main.finish_mining(first_vein)
 	check(GameState.samples.size() == 1, "vein gave a sample")
 	var s: Dictionary = GameState.samples[0]
-	check(s["tier"] == 1 and int(GameData.mineral(s["mineral"])["tier"]) == 1, "tier 1 vein gives tier 1 mineral")
+	check(s["tier"] == 1 and int(GameData.mineral(s["id"])["tier"]) == 1, "tier 1 vein gives tier 1 mineral")
 	var choices: Array = GameState.choices_for(s)
-	check(choices.size() == 4 and choices.has(s["mineral"]), "four choices including the answer")
+	check(choices.size() == 4 and choices.has(s["id"]), "four choices including the answer")
 	check(GameState.choices_for(s) == choices, "choices stay fixed")
 
 	# Wrong answer spends the sample and raises that mineral's weight
-	var wrong: String = choices[0] if choices[0] != s["mineral"] else choices[1]
-	var answer: String = s["mineral"]
+	var wrong: String = choices[0] if choices[0] != s["id"] else choices[1]
+	var answer: String = s["id"]
 	check(not GameState.identify(s["uid"], wrong), "wrong guess rejected")
 	check(GameState.pending_misses.get(answer, 0) == 1, "miss recorded")
 	var hits := 0
@@ -82,6 +100,29 @@ func _ready() -> void:
 	check(GameState.craft("steel_pick"), "steel pick crafted from mixed iron oxides")
 	check(GameState.pick_hardness() == 6.5, "pick upgraded")
 	check(GameState.stock["hematite"] == 0 and GameState.stock["goethite"] == 0, "materials consumed")
+	GameState.stock["magnetite"] = 3
+	GameState.stock["fluorite"] = 2
+	check(GameState.craft("hardened_pick"), "hardened pick crafted")
+	check(GameState.pick_hardness() == 7.5, "pick upgraded to 7.5")
+
+	# Rock samples: digging host rock can give one, identified against other rocks
+	GameState.samples.clear()
+	var rock_cell := Vector2i(30, world.SLATE_BOTTOM + 4)
+	var got_rock := false
+	for i in 40:
+		world.set_tile(rock_cell, world.SCHIST)
+		main.finish_mining(rock_cell)
+		if not GameState.samples.is_empty():
+			got_rock = true
+			break
+	check(got_rock, "digging schist gives a rock sample")
+	if got_rock:
+		var rs0: Dictionary = GameState.samples[0]
+		check(rs0["kind"] == "rock" and rs0["id"] == "schist", "rock sample is schist")
+		var rc: Array = GameState.choices_for(rs0)
+		check(rc.size() == 4 and rc.has("schist") and GameData.rocks.has(rc[0]), "rock choices are rocks")
+		check(GameState.identify(rs0["uid"], "schist"), "rock identified")
+		check(GameState.identified_count("rock") == 1, "rock counted in codex")
 
 	# Digging gives rubble; building places it; geodes give two crystal samples
 	var dig_cell := Vector2i(-1, -1)
@@ -102,7 +143,7 @@ func _ready() -> void:
 	main.finish_mining(geode)
 	check(GameState.samples.size() == 2 and world.get_tile(geode) == world.AIR, "geode gives two samples")
 	for gs in GameState.samples:
-		check(GameState.choices_for(gs).has(gs["mineral"]), "geode sample choices include answer")
+		check(GameState.choices_for(gs).has(gs["id"]), "geode sample choices include answer")
 	var deep: Vector2 = world.cell_center(Vector2i(80, 70))
 	main.player.position = deep
 	main.rope_to_surface()
@@ -112,6 +153,34 @@ func _ready() -> void:
 		var rs := GameState.add_sample("halite", 1, 1)
 		GameState.identify(rs["uid"], "halite")
 	check(GameState.rank_name() == "Undergraduate", "rank after 6 correct")
+
+	# Climbing out of a shaft
+	var sx := 70
+	var top_y := 0
+	while world.get_tile(Vector2i(sx, top_y)) == world.AIR:
+		top_y += 1
+	for y in range(top_y, top_y + 8):
+		world.set_tile(Vector2i(sx, y), world.AIR)
+	main.player.position = world.cell_center(Vector2i(sx, top_y + 7))
+	main.player.velocity = Vector2.ZERO
+	main.player.stop_walking()
+	for i in 20:
+		await get_tree().physics_frame
+	var bottom_y: float = main.player.position.y
+	main.player.climb_to(world.cell_center(Vector2i(sx, top_y - 2)).y)
+	for i in 180:
+		await get_tree().physics_frame
+	print("climbed from ", bottom_y, " to ", main.player.position.y)
+	check(main.player.position.y < bottom_y - 16 * 5, "climbed out of an 8-deep shaft")
+
+	# One tap mines a block in reach without holding
+	var tap_cell: Vector2i = world.cell_at(main.player.position) + Vector2i(1, 0)
+	world.set_tile(tap_cell, world.DIRT)
+	main.target_block(tap_cell)
+	main.release_pointer()
+	for i in 30:
+		await get_tree().process_frame
+	check(world.get_tile(tap_cell) == world.AIR, "a single tap mines the block")
 
 	# UI panels open without errors
 	for i in 3:
@@ -123,7 +192,7 @@ func _ready() -> void:
 	var cells := GameState.changed_cells.size()
 	GameState.new_game(1)
 	check(GameState.load_game(), "save loads")
-	check(GameState.world_seed == 1234 and GameState.pick_level == 1, "progress restored")
+	check(GameState.world_seed == 1234 and GameState.pick_level == 2, "progress restored")
 	check(GameState.changed_cells.size() == cells, "world changes restored")
 	DirAccess.remove_absolute(ProjectSettings.globalize_path(GameState.save_path))
 

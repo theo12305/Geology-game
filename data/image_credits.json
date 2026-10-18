@@ -1,0 +1,324 @@
+{
+  "quartz": {
+    "image": "res://images/quartz.jpg",
+    "file": "Quartz_Brésil.jpg",
+    "author": "Didier Descouens",
+    "license": "CC BY-SA 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Quartz_Br%C3%A9sil.jpg"
+  },
+  "calcite": {
+    "image": "res://images/calcite.png",
+    "file": "Calcite_Variation.png",
+    "author": "PaleoNeolitic (montage creator)",
+    "license": "CC BY 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Calcite_Variation.png"
+  },
+  "dolomite": {
+    "image": "res://images/dolomite.jpg",
+    "file": "Dolomite_Luzenac.jpg",
+    "author": "Didier Descouens",
+    "license": "CC BY-SA 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Dolomite_Luzenac.jpg"
+  },
+  "halite": {
+    "image": "res://images/halite.jpg",
+    "file": "Halit_(NaCl)_-_Kopalnia_soli_Wieliczka,_Polska.jpg",
+    "author": "Lech Darski",
+    "license": "CC BY-SA 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Halit_(NaCl)_-_Kopalnia_soli_Wieliczka,_Polska.jpg"
+  },
+  "gypsum": {
+    "image": "res://images/gypsum.jpg",
+    "file": "Gypse_Caresse.jpg",
+    "author": "Didier Descouens",
+    "license": "CC BY-SA 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Gypse_Caresse.jpg"
+  },
+  "anhydrite": {
+    "image": "res://images/anhydrite.jpg",
+    "file": "Anhydrite_HMNH1.jpg",
+    "author": "Alcinoe",
+    "license": "Public domain",
+    "source": "https://commons.wikimedia.org/wiki/File:Anhydrite_HMNH1.jpg"
+  },
+  "hematite": {
+    "image": "res://images/hematite.jpg",
+    "file": "WLA_hmns_Hematite.jpg",
+    "author": "Wikipedia Loves Art participant \"Assignment_Houston_One\"",
+    "license": "CC BY-SA 2.5",
+    "source": "https://commons.wikimedia.org/wiki/File:WLA_hmns_Hematite.jpg"
+  },
+  "magnetite": {
+    "image": "res://images/magnetite.jpg",
+    "file": "Magnetite-118736.jpg",
+    "author": "Robert M. Lavinsky",
+    "license": "CC BY-SA 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Magnetite-118736.jpg"
+  },
+  "goethite": {
+    "image": "res://images/goethite.jpg",
+    "file": "Goethite-169735.jpg",
+    "author": "Robert M. Lavinsky",
+    "license": "CC BY-SA 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Goethite-169735.jpg"
+  },
+  "pyrite": {
+    "image": "res://images/pyrite.jpg",
+    "file": "Pyrite_-_Huanzala_mine,_Huallanca,_Bolognesi,_Ancash,_Peru.jpg",
+    "author": "Ivar Leidus",
+    "license": "CC BY-SA 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Pyrite_-_Huanzala_mine,_Huallanca,_Bolognesi,_Ancash,_Peru.jpg"
+  },
+  "galena": {
+    "image": "res://images/galena.jpg",
+    "file": "Galena_-_Huallanca,_Bologesi,_Ancash,_Peru.jpg",
+    "author": "Ivar Leidus",
+    "license": "CC BY-SA 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Galena_-_Huallanca,_Bologesi,_Ancash,_Peru.jpg"
+  },
+  "sphalerite": {
+    "image": "res://images/sphalerite.jpg",
+    "file": "Sphalerite_-_Creede,_Mineral_County,_Colorado,_USA.jpg",
+    "author": "Ivar Leidus",
+    "license": "CC BY-SA 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Sphalerite_-_Creede,_Mineral_County,_Colorado,_USA.jpg"
+  },
+  "chalcopyrite": {
+    "image": "res://images/chalcopyrite.jpg",
+    "file": "Chalcopyrite-199453.jpg",
+    "author": "Robert M. Lavinsky",
+    "license": "CC BY-SA 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Chalcopyrite-199453.jpg"
+  },
+  "fluorite": {
+    "image": "res://images/fluorite.jpg",
+    "file": "3192M-fluorite1.jpg",
+    "author": "CarlesMillan",
+    "license": "CC BY-SA 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:3192M-fluorite1.jpg"
+  },
+  "barite": {
+    "image": "res://images/barite.jpg",
+    "file": "Barite_-_Cerro_Warihuyn,_Miraflores,_Huamalies,_Huanuco,_Peru.jpg",
+    "author": "Ivar Leidus",
+    "license": "CC BY-SA 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Barite_-_Cerro_Warihuyn,_Miraflores,_Huamalies,_Huanuco,_Peru.jpg"
+  },
+  "orthoclase": {
+    "image": "res://images/orthoclase.jpg",
+    "file": "OrthoclaseBresil.jpg",
+    "author": "Didier Descouens",
+    "license": "CC BY-SA 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:OrthoclaseBresil.jpg"
+  },
+  "plagioclase": {
+    "image": "res://images/plagioclase.jpg",
+    "file": "Plagioklas1.jpg",
+    "author": "Chmee2",
+    "license": "CC BY-SA 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Plagioklas1.jpg"
+  },
+  "muscovite": {
+    "image": "res://images/muscovite.jpg",
+    "file": "Muscovite-Albite-122887.jpg",
+    "author": "Robert M. Lavinsky",
+    "license": "CC BY-SA 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Muscovite-Albite-122887.jpg"
+  },
+  "biotite": {
+    "image": "res://images/biotite.jpg",
+    "file": "Biotite_aggregate_-_Ochtendung,_Eifel,_Germany.jpg",
+    "author": "Fred Kruijen",
+    "license": "CC BY-SA 3.0 nl",
+    "source": "https://commons.wikimedia.org/wiki/File:Biotite_aggregate_-_Ochtendung,_Eifel,_Germany.jpg"
+  },
+  "chlorite": {
+    "image": "res://images/chlorite.jpg",
+    "file": "ChloriteUSGOV.jpg",
+    "author": "Unknown",
+    "license": "Public domain",
+    "source": "https://commons.wikimedia.org/wiki/File:ChloriteUSGOV.jpg"
+  },
+  "olivine": {
+    "image": "res://images/olivine.jpg",
+    "file": "Olivine-gem7-10a.jpg",
+    "author": "Robert M. Lavinsky",
+    "license": "CC BY-SA 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Olivine-gem7-10a.jpg"
+  },
+  "augite": {
+    "image": "res://images/augite.jpg",
+    "file": "Augite_Rwanda.jpg",
+    "author": "Didier Descouens",
+    "license": "CC BY-SA 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Augite_Rwanda.jpg"
+  },
+  "hornblende": {
+    "image": "res://images/hornblende.jpg",
+    "file": "Apatite-(CaOH)-Hornblende-38354.jpg",
+    "author": "Robert M. Lavinsky",
+    "license": "CC BY-SA 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Apatite-(CaOH)-Hornblende-38354.jpg"
+  },
+  "almandine": {
+    "image": "res://images/almandine.jpg",
+    "file": "Almandin.jpg",
+    "author": "Didier Descouens",
+    "license": "CC BY-SA 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Almandin.jpg"
+  },
+  "kaolinite": {
+    "image": "res://images/kaolinite.jpg",
+    "file": "Kaolinite_from_Twiggs_County_in_Georgia_in_USA.jpg",
+    "author": "James St. John   https://www.flickr.com/people/jsjgeology?rb=1",
+    "license": "CC BY 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Kaolinite_from_Twiggs_County_in_Georgia_in_USA.jpg"
+  },
+  "talc": {
+    "image": "res://images/talc.jpg",
+    "file": "Talc-177589.jpg",
+    "author": "Robert M. Lavinsky",
+    "license": "CC BY-SA 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Talc-177589.jpg"
+  },
+  "graphite": {
+    "image": "res://images/graphite.jpg",
+    "file": "Graphite-233436.jpg",
+    "author": "Robert M. Lavinsky",
+    "license": "CC BY-SA 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Graphite-233436.jpg"
+  },
+  "copper": {
+    "image": "res://images/copper.jpg",
+    "file": "Copper-21991.jpg",
+    "author": "Robert M. Lavinsky",
+    "license": "CC BY-SA 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Copper-21991.jpg"
+  },
+  "malachite": {
+    "image": "res://images/malachite.jpg",
+    "file": "Malachite,_Zaire.jpg",
+    "author": "JJ Harrison (https://www.jjharrison.com.au/)",
+    "license": "CC BY-SA 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Malachite,_Zaire.jpg"
+  },
+  "kyanite": {
+    "image": "res://images/kyanite.jpg",
+    "file": "Kyanite_crystals.jpg",
+    "author": "User:Aelwyn",
+    "license": "CC BY-SA 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Kyanite_crystals.jpg"
+  },
+  "sandstone": {
+    "image": "res://images/sandstone.jpg",
+    "file": "USDA_Mineral_Sandstone_93c3955.jpg",
+    "author": "Unknown",
+    "license": "Public domain",
+    "source": "https://commons.wikimedia.org/wiki/File:USDA_Mineral_Sandstone_93c3955.jpg"
+  },
+  "shale": {
+    "image": "res://images/shale.jpg",
+    "file": "Shale_formation,_Marble_Canyon,_Kootenay_National_Park,_British_Columbia,_2025-07-11.jpg",
+    "author": "Chris Woodrich",
+    "license": "CC BY-SA 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Shale_formation,_Marble_Canyon,_Kootenay_National_Park,_British_Columbia,_2025-07-11.jpg"
+  },
+  "conglomerate": {
+    "image": "res://images/conglomerate.jpg",
+    "file": "Ferruginous_quartz-pebble_conglomerate_(derived_from_boulder_in_\"Sharon_Conglomerate\",_Lower_Pennsylvanian;_Jackson_North_roadcut,_Ohio,_USA)_30.jpg",
+    "author": "James St. John",
+    "license": "CC BY 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Ferruginous_quartz-pebble_conglomerate_(derived_from_boulder_in_%22Sharon_Conglomerate%22,_Lower_Pennsylvanian;_Jackson_North_roadcut,_Ohio,_USA)_30.jpg"
+  },
+  "limestone": {
+    "image": "res://images/limestone.jpg",
+    "file": "ElTorcal0408.jpg",
+    "author": "Fernando Domínguez Cerejido",
+    "license": "CC BY-SA 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:ElTorcal0408.jpg"
+  },
+  "dolostone": {
+    "image": "res://images/dolostone.jpg",
+    "file": "7092_pieskovna_Dolinka_pri_Hradisti_pod_Vratnom_dolomit.JPG",
+    "author": "Ondrej Pelech",
+    "license": "CC BY 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:7092_pieskovna_Dolinka_pri_Hradisti_pod_Vratnom_dolomit.JPG"
+  },
+  "chert": {
+    "image": "res://images/chert.jpg",
+    "file": "ChertUSGOV.jpg",
+    "author": "Unknown",
+    "license": "Public domain",
+    "source": "https://commons.wikimedia.org/wiki/File:ChertUSGOV.jpg"
+  },
+  "coal": {
+    "image": "res://images/coal.jpg",
+    "file": "Bituminous_Coal.JPG",
+    "author": "Amcyrus2012",
+    "license": "CC BY 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Bituminous_Coal.JPG"
+  },
+  "granite": {
+    "image": "res://images/granite.jpg",
+    "file": "Bianco_Sardo_Granit_mit_polierter_Oberfläche.jpg",
+    "author": "The stone gate",
+    "license": "CC BY-SA 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Bianco_Sardo_Granit_mit_polierter_Oberfl%C3%A4che.jpg"
+  },
+  "rhyolite": {
+    "image": "res://images/rhyolite.jpg",
+    "file": "Loebejuener_porphyr_poliert.jpg",
+    "author": "Benhoff",
+    "license": "CC BY-SA 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Loebejuener_porphyr_poliert.jpg"
+  },
+  "obsidian": {
+    "image": "res://images/obsidian.jpg",
+    "file": "Lipari-Obsidienne_(5).jpg",
+    "author": "Ji-Elle",
+    "license": "CC BY-SA 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Lipari-Obsidienne_(5).jpg"
+  },
+  "basalt": {
+    "image": "res://images/basalt.jpg",
+    "file": "Basalt_12_(48674276333).jpg",
+    "author": "James St. John",
+    "license": "CC BY 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Basalt_12_(48674276333).jpg"
+  },
+  "gabbro": {
+    "image": "res://images/gabbro.jpg",
+    "file": "Gabbro_(GeoDIL_number_-_94).jpg",
+    "author": "Darla Sondrol",
+    "license": "CC0",
+    "source": "https://commons.wikimedia.org/wiki/File:Gabbro_(GeoDIL_number_-_94).jpg"
+  },
+  "slate": {
+    "image": "res://images/slate.jpg",
+    "file": "Slate_(Knife_Lake_Formation,_metamorphism_at_2.7_Ga,_Neoarchean;_Rt._135_roadcut,_Gilbert,_Minnesota,_USA)_3_(23140002749).jpg",
+    "author": "James St. John",
+    "license": "CC BY 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Slate_(Knife_Lake_Formation,_metamorphism_at_2.7_Ga,_Neoarchean;_Rt._135_roadcut,_Gilbert,_Minnesota,_USA)_3_(23140002749).jpg"
+  },
+  "schist": {
+    "image": "res://images/schist.jpg",
+    "file": "Schist_detail.jpg",
+    "author": "Michael C. Rygel",
+    "license": "CC BY-SA 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Schist_detail.jpg"
+  },
+  "gneiss": {
+    "image": "res://images/gneiss.jpg",
+    "file": "Gneiss.jpg",
+    "author": "No machine-readable author provided. Siim assumed (based on copyright claims).",
+    "license": "CC BY-SA 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Gneiss.jpg"
+  },
+  "marble": {
+    "image": "res://images/marble.jpg",
+    "file": "Marmo_z17.JPG",
+    "author": "Zyance",
+    "license": "CC BY-SA 2.5",
+    "source": "https://commons.wikimedia.org/wiki/File:Marmo_z17.JPG"
+  }
+}

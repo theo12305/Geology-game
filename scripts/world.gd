@@ -1,16 +1,22 @@
 extends Node2D
-## Procedural crust: soil, a soft sedimentary tier, a quartz-cemented sandstone band that needs a
-## steel pick, then a deeper basin tier. Tiles are painted in code so there are no art files yet.
+## Procedural crust, top to bottom: soil; tier 1 shale and limestone; a quartz sandstone band (needs a
+## steel pick); tier 2 dolostone basin with coal; a chert band (needs a hardened pick); tier 3 metamorphic
+## belt of slate, schist and marble; tier 4 granite pluton with a gneiss rim. Tiles are painted in code.
 
 # Append new tiles before TILE_COUNT: saves store these numbers.
-enum { GRASS, DIRT, SAND, SHALE, LIMESTONE, SANDSTONE, DOLOSTONE, BEDROCK, VEIN_SHALLOW, VEIN_DEEP, RUBBLE, GEODE, TILE_COUNT }
+enum { GRASS, DIRT, SAND, SHALE, LIMESTONE, SANDSTONE, DOLOSTONE, BEDROCK, VEIN_SHALLOW, VEIN_DEEP, RUBBLE, GEODE,
+	COAL, CHERT, SLATE, SCHIST, MARBLE, GNEISS, GRANITE, CONGLOMERATE, VEIN_META, VEIN_GRANITE, TILE_COUNT }
 const AIR := -1
 const TILE := 16
 const WIDTH := 160
-const HEIGHT := 100
+const HEIGHT := 170
 const SURFACE_Y := 18
-const BAND_TOP := 52
+const BAND_TOP := 52        # quartz sandstone band, gate to tier 2
 const BAND_BOTTOM := 56
+const CHERT_TOP := 88       # chert band, gate to tier 3
+const CHERT_BOTTOM := 92
+const SLATE_BOTTOM := 104   # tier 3: slate above, schist and marble below
+const GRANITE_TOP := 132    # tier 4: gneiss rim, then granite
 const METERS_PER_TILE := 2
 
 ## Display name, mining hardness (game values, roughly Mohs) and base color.
@@ -27,6 +33,22 @@ const TILES := {
 	VEIN_DEEP: {"name": "Mineral vein", "hardness": 2.0, "color": Color("7d7468")},
 	RUBBLE: {"name": "Rubble block", "hardness": 1.0, "color": Color("8a7f74")},
 	GEODE: {"name": "Geode", "hardness": 2.5, "color": Color("6d6060")},
+	COAL: {"name": "Coal seam", "hardness": 2.0, "color": Color("1f1d22")},
+	CHERT: {"name": "Chert", "hardness": 7.0, "color": Color("6b4a3a")},
+	SLATE: {"name": "Slate", "hardness": 3.0, "color": Color("3e4656")},
+	SCHIST: {"name": "Schist", "hardness": 4.0, "color": Color("8a8a7c")},
+	MARBLE: {"name": "Marble", "hardness": 3.0, "color": Color("e4e1d8")},
+	GNEISS: {"name": "Gneiss", "hardness": 6.0, "color": Color("9a8f88")},
+	GRANITE: {"name": "Granite", "hardness": 6.0, "color": Color("d9b8a8")},
+	CONGLOMERATE: {"name": "Conglomerate", "hardness": 3.0, "color": Color("9c7f60")},
+	VEIN_META: {"name": "Mineral vein", "hardness": 2.0, "color": Color("7f7f74")},
+	VEIN_GRANITE: {"name": "Mineral vein", "hardness": 2.0, "color": Color("b59a8e")},
+}
+## Rock sample each host tile can give (ids in rocks.json).
+const ROCK_OF := {
+	SHALE: "shale", LIMESTONE: "limestone", SANDSTONE: "sandstone", DOLOSTONE: "dolostone", COAL: "coal",
+	CHERT: "chert", SLATE: "slate", SCHIST: "schist", MARBLE: "marble", GNEISS: "gneiss", GRANITE: "granite",
+	CONGLOMERATE: "conglomerate",
 }
 const VEIN_SPARKLES := [Color("f2e36b"), Color("ffffff"), Color("d0453c"), Color("8ad1e0"), Color("b07ad6")]
 
@@ -86,7 +108,7 @@ func cell_center(c: Vector2i) -> Vector2:
 
 
 func is_vein(t: int) -> bool:
-	return t == VEIN_SHALLOW or t == VEIN_DEEP
+	return t in [VEIN_SHALLOW, VEIN_DEEP, VEIN_META, VEIN_GRANITE]
 
 
 ## Tiles that give samples when mined instead of rubble.
@@ -103,16 +125,26 @@ func hardness_of(t: int) -> float:
 
 
 func mine_time(t: int) -> float:
-	return 0.2 + hardness_of(t) * 0.1
+	return 0.08 + hardness_of(t) * 0.03
 
 
 func tier_at(y: int) -> int:
-	return 1 if y < BAND_BOTTOM else 2
+	if y < BAND_BOTTOM:
+		return 1
+	if y < CHERT_BOTTOM:
+		return 2
+	if y < GRANITE_TOP:
+		return 3
+	return 4
 
 
 ## The rock a vein turns back into when the pick is too soft to break it.
 func host_for(y: int) -> int:
-	return SHALE if y < BAND_TOP else DOLOSTONE
+	return [SHALE, DOLOSTONE, SCHIST, GRANITE][tier_at(y) - 1]
+
+
+func vein_for(y: int) -> int:
+	return [VEIN_SHALLOW, VEIN_DEEP, VEIN_META, VEIN_GRANITE][tier_at(y) - 1]
 
 
 func depth_m(world_y: float) -> int:
@@ -134,6 +166,7 @@ func _generate(seed: int) -> void:
 	var layers := _noise(seed + 1, 0.08)
 	var caves := _noise(seed + 2, 0.07)
 	var veins := _noise(seed + 3, 0.18)
+	var pebbles := _noise(seed + 5, 0.05)
 	var rare := RandomNumberGenerator.new()
 	rare.seed = seed + 4
 	for x in WIDTH:
@@ -150,19 +183,33 @@ func _generate(seed: int) -> void:
 					t = SAND
 				else:
 					t = GRASS if y == surface else DIRT
+			elif y < surface + 6 and pebbles.get_noise_1d(x) > 0.25:
+				t = CONGLOMERATE
 			elif y >= BAND_TOP and y < BAND_BOTTOM:
 				t = SANDSTONE
+			elif y >= CHERT_TOP and y < CHERT_BOTTOM:
+				t = CHERT
 			elif y < BAND_TOP:
 				# Squash the noise vertically so the strata read as horizontal beds.
 				t = SHALE if layers.get_noise_2d(x * 0.25, y * 1.6) > 0.0 else LIMESTONE
+			elif y < CHERT_TOP:
+				var n := layers.get_noise_2d(x * 0.25, y * 1.6)
+				t = COAL if n < -0.45 else (DOLOSTONE if n > -0.1 else SHALE)
+			elif y < GRANITE_TOP:
+				if y < SLATE_BOTTOM:
+					t = SLATE
+				else:
+					t = MARBLE if layers.get_noise_2d(x * 0.4, y * 1.2) > 0.35 else SCHIST
 			else:
-				t = DOLOSTONE if layers.get_noise_2d(x * 0.25, y * 1.6) > -0.1 else SHALE
+				# The pluton's top is domed; the rim against the schist is gneiss.
+				var top := GRANITE_TOP + 6 + int(hills.get_noise_1d(x + 500) * 5.0)
+				t = GNEISS if y < top else GRANITE
 			back[y * WIDTH + x] = AIR if (t == AIR or t == GRASS) else t
-			if t in [SHALE, LIMESTONE, DOLOSTONE]:
+			if t in [SHALE, LIMESTONE, DOLOSTONE, SLATE, SCHIST, MARBLE, GNEISS, GRANITE]:
 				if y > surface + 7 and caves.get_noise_2d(x, y) > 0.42:
 					t = AIR
 				elif veins.get_noise_2d(x, y) > 0.5:
-					t = VEIN_SHALLOW if y < BAND_TOP else VEIN_DEEP
+					t = vein_for(y)
 				elif y > surface + 10 and rare.randf() < 0.004:
 					t = GEODE
 			grid[y * WIDTH + x] = t
@@ -227,9 +274,39 @@ func _paint_tile(img: Image, index: int) -> void:
 				BEDROCK:
 					if (px / 4 + py / 4) % 2 == 0:
 						c = c.lightened(0.08)
-				VEIN_SHALLOW, VEIN_DEEP:
+				VEIN_SHALLOW, VEIN_DEEP, VEIN_META, VEIN_GRANITE:
 					if r.randf() < 0.12:
 						c = VEIN_SPARKLES[r.randi_range(0, VEIN_SPARKLES.size() - 1)]
+				COAL:
+					if r.randf() < 0.08:
+						c = Color("4a4a55")
+				CHERT:
+					if (px * 3 + py * 5) % 11 == 0:
+						c = c.lightened(0.2)
+				SLATE:
+					if (px + py) % 5 == 0:
+						c = c.darkened(0.25)
+				SCHIST:
+					if (py + int(sin(px * 0.8) * 1.5)) % 4 == 0:
+						c = Color("c9c7b8") if r.randf() < 0.6 else c.darkened(0.3)
+				MARBLE:
+					if absi(py - (px / 2 + 4)) == 0 or r.randf() < 0.03:
+						c = Color("a8a59e")
+				GNEISS:
+					if (py / 3) % 2 == 0:
+						c = Color("4d4440").lightened(r.randf() * 0.1)
+				GRANITE:
+					# 2 x 2 pixel crystals read better than single-pixel noise.
+					var roll := float(hash(Vector2i(px / 2, py / 2)) % 1000) / 1000.0
+					if roll < 0.18:
+						c = Color("2b2626")
+					elif roll < 0.45:
+						c = Color("efe8e2")
+					elif roll < 0.6:
+						c = Color("b0aaa6")
+				CONGLOMERATE:
+					if Vector2(px % 6 - 3, py % 6 - 3).length() < 2.2:
+						c = Color("c8bfb0").darkened(r.randf() * 0.3)
 				RUBBLE:
 					if (px % 8 == 0) or (py % 8 == 0 and px > 0):
 						c = c.darkened(0.3)

@@ -1,9 +1,11 @@
 extends "res://scripts/menu_panel.gd"
-## Field kit: run physical tests on unknown samples, write the results in a notebook, then name the mineral.
+## Field kit: run tests on unknown mineral and rock samples, write the results in a notebook, then name them.
+## After each answer it shows the photo and explanation of what the sample really was.
 
 var list: ItemList
 var notes: RichTextLabel
-var tests_grid: GridContainer
+var mineral_tests: GridContainer
+var rock_tests: GridContainer
 var choices_box: HBoxContainer
 var identify_button: Button
 var quartz_button: Button
@@ -23,19 +25,26 @@ func _ready() -> void:
 	var right := VBoxContainer.new()
 	right.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(right)
-	tests_grid = GridContainer.new()
-	tests_grid.columns = 5
-	right.add_child(tests_grid)
-	_add_test("Streak", func(m): return GameData.streak_test(m))
+	mineral_tests = GridContainer.new()
+	mineral_tests.columns = 5
+	right.add_child(mineral_tests)
+	_add_test(mineral_tests, "Streak", func(m): return GameData.streak_test(m))
 	for tool in GameState.SCRATCH_TOOLS:
-		var b := _add_test("%s %s" % [tool[3], tool[1]], func(m): return GameData.scratch_test(m, tool[0], tool[1]))
+		var b := _add_test(mineral_tests, "%s %s" % [tool[3], tool[1]], func(m): return GameData.scratch_test(m, tool[0], tool[1]))
 		if tool[2] != "":
 			quartz_button = b
-	_add_test("HCl", func(m): return GameData.acid_test(m))
-	_add_test("Magnet", func(m): return GameData.magnet_test(m))
-	_add_test("Lens", func(m): return GameData.lens_test(m))
-	_add_test("Heft", func(m): return GameData.heft_test(m))
-	_add_test("Taste", func(m): return GameData.taste_test(m))
+	_add_test(mineral_tests, "HCl", func(m): return GameData.acid_test(m))
+	_add_test(mineral_tests, "Magnet", func(m): return GameData.magnet_test(m))
+	_add_test(mineral_tests, "Lens", func(m): return GameData.lens_test(m))
+	_add_test(mineral_tests, "Heft", func(m): return GameData.heft_test(m))
+	_add_test(mineral_tests, "Taste", func(m): return GameData.taste_test(m))
+	rock_tests = GridContainer.new()
+	rock_tests.columns = 4
+	right.add_child(rock_tests)
+	_add_test(rock_tests, "Texture", func(r): return GameData.rock_texture_test(r))
+	_add_test(rock_tests, "Grain size", func(r): return GameData.rock_grain_test(r))
+	_add_test(rock_tests, "Minerals", func(r): return GameData.rock_minerals_test(r))
+	_add_test(rock_tests, "HCl", func(r): return GameData.rock_acid_test(r))
 	notes = RichTextLabel.new()
 	notes.bbcode_enabled = true
 	notes.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -59,7 +68,10 @@ func refresh() -> void:
 	var keep := -1
 	for i in GameState.samples.size():
 		var s: Dictionary = GameState.samples[i]
-		list.add_item("Unknown #%d, %s, %d m" % [s["uid"], s["color"], s["depth"]], _swatch(GameData.color_of(s["color"])))
+		if s["kind"] == "rock":
+			list.add_item("Rock #%d, %d m" % [s["uid"], s["depth"]], _swatch(Color(s["color"])))
+		else:
+			list.add_item("Mineral #%d, %s" % [s["uid"], s["color"]], _swatch(GameData.color_of(s["color"])))
 		if int(s["uid"]) == selected_uid:
 			keep = i
 	if keep < 0 and list.item_count > 0:
@@ -81,11 +93,11 @@ func _on_selected(index: int) -> void:
 	_render()
 
 
-func _add_test(label: String, test: Callable) -> Button:
+func _add_test(grid: GridContainer, label: String, test: Callable) -> Button:
 	var b := Button.new()
 	b.text = label
 	b.pressed.connect(func(): _run_test(test))
-	tests_grid.add_child(b)
+	grid.add_child(b)
 	return b
 
 
@@ -93,7 +105,7 @@ func _run_test(test: Callable) -> void:
 	var s := GameState.sample_by_uid(selected_uid)
 	if s.is_empty():
 		return
-	var line: String = test.call(GameData.mineral(s["mineral"]))
+	var line: String = test.call(GameData.entry(s["kind"], s["id"]))
 	if not s["notes"].has(line):
 		s["notes"].append(line)
 	_result = ""
@@ -105,19 +117,23 @@ func _render() -> void:
 		c.queue_free()
 	var s := GameState.sample_by_uid(selected_uid)
 	var has_sample := not s.is_empty()
-	for b in tests_grid.get_children():
-		b.visible = has_sample
+	mineral_tests.visible = has_sample and s["kind"] == "mineral"
+	rock_tests.visible = has_sample and s["kind"] == "rock"
 	identify_button.disabled = not has_sample
 	var text := _result
 	if has_sample:
-		text += "[b]Sample #%d[/b]: %s, found at %d m.\n" % [s["uid"], s["color"], s["depth"]]
+		if s["kind"] == "rock":
+			text += "[b]Rock sample #%d[/b], found at %d m.\n" % [s["uid"], s["depth"]]
+		else:
+			text += "[b]Mineral sample #%d[/b]: %s, found at %d m.\n" % [s["uid"], s["color"], s["depth"]]
 		if s["notes"].is_empty():
 			text += "Run some tests. Each result is written in your notebook.\n"
 		for n in s["notes"]:
 			text += "- %s\n" % n
 	elif _result == "":
-		text = "No samples. Hold on a glittering vein to chip one off."
+		text = "No samples. Hold on a glittering vein, or dig rock, to collect some."
 	notes.text = text
+	notes.scroll_to_line(0)
 
 
 func _show_choices() -> void:
@@ -128,7 +144,7 @@ func _show_choices() -> void:
 		c.queue_free()
 	for id in GameState.choices_for(s):
 		var b := Button.new()
-		b.text = GameData.mineral(id)["name"]
+		b.text = GameData.entry(s["kind"], id)["name"]
 		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		b.pressed.connect(func(): _answer(id))
 		choices_box.add_child(b)
@@ -136,14 +152,16 @@ func _show_choices() -> void:
 
 func _answer(guess: String) -> void:
 	var s := GameState.sample_by_uid(selected_uid)
-	var m := GameData.mineral(s["mineral"])
-	var clue: String = m["diagnostic"].trim_suffix(".") + "."
+	var kind: String = s["kind"]
+	var e := GameData.entry(kind, s["id"])
+	var clue: String = e["diagnostic"].trim_suffix(".") + "."
+	var what: String = ("%s, %s." % [e["name"], e["formula"]]) if kind == "mineral" else ("%s." % e["name"])
 	if GameState.identify(selected_uid, guess):
-		_result = "[color=#7fd67f][b]Correct: %s[/b][/color], %s. %s Added to your stock and Codex.\n\n" % [
-			m["name"], m["formula"], clue]
+		_result = "[color=#7fd67f][b]Correct![/b][/color] %s Key clue: %s\n" % [what, clue]
 	else:
-		_result = "[color=#e07a6a][b]Not %s.[/b][/color] It was %s, %s. Key clue: %s It will turn up more often until you get it right.\n\n" % [
-			GameData.mineral(guess)["name"], m["name"], m["formula"], clue]
+		_result = "[color=#e07a6a][b]Not %s.[/b][/color] It was %s Key clue: %s It will turn up more often until you get it right.\n" % [
+			GameData.entry(kind, guess)["name"], what, clue]
+	_result += GameData.lesson_bbcode(kind, s["id"]) + "\n\n"
 	selected_uid = -1
 	refresh()
 

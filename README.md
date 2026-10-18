@@ -6,6 +6,7 @@ lens, heft), name them, and craft better tools from what you identify.
 
 ![Mining a vein](docs/screenshot-mining.png)
 ![Field kit](docs/screenshot-field-kit.png)
+![Codex](docs/screenshot-codex.png)
 
 ## What is in this first build
 
@@ -49,21 +50,36 @@ rebuilds it automatically, so you never download anything again; just reload. In
 
 | Phone | Computer | Action |
 | --- | --- | --- |
-| Tap empty space | Click empty space, or A / D | Walk there (tap higher up to jump) |
-| Hold on a block | Hold the mouse on a block | Mine it; walks over first if it is out of reach |
+| Tap empty space | Click empty space, or A / D | Walk there |
+| Tap above you | Click above you, or W / Space | Jump, or climb walls and shafts |
+| Tap a block | Click a block | Mine it (walks over first if it is out of reach); drag to keep digging |
 | Build button, then tap | Same | Place a rubble block from the rock you dug |
 | Rope up | Same | Climb straight back to the surface |
 
-Walking into a one-block step hops up it automatically.
+## The world
+
+| Depth | Zone | You need |
+| --- | --- | --- |
+| 0 to 68 m | Tier 1: soil, conglomerate, shale and limestone beds | Bronze pick (3.5) |
+| 68 to 76 m | Quartz sandstone band | Steel pick (6.5) |
+| 76 to 140 m | Tier 2: dolostone basin with coal seams | |
+| 140 to 148 m | Chert band | Hardened pick (7.5) |
+| 148 to 228 m | Tier 3: metamorphic belt of slate, schist and marble | |
+| 228 m and below | Tier 4: granite pluton with a gneiss rim | |
 
 ## Features
 
-- Pick hardness on the Mohs scale decides what rock you can break.
-- Veins give unknown samples; rare **geodes** hold two crystal samples (amethyst, calcite, fluorite, barite).
-- Rubble from digging lets you build steps and bridges.
-- It gets dark underground; your helmet lamp lights the way.
-- Ranks from Field assistant to Professor as you identify more samples.
-- 8-bit sound effects, made in code.
+- Mineral veins give unknown mineral samples; digging rock sometimes gives a rock sample. Identify both
+  in the Field Kit with streak, scratch, acid, magnet, lens and heft tests (minerals) or texture, grain
+  size, mineral content and acid (rocks).
+- Every one of the 30 minerals and 16 rocks has a real photo and a university-level explanation, shown
+  after you identify it and kept in the Codex. Photos come from Wikimedia Commons; authors and licenses
+  are in `data/image_credits.json` and shown under each photo.
+- Rare **geodes** hold two crystal samples. Rubble from digging lets you build. It gets dark underground;
+  your helmet lamp lights the way. Ranks from Field assistant to Professor. 8-bit sound effects.
+
+To refresh the photos, edit the `wiki` (article) or add a `photo` (Commons file name) field in the data
+files and push; the **Fetch photos** workflow downloads them and commits the result.
 
 ## Project layout
 

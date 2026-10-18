@@ -1,7 +1,8 @@
 extends Node2D
 ## Builds the world, player and interface, and turns taps into walking, mining and building.
-## Tap empty space to walk there (higher up: jump). Hold on a block to mine it; if it is out of reach
-## the geologist walks over first. In build mode a tap on empty space places a rubble block.
+## Tap empty space to walk there; tap higher up to jump or climb. Tap a block once to mine it; if it is out
+## of reach the geologist walks over first. Drag over blocks to keep digging. In build mode a tap on empty
+## space places a rubble block.
 
 const World := preload("res://scripts/world.gd")
 const Player := preload("res://scripts/player.gd")
@@ -23,7 +24,7 @@ var build_mode := false
 var pointer_down := false
 var pointer_id := -100
 var pointer_screen_pos := Vector2.ZERO
-var mine_cell := Vector2i(-1, -1)
+var mine_cell := Vector2i(-1, -1)   # the block being mined; stays set after the finger lifts
 var mine_progress := 0.0
 var _last_block_toast := ""
 var _autosave := 0.0
@@ -67,7 +68,7 @@ func _ready() -> void:
 	hud.build_toggled.connect(func(on: bool): build_mode = on)
 	hud.rope_pressed.connect(rope_to_surface)
 	GameState.toast.connect(hud.show_toast)
-	hud.show_toast("Tap to walk. Hold on a glittering vein to collect a sample.")
+	hud.show_toast("Tap to walk or climb. Tap a block to mine it; glittering veins give samples.")
 
 
 func _setup_input() -> void:
@@ -93,7 +94,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			release_pointer()
 	elif event is InputEventScreenDrag:
 		if event.index == pointer_id:
-			pointer_screen_pos = event.position
+			drag_pointer(event.position)
 	# Mouse events copied from touches have device -1; only real mice count here.
 	elif event is InputEventMouseButton and event.device != -1 and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed and not hud.is_over_controls(event.position):
@@ -101,33 +102,53 @@ func _unhandled_input(event: InputEvent) -> void:
 		elif not event.pressed and pointer_id == -1:
 			release_pointer()
 	elif event is InputEventMouseMotion and event.device != -1 and pointer_id == -1:
-		pointer_screen_pos = event.position
+		drag_pointer(event.position)
 
 
 func press_pointer(id: int, screen_pos: Vector2) -> void:
 	pointer_down = true
 	pointer_id = id
 	pointer_screen_pos = screen_pos
-	mine_progress = 0.0
 	var world_pos := screen_to_world(screen_pos)
 	var cell := world.cell_at(world_pos)
 	var t := world.get_tile(cell)
 	if build_mode and t == World.AIR:
 		try_place(cell)
 	elif t == World.AIR:
+		cancel_mining()
 		player.walk_to(world_pos.x)
 		if world_pos.y < player.position.y - World.TILE * 1.5:
-			player.jump_requested = true
-	elif not in_reach(cell):
+			player.climb_to(world_pos.y)
+	else:
+		target_block(cell)
+
+
+## While a finger is down, sliding onto another block retargets the digging.
+func drag_pointer(screen_pos: Vector2) -> void:
+	pointer_screen_pos = screen_pos
+	if build_mode:
+		return
+	var cell := world.cell_at(screen_to_world(screen_pos))
+	if cell != mine_cell and world.get_tile(cell) != World.AIR and mine_cell.x >= 0:
+		target_block(cell)
+
+
+func target_block(cell: Vector2i) -> void:
+	mine_cell = cell
+	mine_progress = 0.0
+	_last_block_toast = ""
+	if not in_reach(cell):
 		player.walk_to(world.cell_center(cell).x)
+
+
+func cancel_mining() -> void:
+	mine_cell = Vector2i(-1, -1)
+	mine_progress = 0.0
 
 
 func release_pointer() -> void:
 	pointer_down = false
 	pointer_id = -100
-	mine_progress = 0.0
-	mine_cell = Vector2i(-1, -1)
-	_last_block_toast = ""
 
 
 func screen_to_world(screen_pos: Vector2) -> Vector2:
@@ -140,14 +161,12 @@ func in_reach(cell: Vector2i) -> bool:
 
 func _process(delta: float) -> void:
 	overlay.cell = Vector2i(-1, -1)
-	if pointer_down and not build_mode:
-		var cell := world.cell_at(screen_to_world(pointer_screen_pos))
-		if cell != mine_cell:
-			mine_cell = cell
-			mine_progress = 0.0
-		if world.get_tile(cell) != World.AIR:
-			overlay.cell = cell
-			overlay.color = Color(1, 1, 1, 0.9) if in_reach(cell) else Color(1, 1, 1, 0.35)
+	if mine_cell.x >= 0:
+		if world.get_tile(mine_cell) == World.AIR:
+			cancel_mining()
+		else:
+			overlay.cell = mine_cell
+			overlay.color = Color(1, 1, 1, 0.9) if in_reach(mine_cell) else Color(1, 1, 1, 0.35)
 			_mine_tick(delta)
 	overlay.progress = mine_progress
 	overlay.queue_redraw()
@@ -167,11 +186,13 @@ func _mine_tick(delta: float) -> void:
 	var t := world.get_tile(mine_cell)
 	if t == World.BEDROCK:
 		_toast_once("Bedrock. This is as deep as this build goes.")
+		cancel_mining()
 		return
 	if not world.gives_samples(t) and world.hardness_of(t) > GameState.pick_hardness():
 		if _toast_once("%s (hardness %s) is too hard for your %s (hardness %s)." % [
 				world.tile_name(t), world.hardness_of(t), GameState.pick_name(), GameState.pick_hardness()]):
 			Sfx.play("blocked")
+		cancel_mining()
 		return
 	player.stop_walking()
 	mine_progress += delta / world.mine_time(t)
@@ -190,6 +211,7 @@ func finish_mining(cell: Vector2i) -> void:
 		world.set_tile(cell, World.AIR)
 		GameState.rubble += 1
 		Sfx.play("dig")
+		_maybe_rock_sample(cell, t)
 		return
 	var tier := world.tier_at(cell.y)
 	var mineral_id := GameState.roll_mineral(tier)
@@ -206,6 +228,20 @@ func finish_mining(cell: Vector2i) -> void:
 		world.set_tile(cell, world.host_for(cell.y))
 		hud.show_toast("The vein is harder than your pick (%s), but you chipped off a %s sample." % [
 			GameState.pick_hardness(), sample["color"]])
+
+
+## Digging host rock sometimes gives a hand specimen of that rock to identify.
+func _maybe_rock_sample(cell: Vector2i, t: int) -> void:
+	if not World.ROCK_OF.has(t):
+		return
+	var rock_id: String = World.ROCK_OF[t]
+	if not GameState.roll_rock_sample(rock_id):
+		return
+	var swatch: Color = World.TILES[t]["color"]
+	if GameState.add_rock_sample(rock_id, world.depth_m(cell.y * World.TILE), world.tier_at(cell.y), swatch.to_html(false)).is_empty():
+		return
+	Sfx.play("sample")
+	hud.show_toast("You kept a rock sample. Identify it in your Field Kit.")
 
 
 func _open_geode(cell: Vector2i) -> void:
