@@ -17,7 +17,8 @@
       "setting": "beaches, rivers, deserts",
       "tier": 1,
       "protolith": null,
-      "wiki": "Sandstone"
+      "wiki": "Sandstone",
+      "explanation": "A clastic sedimentary rock of sand-sized grains (0.0625 to 2 mm) cemented by quartz, calcite or iron oxide. Grain composition records its source: quartz arenites are mature and well sorted, arkoses are rich in feldspar from nearby granite, and greywackes are muddy and immature. Sedimentary structures such as cross-bedding and ripple marks show the direction of ancient currents and wind."
     },
     {
       "id": "shale",
@@ -35,7 +36,8 @@
       "setting": "lakes, deep marine, river floodplains",
       "tier": 1,
       "protolith": null,
-      "wiki": "Shale"
+      "wiki": "Shale",
+      "explanation": "The most abundant sedimentary rock, made of clay and silt particles smaller than 0.004 mm deposited from quiet water. Clay flakes lie flat during compaction, so shale splits into thin layers (fissility). Dark shales rich in organic matter are the source rocks of most oil and gas. Shale is the protolith of slate, phyllite and schist."
     },
     {
       "id": "conglomerate",
@@ -52,7 +54,8 @@
       "setting": "river channels, alluvial fans, beaches",
       "tier": 1,
       "protolith": null,
-      "wiki": "Conglomerate (geology)"
+      "wiki": "Conglomerate (geology)",
+      "explanation": "A clastic rock with rounded clasts larger than 2 mm set in a finer matrix. The rounding shows the clasts were transported in high-energy rivers or along beaches; angular clasts would make it a breccia instead. The rock types of the clasts identify the mountains that were being eroded."
     },
     {
       "id": "limestone",
@@ -68,7 +71,8 @@
       "setting": "warm shallow seas, reefs",
       "tier": 1,
       "protolith": null,
-      "wiki": "Limestone"
+      "wiki": "Limestone",
+      "explanation": "A sedimentary rock made mostly of calcite, usually from the shells and skeletons of marine organisms or from chemical precipitation in warm, shallow seas. Dunham's classification (mudstone, wackestone, packstone, grainstone, boundstone) describes how grains and mud are arranged and the energy of the setting. Limestone dissolves in slightly acidic groundwater, forming caves and karst landscapes."
     },
     {
       "id": "dolostone",
@@ -85,7 +89,8 @@
       "setting": "altered limestone in basins and tidal flats",
       "tier": 2,
       "protolith": null,
-      "wiki": "Dolomite (rock)"
+      "wiki": "Dolomite (rock)",
+      "explanation": "A carbonate rock made mostly of the mineral dolomite, usually formed when magnesium-rich fluids replaced the calcite of an earlier limestone. Dolomitisation can create porosity, so many oil reservoirs are dolostones. It looks like limestone but fizzes in cold dilute HCl only when powdered."
     },
     {
       "id": "chert",
@@ -101,7 +106,8 @@
       "setting": "deep marine, nodules in limestone",
       "tier": 2,
       "protolith": null,
-      "wiki": "Chert"
+      "wiki": "Chert",
+      "explanation": "A hard, dense sedimentary rock of microcrystalline quartz. It forms from the siliceous skeletons of radiolarians and diatoms on the deep seafloor, or as nodules where silica replaced limestone. It breaks with sharp conchoidal fractures, which is why flint was used for stone tools. Precambrian cherts preserve some of the oldest microfossils."
     },
     {
       "id": "coal",
@@ -117,7 +123,8 @@
       "setting": "swamps and deltas",
       "tier": 2,
       "protolith": null,
-      "wiki": "Coal"
+      "wiki": "Coal",
+      "explanation": "A rock formed from compacted plant material in swamps and deltas. With burial, peat turns into lignite, bituminous coal and anthracite, losing water and volatiles and gaining carbon (coalification). Most coal formed in the Carboniferous period, when vast swamp forests grew. Pyrite in coal releases sulfur when it is burned."
     },
     {
       "id": "granite",
@@ -138,7 +145,8 @@
       "setting": "continental crust plutons",
       "tier": 4,
       "protolith": null,
-      "wiki": "Granite"
+      "wiki": "Granite",
+      "explanation": "A coarse-grained plutonic rock of quartz, alkali feldspar and plagioclase with biotite or hornblende, classified on the Streckeisen QAPF diagram. The interlocking crystals show it cooled slowly deep underground. Granite forms by partial melting of continental crust and is the main rock of batholiths that make up the cores of mountain belts."
     },
     {
       "id": "rhyolite",
@@ -157,7 +165,8 @@
       "setting": "continental volcanoes, calderas",
       "tier": 7,
       "protolith": null,
-      "wiki": "Rhyolite"
+      "wiki": "Rhyolite",
+      "explanation": "The volcanic equivalent of granite: same felsic composition but fine-grained because it cooled quickly at the surface. Felsic magma is viscous and gas-rich, so rhyolite volcanoes erupt explosively, producing calderas and ash. Classify volcanic rocks on the TAS diagram (total alkalis versus silica), where rhyolite has more than about 69 percent SiO2."
     },
     {
       "id": "obsidian",
@@ -171,7 +180,8 @@
       "setting": "rhyolitic lava flows",
       "tier": 7,
       "protolith": null,
-      "wiki": "Obsidian"
+      "wiki": "Obsidian",
+      "explanation": "Volcanic glass formed when felsic lava cools too fast for crystals to grow. Glass has no long-range atomic order, so it breaks with smooth conchoidal fractures and razor edges. Over millions of years obsidian slowly crystallises (devitrifies), so it is rare in old rocks."
     },
     {
       "id": "basalt",
@@ -190,7 +200,8 @@
       "setting": "mid-ocean ridges, hotspots, flood basalts",
       "tier": 7,
       "protolith": null,
-      "wiki": "Basalt"
+      "wiki": "Basalt",
+      "explanation": "A fine-grained, dark volcanic rock of plagioclase and pyroxene, sometimes with olivine. It forms by partial melting of mantle peridotite and makes up the ocean floor, hotspot islands such as Hawaii and huge flood basalt provinces. Gas bubbles trapped as the lava cools leave holes called vesicles."
     },
     {
       "id": "gabbro",
@@ -209,7 +220,8 @@
       "setting": "oceanic crust, layered intrusions",
       "tier": 7,
       "protolith": null,
-      "wiki": "Gabbro"
+      "wiki": "Gabbro",
+      "explanation": "The coarse-grained, plutonic equivalent of basalt, made of plagioclase and pyroxene. It forms the lower oceanic crust and layered intrusions in which crystals settled on the floor of the magma chamber. Seeing gabbro and basalt side by side shows how cooling rate, not chemistry, controls crystal size."
     },
     {
       "id": "slate",
@@ -227,7 +239,8 @@
       "setting": "low-grade regional metamorphism",
       "tier": 3,
       "protolith": "shale",
-      "wiki": "Slate"
+      "wiki": "Slate",
+      "explanation": "A low-grade metamorphic rock formed from shale. Under directed pressure, clay minerals recrystallise into tiny aligned micas and chlorite, creating slaty cleavage that is often at an angle to the original bedding. Slate splits into thin, durable sheets used for roofing. It marks the start of the sequence slate, phyllite, schist and gneiss."
     },
     {
       "id": "schist",
@@ -247,7 +260,8 @@
       "setting": "medium-grade regional metamorphism",
       "tier": 3,
       "protolith": "shale",
-      "wiki": "Schist"
+      "wiki": "Schist",
+      "explanation": "A medium-grade metamorphic rock with visible aligned mica flakes (schistosity), formed when shale is buried and heated further than slate. Porphyroblasts such as garnet, staurolite and kyanite grow in it and act as index minerals for metamorphic zones and facies. Schist records the deep roots of mountain belts."
     },
     {
       "id": "gneiss",
@@ -268,7 +282,8 @@
       "setting": "high-grade regional metamorphism",
       "tier": 5,
       "protolith": "granite or shale",
-      "wiki": "Gneiss"
+      "wiki": "Gneiss",
+      "explanation": "A high-grade metamorphic rock with alternating light (quartz, feldspar) and dark (biotite, hornblende) bands. Banding forms by segregation of minerals at high temperature, and gneiss can begin to melt into migmatite. Some of the oldest rocks on Earth, about 4 billion years old, are gneisses."
     },
     {
       "id": "marble",
@@ -286,7 +301,8 @@
       "setting": "contact or regional metamorphism of limestone",
       "tier": 3,
       "protolith": "limestone",
-      "wiki": "Marble"
+      "wiki": "Marble",
+      "explanation": "Metamorphosed limestone or dolostone in which the carbonate recrystallised into interlocking grains, erasing fossils and bedding. It forms around igneous intrusions (contact metamorphism) and in mountain belts. Impurities create coloured veins, and pure white marble such as Carrara has been used for sculpture for millennia. It fizzes in HCl like limestone."
     }
   ]
 }

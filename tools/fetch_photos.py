@@ -1,7 +1,7 @@
 """Download a photo for every mineral and rock from Wikipedia/Wikimedia Commons.
 
 Uses each entry's "wiki" article (its lead image) or an explicit "photo" Commons file name, saves a
-320 px wide JPEG to images/<id>.jpg and records author and license in data/image_credits.json.
+320 px wide image to images/<id>.jpg (or .png) and records author and license in data/image_credits.json.
 Runs in GitHub Actions (tools/../.github/workflows/photos.yml); needs only the Python standard library.
 """
 import html
@@ -62,10 +62,15 @@ def main() -> int:
                 continue
             info = commons_info(file_name)
             meta = info.get("extmetadata", {})
-            (ROOT / "images" / f"{e['id']}.jpg").write_bytes(get(info["thumburl"]))
+            ext = ".png" if info["thumburl"].lower().endswith(".png") else ".jpg"
+            for old in (ROOT / "images").glob(f"{e['id']}.*"):
+                old.unlink()
+            (ROOT / "images" / f"{e['id']}{ext}").write_bytes(get(info["thumburl"]))
+            author = plain(meta.get("Artist", {}).get("value", "")).splitlines()
             credits[e["id"]] = {
+                "image": f"res://images/{e['id']}{ext}",
                 "file": file_name,
-                "author": plain(meta.get("Artist", {}).get("value", "")) or "Unknown",
+                "author": (author[0].strip() if author else "") or "Unknown",
                 "license": plain(meta.get("LicenseShortName", {}).get("value", "")),
                 "source": info.get("descriptionurl", ""),
             }
