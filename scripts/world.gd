@@ -2,7 +2,8 @@ extends Node2D
 ## Procedural crust: soil, a soft sedimentary tier, a quartz-cemented sandstone band that needs a
 ## steel pick, then a deeper basin tier. Tiles are painted in code so there are no art files yet.
 
-enum { GRASS, DIRT, SAND, SHALE, LIMESTONE, SANDSTONE, DOLOSTONE, BEDROCK, VEIN_SHALLOW, VEIN_DEEP, TILE_COUNT }
+# Append new tiles before TILE_COUNT: saves store these numbers.
+enum { GRASS, DIRT, SAND, SHALE, LIMESTONE, SANDSTONE, DOLOSTONE, BEDROCK, VEIN_SHALLOW, VEIN_DEEP, RUBBLE, GEODE, TILE_COUNT }
 const AIR := -1
 const TILE := 16
 const WIDTH := 160
@@ -24,6 +25,8 @@ const TILES := {
 	BEDROCK: {"name": "Bedrock", "hardness": 99.0, "color": Color("2a2530")},
 	VEIN_SHALLOW: {"name": "Mineral vein", "hardness": 2.0, "color": Color("6a6672")},
 	VEIN_DEEP: {"name": "Mineral vein", "hardness": 2.0, "color": Color("7d7468")},
+	RUBBLE: {"name": "Rubble block", "hardness": 1.0, "color": Color("8a7f74")},
+	GEODE: {"name": "Geode", "hardness": 2.5, "color": Color("6d6060")},
 }
 const VEIN_SPARKLES := [Color("f2e36b"), Color("ffffff"), Color("d0453c"), Color("8ad1e0"), Color("b07ad6")]
 
@@ -86,6 +89,11 @@ func is_vein(t: int) -> bool:
 	return t == VEIN_SHALLOW or t == VEIN_DEEP
 
 
+## Tiles that give samples when mined instead of rubble.
+func gives_samples(t: int) -> bool:
+	return is_vein(t) or t == GEODE
+
+
 func tile_name(t: int) -> String:
 	return TILES[t]["name"]
 
@@ -126,6 +134,8 @@ func _generate(seed: int) -> void:
 	var layers := _noise(seed + 1, 0.08)
 	var caves := _noise(seed + 2, 0.07)
 	var veins := _noise(seed + 3, 0.18)
+	var rare := RandomNumberGenerator.new()
+	rare.seed = seed + 4
 	for x in WIDTH:
 		var surface := SURFACE_Y + int(hills.get_noise_1d(x) * 6.0)
 		var beach := x < 14
@@ -153,6 +163,8 @@ func _generate(seed: int) -> void:
 					t = AIR
 				elif veins.get_noise_2d(x, y) > 0.5:
 					t = VEIN_SHALLOW if y < BAND_TOP else VEIN_DEEP
+				elif y > surface + 10 and rare.randf() < 0.004:
+					t = GEODE
 			grid[y * WIDTH + x] = t
 
 
@@ -218,6 +230,16 @@ func _paint_tile(img: Image, index: int) -> void:
 				VEIN_SHALLOW, VEIN_DEEP:
 					if r.randf() < 0.12:
 						c = VEIN_SPARKLES[r.randi_range(0, VEIN_SPARKLES.size() - 1)]
+				RUBBLE:
+					if (px % 8 == 0) or (py % 8 == 0 and px > 0):
+						c = c.darkened(0.3)
+				GEODE:
+					# Round rock with a hollow of purple crystals.
+					var d := Vector2(px - 7.5, py - 7.5).length()
+					if d < 4.5:
+						c = Color("b07ad6").lightened(r.randf() * 0.4) if r.randf() < 0.7 else Color("e9d8ff")
+					elif d < 6.0:
+						c = Color("e8e4dc")
 			# Bevel edges for a chunky 8-bit block look.
 			if px == 0 or py == 0:
 				c = c.lightened(0.1)

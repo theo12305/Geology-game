@@ -83,6 +83,36 @@ func _ready() -> void:
 	check(GameState.pick_hardness() == 6.5, "pick upgraded")
 	check(GameState.stock["hematite"] == 0 and GameState.stock["goethite"] == 0, "materials consumed")
 
+	# Digging gives rubble; building places it; geodes give two crystal samples
+	var dig_cell := Vector2i(-1, -1)
+	for y in range(world.SURFACE_Y - 8, world.HEIGHT):
+		var c := Vector2i(int(main.player.position.x / 16) + 1, y)
+		if world.get_tile(c) == world.DIRT or world.get_tile(c) == world.GRASS:
+			dig_cell = c
+			break
+	var rubble_before: int = GameState.rubble
+	main.finish_mining(dig_cell)
+	check(world.get_tile(dig_cell) == world.AIR and GameState.rubble == rubble_before + 1, "digging gives rubble")
+	main.player.position = world.cell_center(dig_cell) + Vector2(-32, -16)
+	check(main.try_place(dig_cell), "rubble placed back")
+	check(world.get_tile(dig_cell) == world.RUBBLE and GameState.rubble == rubble_before, "placing uses rubble")
+	GameState.samples.clear()
+	var geode := Vector2i(5, 40)
+	world.set_tile(geode, world.GEODE)
+	main.finish_mining(geode)
+	check(GameState.samples.size() == 2 and world.get_tile(geode) == world.AIR, "geode gives two samples")
+	for gs in GameState.samples:
+		check(GameState.choices_for(gs).has(gs["mineral"]), "geode sample choices include answer")
+	var deep: Vector2 = world.cell_center(Vector2i(80, 70))
+	main.player.position = deep
+	main.rope_to_surface()
+	check(main.player.position.y < deep.y - 16 * 20, "rope returns to surface")
+	check(GameState.rank_name() == "Field assistant", "starting rank")
+	for i in 5:
+		var rs := GameState.add_sample("halite", 1, 1)
+		GameState.identify(rs["uid"], "halite")
+	check(GameState.rank_name() == "Undergraduate", "rank after 6 correct")
+
 	# UI panels open without errors
 	for i in 3:
 		main.hud.open_panel(i)
