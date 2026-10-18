@@ -7,25 +7,34 @@ var list: ItemList
 var details: RichTextLabel
 var tab_buttons := {}
 var ids: Array = []
+var progress: ProgressBar
 
 
 func _ready() -> void:
 	var tabs := HBoxContainer.new()
 	body.add_child(tabs)
 	for k in ["mineral", "rock"]:
-		var b := Button.new()
-		b.text = "Minerals" if k == "mineral" else "Rocks"
+		var b := big_button("Minerals" if k == "mineral" else "Rocks")
 		b.toggle_mode = true
+		b.custom_minimum_size.x = 110
 		b.pressed.connect(func():
 			kind = k
+			Sfx.play("tap")
 			open())
 		tabs.add_child(b)
 		tab_buttons[k] = b
+	progress = ProgressBar.new()
+	progress.theme_type_variation = "GoodBar"
+	progress.show_percentage = false
+	progress.custom_minimum_size = Vector2(0, 8)
+	progress.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	progress.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	tabs.add_child(progress)
 	var row := HBoxContainer.new()
 	row.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	body.add_child(row)
 	list = ItemList.new()
-	list.custom_minimum_size = Vector2(150, 0)
+	list.custom_minimum_size = Vector2(170, 0)
 	list.item_selected.connect(_on_selected)
 	row.add_child(list)
 	details = RichTextLabel.new()
@@ -44,19 +53,26 @@ func open() -> void:
 		var ta := int(source[a]["tier"])
 		var tb := int(source[b]["tier"])
 		return a < b if ta == tb else ta < tb)
-	title_label.text = "Codex: %d of %d %s identified" % [GameState.identified_count(kind), ids.size(),
+	title_label.text = "Codex: %d of %d %s found" % [GameState.identified_count(kind), ids.size(),
 		"minerals" if kind == "mineral" else "rocks"]
+	progress.max_value = ids.size()
+	progress.value = GameState.identified_count(kind)
 	list.clear()
 	for id in ids:
 		var known: bool = GameState.correct_ids.has(id)
-		list.add_item(source[id]["name"] if known else "??? (tier %d)" % int(source[id]["tier"]))
-	details.text = "Identify samples in the Field Kit to unlock their photo and explanation."
+		list.add_item(source[id]["name"] if known else "???  (depth tier %d)" % int(source[id]["tier"]))
+	details.text = "Tap an entry. Name samples in your Bag to unlock their photo and explanation."
+	for i in ids.size():
+		if GameState.correct_ids.has(ids[i]):
+			list.select(i)
+			_on_selected(i)
+			break
 
 
 func _on_selected(index: int) -> void:
 	var id: String = ids[index]
 	if not GameState.correct_ids.has(id):
-		details.text = "Not identified yet."
+		details.text = "Not found yet. Dig deeper and name more samples to unlock it."
 		return
 	var e := GameData.entry(kind, id)
 	var lines := []
