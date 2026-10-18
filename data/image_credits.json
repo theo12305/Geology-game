@@ -320,5 +320,138 @@
     "author": "Zyance",
     "license": "CC BY-SA 2.5",
     "source": "https://commons.wikimedia.org/wiki/File:Marmo_z17.JPG"
+  },
+  "trilobite": {
+    "image": "res://images/trilobite.png",
+    "file": "Trilobita_Diversity.png",
+    "author": "PaleoNeolitic (montage creator)",
+    "license": "CC BY 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Trilobita_Diversity.png"
+  },
+  "graptolite": {
+    "image": "res://images/graptolite.jpg",
+    "file": "ROM28084_Didymograptus.jpg",
+    "author": "Grezmagro",
+    "license": "CC BY-SA 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:ROM28084_Didymograptus.jpg"
+  },
+  "brachiopod": {
+    "image": "res://images/brachiopod.jpg",
+    "file": "Terebratalia_transversa_141510036.jpg",
+    "author": "Marilynne Box",
+    "license": "CC BY 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Terebratalia_transversa_141510036.jpg"
+  },
+  "crinoid": {
+    "image": "res://images/crinoid.jpg",
+    "file": "Crinoid_on_the_reef_of_Batu_Moncho_Island.JPG",
+    "author": "Alexander Vasenin",
+    "license": "CC BY-SA 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Crinoid_on_the_reef_of_Batu_Moncho_Island.JPG"
+  },
+  "rugose_coral": {
+    "image": "res://images/rugose_coral.jpg",
+    "file": "Haeckel_Tetracoralla.jpg",
+    "author": "Ernst Haeckel",
+    "license": "Public domain",
+    "source": "https://commons.wikimedia.org/wiki/File:Haeckel_Tetracoralla.jpg"
+  },
+  "ammonite": {
+    "image": "res://images/ammonite.jpg",
+    "file": "Pleuroceras_solare,_Little_Switzerland,_Bavaria,_Germany.jpg",
+    "author": "Llez (H. Zell).",
+    "license": "CC BY-SA 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Pleuroceras_solare,_Little_Switzerland,_Bavaria,_Germany.jpg"
+  },
+  "lepidodendron": {
+    "image": "res://images/lepidodendron.jpg",
+    "file": "Lepidodendron_reconstrucción.jpg",
+    "author": "Falconaumanni",
+    "license": "CC BY-SA 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Lepidodendron_reconstrucci%C3%B3n.jpg"
+  },
+  "stromatolite": {
+    "image": "res://images/stromatolite.jpg",
+    "file": "Stromatolithe_Paléoarchéen_-_MNHT.PAL.2009.10.1.jpg",
+    "author": "Didier Descouens",
+    "license": "CC BY-SA 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Stromatolithe_Pal%C3%A9oarch%C3%A9en_-_MNHT.PAL.2009.10.1.jpg"
+  },
+  "lesson_what_is_a_mineral": {
+    "image": "res://images/lesson_what_is_a_mineral.jpg",
+    "file": "Sérandite,_natrolite,_analcime,_aegirine_300-4-2112.JPG",
+    "author": "Géry PARENT",
+    "license": "CC BY-SA 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:S%C3%A9randite,_natrolite,_analcime,_aegirine_300-4-2112.JPG"
+  },
+  "lesson_mohs_hardness": {
+    "image": "res://images/lesson_mohs_hardness.jpg",
+    "file": "Mohssche-haerteskala_hg.jpg",
+    "author": "Hannes Grobe",
+    "license": "CC BY 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Mohssche-haerteskala_hg.jpg"
+  },
+  "lesson_streak_luster": {
+    "image": "res://images/lesson_streak_luster.jpg",
+    "file": "Streak_plate_with_Pyrite_and_Rhodochrosite.jpg",
+    "author": "Ra'ike (see also: de:Benutzer:Ra'ike)",
+    "license": "CC BY-SA 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Streak_plate_with_Pyrite_and_Rhodochrosite.jpg"
+  },
+  "lesson_cleavage": {
+    "image": "res://images/lesson_cleavage.jpg",
+    "file": "Fluorita_green.jpeg",
+    "author": "Unknown",
+    "license": "CC BY-SA 2.0 br",
+    "source": "https://commons.wikimedia.org/wiki/File:Fluorita_green.jpeg"
+  },
+  "lesson_rock_cycle": {
+    "image": "res://images/lesson_rock_cycle.png",
+    "file": "Rock_cycle_diagram.png",
+    "author": "Emily Haddad",
+    "license": "CC BY 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Rock_cycle_diagram.png"
+  },
+  "lesson_sedimentary_rocks": {
+    "image": "res://images/lesson_sedimentary_rocks.jpg",
+    "file": "Channel-StellartonFm-CoalburnPit.JPG",
+    "author": "Michael C. Rygel",
+    "license": "CC BY-SA 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Channel-StellartonFm-CoalburnPit.JPG"
+  },
+  "lesson_fossils_and_time": {
+    "image": "res://images/lesson_fossils_and_time.jpg",
+    "file": "Tyrannosaurus_Rex_Holotype.jpg",
+    "author": "ScottRobertAnselmo",
+    "license": "CC BY-SA 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Tyrannosaurus_Rex_Holotype.jpg"
+  },
+  "lesson_mineral_classes": {
+    "image": "res://images/lesson_mineral_classes.jpg",
+    "file": "Spodumene-sd305c.jpg",
+    "author": "Robert M. Lavinsky",
+    "license": "CC BY-SA 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Spodumene-sd305c.jpg"
+  },
+  "lesson_ore_veins": {
+    "image": "res://images/lesson_ore_veins.jpg",
+    "file": "Rock_with_white_veins_at_Imperia_in_Italy.jpg",
+    "author": "OliBac (https://www.flickr.com/people/olibac/)",
+    "license": "CC BY 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Rock_with_white_veins_at_Imperia_in_Italy.jpg"
+  },
+  "lesson_metamorphism": {
+    "image": "res://images/lesson_metamorphism.png",
+    "file": "Al2SiO5_phase_diagram.svg",
+    "author": "Smith609",
+    "license": "CC BY-SA 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Al2SiO5_phase_diagram.svg"
+  },
+  "lesson_crystal_systems": {
+    "image": "res://images/lesson_crystal_systems.png",
+    "file": "Carbon_lattice_diamond.png",
+    "author": "GYassineMrabetTalk✉ This  structure was created with PyMOL.",
+    "license": "Public domain",
+    "source": "https://commons.wikimedia.org/wiki/File:Carbon_lattice_diamond.png"
   }
 }
