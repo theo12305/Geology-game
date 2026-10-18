@@ -148,11 +148,54 @@ func _ready() -> void:
 	main.player.position = deep
 	main.rope_to_surface()
 	check(main.player.position.y < deep.y - 16 * 20, "rope returns to surface")
-	check(GameState.rank_name() == "Field assistant", "starting rank")
+	# XP, levels, streaks, coins
+	GameState.xp = 0
+	GameState.streak = 0
+	check(GameState.level() == 1 and GameState.rank_name() == "Field assistant", "starting level and rank")
+	var coins_before: int = GameState.coins
 	for i in 5:
 		var rs := GameState.add_sample("halite", 1, 1)
 		GameState.identify(rs["uid"], "halite")
-	check(GameState.rank_name() == "Undergraduate", "rank after 6 correct")
+	check(GameState.streak == 5 and GameState.best_streak >= 5, "streak counts")
+	check(GameState.last_reward["xp"] > 20, "streak raises the reward")
+	check(GameState.coins > coins_before, "naming pays coins")
+	check(GameState.level() >= 3 and GameState.rank_name() == "Undergraduate", "levels up to Undergraduate")
+	var miss := GameState.add_sample("halite", 1, 1)
+	GameState.identify(miss["uid"], "gypsum")
+	check(GameState.streak == 0, "wrong answer resets the streak")
+	check(GameState.xp_for_level(2) == 50 and GameState.xp_for_level(3) == 150, "level curve")
+
+	# Tutorial goals advance, then three random goals take over
+	GameState.tutorial_step = 0
+	GameState.goals.clear()
+	GameState._fill_goals()
+	check(GameState.goals.size() == 1 and GameState.goals[0]["event"] == "walk", "tutorial starts with walking")
+	var xp_before: int = GameState.xp
+	GameState.track("walk")
+	check(GameState.tutorial_step == 1 and GameState.xp > xp_before, "tutorial goal pays and advances")
+	for event in ["dig", "sample", "test", "identify", "codex"]:
+		GameState.track(event, 10)
+	check(not GameState.in_tutorial() and GameState.goals.size() == 3, "three goals after the tutorial")
+	for i in 30:
+		var g: Dictionary = GameState.goals[0]
+		GameState.track(g["event"], int(g["target"]), g.get("filter", ""))
+	check(GameState.goals.size() == 3, "goals refill as they complete")
+	GameState.goals = [{"event": "class", "filter": "sulfide", "target": 1, "progress": 0, "xp": 1, "coins": 1, "text": "x"}]
+	GameState.track("class", 1, "Carbonate")
+	check(GameState.goals[0]["progress"] == 0, "class goal ignores other classes")
+	GameState.track("class", 1, "Sulfide")
+	check(GameState.goals.size() == 3 and GameState.goals[0]["text"] != "x", "class goal completes")
+
+	# Upgrades and the daily reward
+	GameState.coins = 1000
+	var slots: int = GameState.max_samples()
+	check(GameState.buy_upgrade("bag") and GameState.max_samples() == slots + 6, "bag upgrade adds slots")
+	check(GameState.upgrade_cost("bag") == 90, "upgrade cost rises")
+	check(GameState.buy_upgrade("speed") and GameState.dig_speed() > 1.0, "speed upgrade")
+	GameState.daily = {"day": GameState._day_number() - 1, "streak": 3}
+	var daily := GameState.claim_daily()
+	check(daily.get("days", 0) == 4, "daily streak continues")
+	check(GameState.claim_daily().is_empty(), "daily reward only once a day")
 
 	# Climbing out of a shaft
 	var sx := 70
@@ -182,10 +225,28 @@ func _ready() -> void:
 		await get_tree().process_frame
 	check(world.get_tile(tap_cell) == world.AIR, "a single tap mines the block")
 
-	# UI panels open without errors
-	for i in 3:
+	# UI panels open without errors, including every Bag page
+	for i in 4:
 		main.hud.open_panel(i)
-	main.hud.panels[0].visible = false
+	var kit = main.hud.panels[0]
+	var ks := GameState.add_sample("quartz", 5, 1)
+	main.hud.open_panel(0)
+	kit._open_sample(ks["uid"])
+	kit._run_test(GameData.streak_test(GameData.mineral("quartz")))
+	check(ks["notes"].size() == 1, "test result written in the notebook")
+	kit.choosing = true
+	kit._render_sample()
+	GameState.coins = 50
+	kit._use_hint()
+	check(GameState.choices_for(ks).size() == 3 and GameState.choices_for(ks).has("quartz"), "hint drops a wrong answer")
+	kit._answer("quartz")
+	check(kit.page == "result", "result page shown")
+	kit.close_panel()
+	GameState.set_setting("contrast", true)
+	GameState.set_setting("text_size", 3)
+	check(main.hud.root.theme.default_font_size == 21, "text size setting applies")
+	GameState.set_setting("contrast", false)
+	GameState.set_setting("text_size", 1)
 
 	# Save and load round trip
 	main.save()
@@ -193,6 +254,8 @@ func _ready() -> void:
 	GameState.new_game(1)
 	check(GameState.load_game(), "save loads")
 	check(GameState.world_seed == 1234 and GameState.pick_level == 2, "progress restored")
+	check(GameState.upgrade_level("bag") == 1 and GameState.coins > 0 and GameState.xp > 0, "XP, coins and upgrades restored")
+	check(GameState.goals.size() == 3 and not GameState.in_tutorial(), "goals restored")
 	check(GameState.changed_cells.size() == cells, "world changes restored")
 	DirAccess.remove_absolute(ProjectSettings.globalize_path(GameState.save_path))
 

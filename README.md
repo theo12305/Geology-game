@@ -4,9 +4,10 @@ An 8-bit 2D mining game for Android that teaches mineralogy and petrology. Dig d
 chip samples off mineral veins, test them like a field geologist (streak, hardness, acid, magnet, hand
 lens, heft), name them, and craft better tools from what you identify.
 
-![Mining a vein](docs/screenshot-mining.png)
-![Field kit](docs/screenshot-field-kit.png)
-![Codex](docs/screenshot-codex.png)
+![Mining, with the info card, goals and thumb buttons](docs/screenshot-mining.png)
+![Testing a sample in the Bag](docs/screenshot-field-kit.png)
+![The result, reward and lesson](docs/screenshot-result.png)
+![Workshop: tools and upgrades](docs/screenshot-workshop.png)
 
 ## What is in this first build
 
@@ -55,6 +56,11 @@ rebuilds it automatically, so you never download anything again; just reload. In
 | Tap a block | Click a block | Mine it (walks over first if it is out of reach); drag to keep digging |
 | Build button, then tap | Same | Place a rubble block from the rock you dug |
 | Rope up | Same | Climb straight back to the surface |
+| Bag, Codex, Workshop | Same | Study and name samples, read about finds, craft and upgrade |
+| Gear (top right) | Same | Settings: text size, high contrast, sound, vibration, screen shake |
+
+A short tutorial (the goal card at the top right) walks you through the first dig, sample and name. Tap
+the goal card to fold it away.
 
 ## The world
 
@@ -75,8 +81,17 @@ rebuilds it automatically, so you never download anything again; just reload. In
 - Every one of the 30 minerals and 16 rocks has a real photo and a university-level explanation, shown
   after you identify it and kept in the Codex. Photos come from Wikimedia Commons; authors and licenses
   are in `data/image_credits.json` and shown under each photo.
+- **Progression**: XP and levels for digging, collecting and naming (ranks from Field assistant to
+  Professor), coins, a streak bonus for right answers in a row, three goals at a time that refresh as you
+  finish them, a daily reward that grows on consecutive days, and Workshop upgrades (bigger bag, faster
+  digging, brighter lamp, more luck). In the Bag you can spend coins on a hint that drops a wrong answer.
+- **Phone-first interface**: big thumb buttons with icons, an info card, crisp text at any screen size,
+  and accessibility settings (four text sizes, high contrast, sound, vibration and screen shake toggles).
+  Right and wrong are shown with icons and words, not only color.
+- **Game feel**: debris bursts, floating XP and coins, twinkling veins, gold flakes, screen shake and
+  phone vibration.
 - Rare **geodes** hold two crystal samples. Rubble from digging lets you build. It gets dark underground;
-  your helmet lamp lights the way. Ranks from Field assistant to Professor. 8-bit sound effects.
+  your helmet lamp lights the way. 8-bit sound effects.
 
 To refresh the photos, edit the `wiki` (article) or add a `photo` (Commons file name) field in the data
 files and push; the **Fetch photos** workflow downloads them and commits the result.
@@ -87,12 +102,13 @@ files and push; the **Fetch photos** workflow downloads them and commits the res
 | --- | --- |
 | `data/minerals.json`, `data/rocks.json` | All mineral and rock facts. Add a mineral here and the game picks it up. |
 | `scripts/game_data.gd` | Loads the data and produces field test results. |
-| `scripts/game_state.gd` | Samples, identification, spaced repetition, crafting, saving. |
+| `scripts/game_state.gd` | Samples, identification, spaced repetition, crafting, XP, coins, goals, upgrades, settings, saving. |
 | `scripts/world.gd` | World generation and tiles (painted in code for now). |
-| `scripts/main.gd`, `player.gd`, `hud.gd` | Game loop, tap controls, mining and building, the geologist, buttons. |
+| `scripts/main.gd`, `player.gd`, `hud.gd` | Game loop, tap controls, mining and building, effects, the geologist, the on-screen interface. |
+| `scripts/ui_theme.gd` | Interface theme, high-contrast palette and pixel icons. |
 | `scripts/sfx.gd` | Sound effects synthesised at startup. |
-| `scripts/field_kit.gd`, `codex.gd`, `craft.gd` | The three menus. |
-| `tests/smoke_test.gd` | Automated check of data, world, identification, crafting and saving. |
+| `scripts/field_kit.gd`, `codex.gd`, `craft.gd`, `settings.gd` | The Bag, Codex, Workshop and Settings menus. |
+| `tests/smoke_test.gd` | Automated check of data, world, identification, crafting, progression, menus and saving. |
 
 Run the test with `godot --headless --path . res://tests/smoke_test.tscn` (exit code 0 means it passed).
 

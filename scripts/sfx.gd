@@ -13,6 +13,9 @@ const SOUNDS := {
 	"craft": [[440, 0.06], [554, 0.06], [659, 0.06], [880, 0.14]],
 	"rank": [[523, 0.08], [659, 0.08], [784, 0.08], [1047, 0.2]],
 	"blocked": [[110, 0.08]],
+	"coin": [[988, 0.04], [1319, 0.1]],
+	"goal": [[659, 0.06], [784, 0.06], [1047, 0.06], [1319, 0.16]],
+	"tap": [[880, 0.025]],
 }
 
 var _streams := {}
@@ -31,7 +34,7 @@ func _ready() -> void:
 
 
 func play(id: String) -> void:
-	if not _streams.has(id):
+	if not _streams.has(id) or not GameState.settings["sound"]:
 		return
 	var p := _players[_next]
 	_next = (_next + 1) % _players.size()
