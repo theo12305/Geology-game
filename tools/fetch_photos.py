@@ -62,10 +62,11 @@ def main() -> int:
                 continue
             info = commons_info(file_name)
             meta = info.get("extmetadata", {})
-            ext = ".png" if info["thumburl"].lower().endswith(".png") else ".jpg"
-            for old in (ROOT / "images").glob(f"{e['id']}.*"):
-                old.unlink()
-            (ROOT / "images" / f"{e['id']}{ext}").write_bytes(get(info["thumburl"]))
+            data = get(info["thumburl"])
+            ext = ".png" if data[:8] == b"\x89PNG\r\n\x1a\n" else ".jpg"
+            for old_ext in (".jpg", ".png"):
+                (ROOT / "images" / f"{e['id']}{old_ext}").unlink(missing_ok=True)
+            (ROOT / "images" / f"{e['id']}{ext}").write_bytes(data)
             author = plain(meta.get("Artist", {}).get("value", "")).splitlines()
             credits[e["id"]] = {
                 "image": f"res://images/{e['id']}{ext}",

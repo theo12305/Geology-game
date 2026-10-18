@@ -7,6 +7,7 @@ signal toast(text: String)
 const PICKS := [
 	{"name": "Bronze pick", "hardness": 3.5},
 	{"name": "Steel pick", "hardness": 6.5},
+	{"name": "Hardened pick", "hardness": 7.5},
 ]
 ## Scratch tools in the field kit: name, Mohs hardness, mineral that must be identified first ("" = always),
 ## short button label.
@@ -32,8 +33,19 @@ const RECIPES := [
 		],
 		"info": "Hard enough to cut the quartz-cemented sandstone band and reach the deep basin.",
 	},
+	{
+		"id": "hardened_pick", "name": "Hardened pick (hardness 7.5)", "requires": "steel_pick",
+		"needs": [
+			{"ids": ["hematite", "magnetite", "goethite"], "count": 3, "label": "iron oxides"},
+			{"ids": ["fluorite"], "count": 2, "label": "fluorite (fluorspar flux)"},
+		],
+		"info": "Fluorspar-fluxed steel, hard enough for the chert band and the metamorphic belt below it.",
+	},
 ]
 const MAX_SAMPLES := 24
+## Chance that mining a host rock block also gives a rock sample (higher before you know that rock).
+const ROCK_SAMPLE_CHANCE := 0.1
+const NEW_ROCK_SAMPLE_CHANCE := 0.3
 ## Rank titles by total correct identifications.
 const RANKS := [[0, "Field assistant"], [5, "Undergraduate"], [15, "Graduate student"], [30, "Field geologist"], [60, "Professor"]]
 ## Minerals that grow as crystals inside geodes, with the variety color they show.
@@ -84,8 +96,13 @@ func pick_name() -> String:
 	return PICKS[pick_level]["name"]
 
 
-func identified_count() -> int:
-	return correct_ids.size()
+## Distinct minerals (or rocks) identified at least once.
+func identified_count(kind := "mineral") -> int:
+	var n := 0
+	for id in correct_ids:
+		if (kind == "rock") == GameData.rocks.has(id):
+			n += 1
+	return n
 
 
 func total_correct() -> int:
@@ -107,10 +124,21 @@ func rank_name() -> String:
 ## name them correctly, which is the game's spaced-repetition loop.
 func roll_mineral(tier: int) -> String:
 	var pool := GameData.mineral_ids_up_to_tier(tier)
+	return _weighted_pick(pool, tier, "mineral")
+
+
+## Whether mining a block of this rock should also give a rock sample.
+func roll_rock_sample(rock_id: String) -> bool:
+	var chance := ROCK_SAMPLE_CHANCE if correct_ids.has(rock_id) else NEW_ROCK_SAMPLE_CHANCE
+	chance += 0.2 * pending_misses.get(rock_id, 0)
+	return rng.randf() < chance
+
+
+func _weighted_pick(pool: Array, tier: int, kind: String) -> String:
 	var weights := []
 	var total := 0.0
 	for id in pool:
-		var w := 3.0 if int(GameData.mineral(id)["tier"]) == tier else 1.0
+		var w := 3.0 if int(GameData.entry(kind, id)["tier"]) == tier else 1.0
 		if not correct_ids.has(id):
 			w *= 1.5
 		w += 4.0 * pending_misses.get(id, 0)
@@ -130,7 +158,7 @@ func roll_geode_crystal() -> String:
 	return ids[rng.randi_range(0, ids.size() - 1)]
 
 
-## Adds an unknown sample. Returns {} when the bag is full.
+## Adds an unknown mineral sample. Returns {} when the bag is full.
 func add_sample(mineral_id: String, depth_m: int, tier: int, color := "") -> Dictionary:
 	if samples.size() >= MAX_SAMPLES:
 		return {}
@@ -139,8 +167,22 @@ func add_sample(mineral_id: String, depth_m: int, tier: int, color := "") -> Dic
 	if color == "":
 		color = colors[rng.randi_range(0, colors.size() - 1)]
 	var sample := {
-		"uid": next_uid, "mineral": mineral_id, "depth": depth_m, "tier": tier,
+		"uid": next_uid, "kind": "mineral", "id": mineral_id, "depth": depth_m, "tier": tier,
 		"color": color, "notes": [], "choices": [],
+	}
+	next_uid += 1
+	samples.append(sample)
+	changed.emit()
+	return sample
+
+
+## Adds an unknown rock sample. swatch is the rock's color as hex, shown in the sample list.
+func add_rock_sample(rock_id: String, depth_m: int, tier: int, swatch: String) -> Dictionary:
+	if samples.size() >= MAX_SAMPLES:
+		return {}
+	var sample := {
+		"uid": next_uid, "kind": "rock", "id": rock_id, "depth": depth_m,
+		"tier": maxi(tier, int(GameData.rock(rock_id)["tier"])), "color": swatch, "notes": [], "choices": [],
 	}
 	next_uid += 1
 	samples.append(sample)
@@ -158,10 +200,10 @@ func sample_by_uid(uid: int) -> Dictionary:
 ## Four names to choose from, fixed per sample so reopening the kit cannot be used to eliminate options.
 func choices_for(sample: Dictionary) -> Array:
 	if sample["choices"].is_empty():
-		var others := GameData.mineral_ids_up_to_tier(int(sample["tier"]))
-		others.erase(sample["mineral"])
+		var others := GameData.ids_up_to_tier(sample["kind"], int(sample["tier"]))
+		others.erase(sample["id"])
 		others.shuffle()
-		var choices := [sample["mineral"]]
+		var choices := [sample["id"]]
 		choices.append_array(others.slice(0, 3))
 		choices.shuffle()
 		sample["choices"] = choices
@@ -173,7 +215,7 @@ func identify(uid: int, guess: String) -> bool:
 	var sample := sample_by_uid(uid)
 	if sample.is_empty():
 		return false
-	var answer: String = sample["mineral"]
+	var answer: String = sample["id"]
 	samples.erase(sample)
 	var correct := guess == answer
 	var old_rank := rank_name()
@@ -235,6 +277,8 @@ func craft(id: String) -> bool:
 	Sfx.play("craft")
 	if id == "steel_pick":
 		pick_level = 1
+	elif id == "hardened_pick":
+		pick_level = 2
 	changed.emit()
 	save_game()
 	return true
@@ -261,6 +305,9 @@ func load_game() -> bool:
 	world_seed = int(parsed["world_seed"])
 	samples = parsed["samples"]
 	for s in samples:
+		if not s.has("kind"):  # saves from before rock samples
+			s["kind"] = "mineral"
+			s["id"] = s["mineral"]
 		s["uid"] = int(s["uid"])
 		s["depth"] = int(s["depth"])
 		s["tier"] = int(s["tier"])

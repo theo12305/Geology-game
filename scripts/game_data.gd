@@ -4,6 +4,7 @@ extends Node
 
 const MINERALS_PATH := "res://data/minerals.json"
 const ROCKS_PATH := "res://data/rocks.json"
+const CREDITS_PATH := "res://data/image_credits.json"
 
 ## Swatch colors for the color words used in minerals.json, checked in order.
 const COLOR_KEYWORDS := [
@@ -24,11 +25,14 @@ const ACID_REACTIONS := {
 
 var minerals: Dictionary = {}
 var rocks: Dictionary = {}
+var credits: Dictionary = {}
 
 
 func _ready() -> void:
 	minerals = _load_entries(MINERALS_PATH, "minerals")
 	rocks = _load_entries(ROCKS_PATH, "rocks")
+	if FileAccess.file_exists(CREDITS_PATH):
+		credits = JSON.parse_string(FileAccess.get_file_as_string(CREDITS_PATH))
 
 
 func _load_entries(path: String, key: String) -> Dictionary:
@@ -45,6 +49,56 @@ func _load_entries(path: String, key: String) -> Dictionary:
 
 func mineral(id: String) -> Dictionary:
 	return minerals.get(id, {})
+
+
+func rock(id: String) -> Dictionary:
+	return rocks.get(id, {})
+
+
+## A mineral or rock entry, by sample kind ("mineral" or "rock").
+func entry(kind: String, id: String) -> Dictionary:
+	return rock(id) if kind == "rock" else mineral(id)
+
+
+func ids_up_to_tier(kind: String, tier: int) -> Array:
+	return rock_ids_up_to_tier(tier) if kind == "rock" else mineral_ids_up_to_tier(tier)
+
+
+func rock_ids_up_to_tier(tier: int) -> Array:
+	var ids := []
+	for id in rocks:
+		if int(rocks[id]["tier"]) <= tier:
+			ids.append(id)
+	ids.sort()
+	return ids
+
+
+## BBCode for the photo of a mineral or rock, or "" when there is none.
+func photo_bbcode(id: String, width := 150) -> String:
+	if not credits.has(id) or not ResourceLoader.exists(credits[id]["image"]):
+		return ""
+	return "[img=%d]%s[/img]" % [width, credits[id]["image"]]
+
+
+func photo_credit(id: String) -> String:
+	if not credits.has(id):
+		return ""
+	var c: Dictionary = credits[id]
+	return "Photo: %s, %s, via Wikimedia Commons." % [c["author"], c["license"]]
+
+
+## The full lesson for a mineral or rock: photo, explanation and photo credit.
+func lesson_bbcode(kind: String, id: String) -> String:
+	var e := entry(kind, id)
+	var parts := []
+	var photo := photo_bbcode(id)
+	if photo != "":
+		parts.append(photo)
+	parts.append(e.get("explanation", ""))
+	var credit := photo_credit(id)
+	if credit != "":
+		parts.append("[color=#8f8597][font_size=10]%s[/font_size][/color]" % credit)
+	return "\n".join(parts)
 
 
 ## Mineral ids that occur at this tier or shallower, sorted for stable ordering.
@@ -110,6 +164,36 @@ func heft_test(m: Dictionary) -> String:
 	elif sg >= 3.2:
 		feel = "noticeably heavy"
 	return "Heft: feels %s (estimated density %.1f g/cm3)." % [feel, sg]
+
+
+# --- Rock tests. ---
+
+func rock_texture_test(r: Dictionary) -> String:
+	return "Hand lens: %s texture." % r["texture"]
+
+
+func rock_grain_test(r: Dictionary) -> String:
+	return "Grain size: %s." % r["grain_size"]
+
+
+func rock_minerals_test(r: Dictionary) -> String:
+	if r["minerals"].is_empty():
+		return "Minerals: none visible, it is all glass."
+	var names := []
+	for id in r["minerals"]:
+		names.append(mineral(id)["name"].to_lower())
+	return "Minerals you can make out: %s." % ", ".join(names)
+
+
+func rock_acid_test(r: Dictionary) -> String:
+	# The main mineral (listed first) decides the reaction.
+	if r["minerals"].is_empty():
+		return "Dilute HCl: no reaction."
+	if r["minerals"][0] == "dolomite":
+		return "Dilute HCl: no fizz on the surface, but scraped powder fizzes slowly."
+	if "calcite" in r["minerals"]:
+		return "Dilute HCl: fizzes strongly, so it contains calcite."
+	return "Dilute HCl: no reaction."
 
 
 func taste_test(m: Dictionary) -> String:
