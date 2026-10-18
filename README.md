@@ -49,9 +49,21 @@ rebuilds it automatically, so you never download anything again; just reload. In
 
 | Phone | Computer | Action |
 | --- | --- | --- |
-| Left and right buttons | A / D or arrows | Walk |
-| Up button | W, Space or Up | Jump |
-| Hold on a tile | Hold left mouse button | Mine or collect a sample |
+| Tap empty space | Click empty space, or A / D | Walk there (tap higher up to jump) |
+| Hold on a block | Hold the mouse on a block | Mine it; walks over first if it is out of reach |
+| Build button, then tap | Same | Place a rubble block from the rock you dug |
+| Rope up | Same | Climb straight back to the surface |
+
+Walking into a one-block step hops up it automatically.
+
+## Features
+
+- Pick hardness on the Mohs scale decides what rock you can break.
+- Veins give unknown samples; rare **geodes** hold two crystal samples (amethyst, calcite, fluorite, barite).
+- Rubble from digging lets you build steps and bridges.
+- It gets dark underground; your helmet lamp lights the way.
+- Ranks from Field assistant to Professor as you identify more samples.
+- 8-bit sound effects, made in code.
 
 ## Project layout
 
@@ -61,7 +73,8 @@ rebuilds it automatically, so you never download anything again; just reload. In
 | `scripts/game_data.gd` | Loads the data and produces field test results. |
 | `scripts/game_state.gd` | Samples, identification, spaced repetition, crafting, saving. |
 | `scripts/world.gd` | World generation and tiles (painted in code for now). |
-| `scripts/main.gd`, `player.gd`, `hud.gd` | Game loop, mining, the geologist, on-screen controls. |
+| `scripts/main.gd`, `player.gd`, `hud.gd` | Game loop, tap controls, mining and building, the geologist, buttons. |
+| `scripts/sfx.gd` | Sound effects synthesised at startup. |
 | `scripts/field_kit.gd`, `codex.gd`, `craft.gd` | The three menus. |
 | `tests/smoke_test.gd` | Automated check of data, world, identification, crafting and saving. |
 

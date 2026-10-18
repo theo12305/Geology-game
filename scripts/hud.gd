@@ -1,19 +1,22 @@
 extends CanvasLayer
-## Status bar, touch controls, messages and the menu panels.
+## Status bar, build and rope buttons, messages and the menu panels.
+
+signal build_toggled(on: bool)
+signal rope_pressed
 
 const FieldKit := preload("res://scripts/field_kit.gd")
 const Codex := preload("res://scripts/codex.gd")
 const Craft := preload("res://scripts/craft.gd")
 
-const BUTTON_SIZE := 44
-const MARGIN := 12
+const MARGIN := 10
 
 var root: Control
 var top_bar: PanelContainer
 var status_label: Label
 var kit_button: Button
 var toast_label: Label
-var touch_buttons: Array[TouchScreenButton] = []
+var build_button: Button
+var rope_button: Button
 var panels: Array[Control] = []
 var _toast_left := 0.0
 
@@ -26,7 +29,6 @@ func _ready() -> void:
 	add_child(root)
 	_build_top_bar()
 	toast_label = Label.new()
-	toast_label.set_anchors_preset(Control.PRESET_CENTER_TOP)
 	toast_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	toast_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	toast_label.custom_minimum_size = Vector2(440, 0)
@@ -35,14 +37,21 @@ func _ready() -> void:
 	toast_label.add_theme_constant_override("outline_size", 4)
 	toast_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	root.add_child(toast_label)
-	for spec in [["move_left", "left"], ["move_right", "right"], ["jump", "up"]]:
-		var b := TouchScreenButton.new()
-		b.action = spec[0]
-		b.texture_normal = _arrow_texture(spec[1], false)
-		b.texture_pressed = _arrow_texture(spec[1], true)
-		b.visibility_mode = TouchScreenButton.VISIBILITY_TOUCHSCREEN_ONLY
-		add_child(b)
-		touch_buttons.append(b)
+	build_button = Button.new()
+	build_button.toggle_mode = true
+	build_button.text = "Build"
+	build_button.custom_minimum_size = Vector2(64, 36)
+	build_button.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_LEFT, Control.PRESET_MODE_MINSIZE, MARGIN)
+	build_button.toggled.connect(func(on: bool):
+		build_button.text = "Build: ON" if on else "Build"
+		build_toggled.emit(on))
+	root.add_child(build_button)
+	rope_button = Button.new()
+	rope_button.text = "Rope up"
+	rope_button.custom_minimum_size = Vector2(64, 36)
+	rope_button.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_RIGHT, Control.PRESET_MODE_MINSIZE, MARGIN)
+	rope_button.pressed.connect(func(): rope_pressed.emit())
+	root.add_child(rope_button)
 	for script in [FieldKit, Codex, Craft]:
 		var p: Control = script.new()
 		p.visible = false
@@ -103,11 +112,8 @@ func _build_top_bar() -> void:
 
 
 func _layout() -> void:
-	var size := get_viewport().get_visible_rect().size
-	var y := size.y - BUTTON_SIZE - MARGIN
-	touch_buttons[0].position = Vector2(MARGIN, y)
-	touch_buttons[1].position = Vector2(MARGIN * 2 + BUTTON_SIZE, y)
-	touch_buttons[2].position = Vector2(size.x - BUTTON_SIZE - MARGIN, y)
+	# Bottom buttons follow their anchors; only the message needs re-centering.
+	toast_label.position.x = get_viewport().get_visible_rect().size.x / 2.0 - 220
 
 
 func _refresh_buttons() -> void:
@@ -143,33 +149,10 @@ func panel_open() -> bool:
 	return false
 
 
-## True when a screen position is on the status bar or a touch button, so it should not start mining.
+## True when a screen position is on a button, so the tap is not also a walk or mine.
 func is_over_controls(pos: Vector2) -> bool:
-	if top_bar.get_global_rect().has_point(pos):
-		return true
-	for b in touch_buttons:
-		if Rect2(b.position, Vector2(BUTTON_SIZE, BUTTON_SIZE)).grow(6).has_point(pos):
+	for c in [top_bar, build_button, rope_button]:
+		if c.get_global_rect().grow(4).has_point(pos):
 			return true
 	return false
 
-
-func _arrow_texture(direction: String, pressed: bool) -> ImageTexture:
-	var img := Image.create(BUTTON_SIZE, BUTTON_SIZE, false, Image.FORMAT_RGBA8)
-	var fill := Color(1, 1, 1, 0.35 if pressed else 0.15)
-	var edge := Color(1, 1, 1, 0.6)
-	var arrow := Color(1, 1, 1, 0.85)
-	var c := BUTTON_SIZE / 2
-	for y in BUTTON_SIZE:
-		for x in BUTTON_SIZE:
-			var col := fill
-			if x < 2 or y < 2 or x >= BUTTON_SIZE - 2 or y >= BUTTON_SIZE - 2:
-				col = edge
-			# Triangle pointing the given way, 8-bit style.
-			var u := x - c
-			var v := y - c
-			var along: int = {"left": -u, "right": u, "up": -v}[direction]
-			var across := absi(v if direction != "up" else u)
-			if along > -8 and along < 10 and across < (10 - along) / 2 + 2 and along < 10:
-				col = arrow
-			img.set_pixel(x, y, col)
-	return ImageTexture.create_from_image(img)

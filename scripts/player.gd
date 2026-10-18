@@ -1,9 +1,12 @@
 extends CharacterBody2D
-## The geologist: walks, jumps and carries the camera.
+## The geologist: walks to where you tap, hops up single steps, carries the camera and a headlamp.
 
 const SPEED := 95.0
 const JUMP_VELOCITY := -250.0
 const GRAVITY := 650.0
+const CAMERA_ZOOM := 2.0
+const ARRIVE_DISTANCE := 3.0
+const GIVE_UP_SECONDS := 0.6
 
 ## 10 x 16 pixel sprite. y helmet, s skin, k eyes, b shirt, p trousers, o boots, l lamp.
 const SPRITE := [
@@ -31,6 +34,11 @@ const PALETTE := {
 
 var sprite: Sprite2D
 var camera: Camera2D
+var lamp: PointLight2D
+var has_target := false
+var target_x := 0.0
+var jump_requested := false
+var _blocked_time := 0.0
 
 
 func _ready() -> void:
@@ -44,8 +52,14 @@ func _ready() -> void:
 	sprite.position = Vector2(0, -0.5)
 	add_child(sprite)
 	camera = Camera2D.new()
+	camera.zoom = Vector2(CAMERA_ZOOM, CAMERA_ZOOM)
 	camera.position_smoothing_enabled = true
 	add_child(camera)
+	lamp = PointLight2D.new()
+	lamp.texture = _lamp_texture()
+	lamp.texture_scale = 1.0
+	lamp.energy = 0.0
+	add_child(lamp)
 
 
 func set_camera_limits(size_px: Vector2) -> void:
@@ -55,12 +69,41 @@ func set_camera_limits(size_px: Vector2) -> void:
 	camera.limit_bottom = int(size_px.y)
 
 
+func walk_to(x: float) -> void:
+	has_target = true
+	target_x = x
+	_blocked_time = 0.0
+
+
+func stop_walking() -> void:
+	has_target = false
+
+
 func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity.y += GRAVITY * delta
-	if Input.is_action_just_pressed("jump") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
 	var dir := Input.get_axis("move_left", "move_right")
+	if dir != 0.0:
+		has_target = false
+	elif has_target:
+		var dx := target_x - position.x
+		if absf(dx) <= ARRIVE_DISTANCE:
+			has_target = false
+		else:
+			dir = signf(dx)
+	var wants_jump := Input.is_action_just_pressed("jump") or jump_requested
+	jump_requested = false
+	# Walking into a wall hops up it; if the wall is too high, give up instead of pushing forever.
+	if has_target and is_on_wall() and is_on_floor():
+		wants_jump = true
+	if has_target and is_on_wall():
+		_blocked_time += delta
+		if _blocked_time > GIVE_UP_SECONDS:
+			has_target = false
+	else:
+		_blocked_time = 0.0
+	if wants_jump and is_on_floor():
+		velocity.y = JUMP_VELOCITY
 	velocity.x = dir * SPEED
 	if dir != 0.0:
 		sprite.flip_h = dir < 0.0
@@ -74,3 +117,17 @@ func _make_texture() -> ImageTexture:
 			var ch: String = SPRITE[y][x]
 			img.set_pixel(x, y, PALETTE.get(ch, Color(0, 0, 0, 0)))
 	return ImageTexture.create_from_image(img)
+
+
+func _lamp_texture() -> GradientTexture2D:
+	var g := Gradient.new()
+	g.set_color(0, Color(1, 0.95, 0.8, 1))
+	g.set_color(1, Color(1, 0.95, 0.8, 0))
+	var tex := GradientTexture2D.new()
+	tex.gradient = g
+	tex.fill = GradientTexture2D.FILL_RADIAL
+	tex.fill_from = Vector2(0.5, 0.5)
+	tex.fill_to = Vector2(1.0, 0.5)
+	tex.width = 192
+	tex.height = 192
+	return tex

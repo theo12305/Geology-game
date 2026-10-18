@@ -34,6 +34,10 @@ const RECIPES := [
 	},
 ]
 const MAX_SAMPLES := 24
+## Rank titles by total correct identifications.
+const RANKS := [[0, "Field assistant"], [5, "Undergraduate"], [15, "Graduate student"], [30, "Field geologist"], [60, "Professor"]]
+## Minerals that grow as crystals inside geodes, with the variety color they show.
+const GEODE_CRYSTALS := {"quartz": "purple", "calcite": "colorless", "fluorite": "purple", "barite": "blue"}
 
 var save_path := "user://save.json"
 var world_seed := 0
@@ -46,6 +50,7 @@ var pick_level := 0
 var built: Dictionary = {}
 var changed_cells: Dictionary = {}    # "x,y" -> tile id
 var player_pos: Array = []
+var rubble := 0
 
 var rng := RandomNumberGenerator.new()
 
@@ -67,6 +72,7 @@ func new_game(seed := -1) -> void:
 	built = {}
 	changed_cells = {}
 	player_pos = []
+	rubble = 0
 	changed.emit()
 
 
@@ -80,6 +86,21 @@ func pick_name() -> String:
 
 func identified_count() -> int:
 	return correct_ids.size()
+
+
+func total_correct() -> int:
+	var n := 0
+	for id in correct_ids:
+		n += correct_ids[id]
+	return n
+
+
+func rank_name() -> String:
+	var name: String = RANKS[0][1]
+	for r in RANKS:
+		if total_correct() >= r[0]:
+			name = r[1]
+	return name
 
 
 ## Chooses which mineral a vein yields. Minerals you got wrong come back more often until you
@@ -103,15 +124,23 @@ func roll_mineral(tier: int) -> String:
 	return pool[-1]
 
 
+## A crystal from a geode: one of the minerals that line geode cavities.
+func roll_geode_crystal() -> String:
+	var ids := GEODE_CRYSTALS.keys()
+	return ids[rng.randi_range(0, ids.size() - 1)]
+
+
 ## Adds an unknown sample. Returns {} when the bag is full.
-func add_sample(mineral_id: String, depth_m: int, tier: int) -> Dictionary:
+func add_sample(mineral_id: String, depth_m: int, tier: int, color := "") -> Dictionary:
 	if samples.size() >= MAX_SAMPLES:
 		return {}
 	var m := GameData.mineral(mineral_id)
 	var colors: Array = m["colors"]
+	if color == "":
+		color = colors[rng.randi_range(0, colors.size() - 1)]
 	var sample := {
 		"uid": next_uid, "mineral": mineral_id, "depth": depth_m, "tier": tier,
-		"color": colors[rng.randi_range(0, colors.size() - 1)], "notes": [], "choices": [],
+		"color": color, "notes": [], "choices": [],
 	}
 	next_uid += 1
 	samples.append(sample)
@@ -147,6 +176,7 @@ func identify(uid: int, guess: String) -> bool:
 	var answer: String = sample["mineral"]
 	samples.erase(sample)
 	var correct := guess == answer
+	var old_rank := rank_name()
 	if correct:
 		correct_ids[answer] = correct_ids.get(answer, 0) + 1
 		stock[answer] = stock.get(answer, 0) + 1
@@ -154,6 +184,10 @@ func identify(uid: int, guess: String) -> bool:
 			pending_misses[answer] -= 1
 	else:
 		pending_misses[answer] = pending_misses.get(answer, 0) + 1
+	Sfx.play("correct" if correct else "wrong")
+	if rank_name() != old_rank:
+		Sfx.play("rank")
+		toast.emit("Promoted to %s!" % rank_name())
 	changed.emit()
 	return correct
 
@@ -198,6 +232,7 @@ func craft(id: String) -> bool:
 			stock[mid] = stock.get(mid, 0) - take
 			left -= take
 	built[id] = true
+	Sfx.play("craft")
 	if id == "steel_pick":
 		pick_level = 1
 	changed.emit()
@@ -210,6 +245,7 @@ func save_game() -> void:
 		"version": 1, "world_seed": world_seed, "samples": samples, "next_uid": next_uid,
 		"correct_ids": correct_ids, "pending_misses": pending_misses, "stock": stock,
 		"pick_level": pick_level, "built": built, "changed_cells": changed_cells, "player_pos": player_pos,
+		"rubble": rubble,
 	}
 	var file := FileAccess.open(save_path, FileAccess.WRITE)
 	if file:
@@ -236,6 +272,7 @@ func load_game() -> bool:
 	built = parsed["built"]
 	changed_cells = _int_values(parsed["changed_cells"])
 	player_pos = parsed["player_pos"]
+	rubble = int(parsed.get("rubble", 0))
 	changed.emit()
 	return true
 
