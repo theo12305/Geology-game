@@ -1,0 +1,260 @@
+{
+  "version": 1,
+  "rocks": [
+    {
+      "id": "sandstone",
+      "name": "Sandstone",
+      "family": "sedimentary",
+      "subtype": "clastic",
+      "texture": "clastic, grains cemented together",
+      "grain_size": "sand (0.0625 to 2 mm)",
+      "minerals": [
+        "quartz",
+        "orthoclase",
+        "hematite"
+      ],
+      "diagnostic": "Gritty feel; visible sand grains",
+      "setting": "beaches, rivers, deserts",
+      "tier": 1,
+      "protolith": null
+    },
+    {
+      "id": "shale",
+      "name": "Shale",
+      "family": "sedimentary",
+      "subtype": "clastic",
+      "texture": "clastic, fissile (splits into thin layers)",
+      "grain_size": "clay (under 0.004 mm)",
+      "minerals": [
+        "kaolinite",
+        "quartz",
+        "pyrite"
+      ],
+      "diagnostic": "Smooth, splits into thin sheets; may hold fossils",
+      "setting": "lakes, deep marine, river floodplains",
+      "tier": 1,
+      "protolith": null
+    },
+    {
+      "id": "conglomerate",
+      "name": "Conglomerate",
+      "family": "sedimentary",
+      "subtype": "clastic",
+      "texture": "clastic, rounded clasts in finer matrix",
+      "grain_size": "gravel (over 2 mm)",
+      "minerals": [
+        "quartz",
+        "orthoclase"
+      ],
+      "diagnostic": "Rounded pebbles cemented together (angular clasts would make breccia)",
+      "setting": "river channels, alluvial fans, beaches",
+      "tier": 1,
+      "protolith": null
+    },
+    {
+      "id": "limestone",
+      "name": "Limestone",
+      "family": "sedimentary",
+      "subtype": "carbonate",
+      "texture": "bioclastic, micritic or crystalline",
+      "grain_size": "variable",
+      "minerals": [
+        "calcite"
+      ],
+      "diagnostic": "Fizzes in HCl; often fossil-rich",
+      "setting": "warm shallow seas, reefs",
+      "tier": 1,
+      "protolith": null
+    },
+    {
+      "id": "chert",
+      "name": "Chert",
+      "family": "sedimentary",
+      "subtype": "chemical/biogenic",
+      "texture": "microcrystalline",
+      "grain_size": "microcrystalline",
+      "minerals": [
+        "quartz"
+      ],
+      "diagnostic": "Very hard, waxy, conchoidal fracture; sparks with steel",
+      "setting": "deep marine, nodules in limestone",
+      "tier": 2,
+      "protolith": null
+    },
+    {
+      "id": "coal",
+      "name": "Coal",
+      "family": "sedimentary",
+      "subtype": "organic",
+      "texture": "organic, banded",
+      "grain_size": "not applicable",
+      "minerals": [
+        "pyrite"
+      ],
+      "diagnostic": "Black, light, burns; plant fossils",
+      "setting": "swamps and deltas",
+      "tier": 2,
+      "protolith": null
+    },
+    {
+      "id": "granite",
+      "name": "Granite",
+      "family": "igneous",
+      "subtype": "plutonic, felsic",
+      "texture": "phaneritic (coarse, interlocking crystals)",
+      "grain_size": "coarse (over 5 mm)",
+      "minerals": [
+        "quartz",
+        "orthoclase",
+        "plagioclase",
+        "biotite",
+        "muscovite",
+        "hornblende"
+      ],
+      "diagnostic": "Pink or white feldspar, glassy grey quartz, black mica",
+      "setting": "continental crust plutons",
+      "tier": 4,
+      "protolith": null
+    },
+    {
+      "id": "rhyolite",
+      "name": "Rhyolite",
+      "family": "igneous",
+      "subtype": "volcanic, felsic",
+      "texture": "aphanitic, often porphyritic or flow-banded",
+      "grain_size": "fine (under 1 mm)",
+      "minerals": [
+        "quartz",
+        "orthoclase",
+        "plagioclase",
+        "biotite"
+      ],
+      "diagnostic": "Light-colored, fine-grained; same chemistry as granite",
+      "setting": "continental volcanoes, calderas",
+      "tier": 7,
+      "protolith": null
+    },
+    {
+      "id": "obsidian",
+      "name": "Obsidian",
+      "family": "igneous",
+      "subtype": "volcanic, felsic",
+      "texture": "glassy",
+      "grain_size": "none (glass)",
+      "minerals": [],
+      "diagnostic": "Black glass with conchoidal fracture",
+      "setting": "rhyolitic lava flows",
+      "tier": 7,
+      "protolith": null
+    },
+    {
+      "id": "basalt",
+      "name": "Basalt",
+      "family": "igneous",
+      "subtype": "volcanic, mafic",
+      "texture": "aphanitic, often vesicular",
+      "grain_size": "fine (under 1 mm)",
+      "minerals": [
+        "plagioclase",
+        "augite",
+        "olivine",
+        "magnetite"
+      ],
+      "diagnostic": "Dark, fine-grained, may have gas holes (vesicles)",
+      "setting": "mid-ocean ridges, hotspots, flood basalts",
+      "tier": 7,
+      "protolith": null
+    },
+    {
+      "id": "gabbro",
+      "name": "Gabbro",
+      "family": "igneous",
+      "subtype": "plutonic, mafic",
+      "texture": "phaneritic",
+      "grain_size": "coarse (over 5 mm)",
+      "minerals": [
+        "plagioclase",
+        "augite",
+        "olivine",
+        "magnetite"
+      ],
+      "diagnostic": "Dark, coarse; same chemistry as basalt",
+      "setting": "oceanic crust, layered intrusions",
+      "tier": 7,
+      "protolith": null
+    },
+    {
+      "id": "slate",
+      "name": "Slate",
+      "family": "metamorphic",
+      "subtype": "foliated, low grade",
+      "texture": "slaty cleavage",
+      "grain_size": "very fine",
+      "minerals": [
+        "muscovite",
+        "chlorite",
+        "quartz"
+      ],
+      "diagnostic": "Splits into flat sheets; rings when tapped",
+      "setting": "low-grade regional metamorphism",
+      "tier": 3,
+      "protolith": "shale"
+    },
+    {
+      "id": "schist",
+      "name": "Schist",
+      "family": "metamorphic",
+      "subtype": "foliated, medium grade",
+      "texture": "schistosity (visible aligned micas)",
+      "grain_size": "medium to coarse",
+      "minerals": [
+        "muscovite",
+        "biotite",
+        "quartz",
+        "almandine",
+        "kyanite"
+      ],
+      "diagnostic": "Sparkly aligned mica flakes; often garnet porphyroblasts",
+      "setting": "medium-grade regional metamorphism",
+      "tier": 3,
+      "protolith": "shale"
+    },
+    {
+      "id": "gneiss",
+      "name": "Gneiss",
+      "family": "metamorphic",
+      "subtype": "foliated, high grade",
+      "texture": "gneissic banding",
+      "grain_size": "coarse",
+      "minerals": [
+        "quartz",
+        "orthoclase",
+        "plagioclase",
+        "biotite",
+        "hornblende",
+        "almandine"
+      ],
+      "diagnostic": "Light and dark mineral bands",
+      "setting": "high-grade regional metamorphism",
+      "tier": 5,
+      "protolith": "granite or shale"
+    },
+    {
+      "id": "marble",
+      "name": "Marble",
+      "family": "metamorphic",
+      "subtype": "non-foliated",
+      "texture": "granoblastic (interlocking calcite crystals)",
+      "grain_size": "medium to coarse",
+      "minerals": [
+        "calcite",
+        "dolomite",
+        "graphite"
+      ],
+      "diagnostic": "Fizzes in HCl; sugary interlocking crystals",
+      "setting": "contact or regional metamorphism of limestone",
+      "tier": 3,
+      "protolith": "limestone"
+    }
+  ]
+}

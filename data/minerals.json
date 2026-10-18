@@ -1,0 +1,682 @@
+{
+  "version": 1,
+  "sources": [
+    "Klein & Dutrow, Manual of Mineral Science",
+    "mindat.org",
+    "webmineral.com"
+  ],
+  "minerals": [
+    {
+      "id": "quartz",
+      "name": "Quartz",
+      "formula": "SiO2",
+      "mineral_class": "Tectosilicate",
+      "crystal_system": "Trigonal",
+      "hardness": {
+        "min": 7,
+        "max": 7
+      },
+      "specific_gravity": 2.65,
+      "streak": "white",
+      "luster": "vitreous",
+      "cleavage": "none (conchoidal fracture)",
+      "colors": [
+        "colorless",
+        "white",
+        "smoky",
+        "purple",
+        "pink"
+      ],
+      "diagnostic": "Scratches glass; hexagonal prisms with pyramid ends",
+      "occurrence": "granite, sandstone, quartzite, veins",
+      "tier": 1
+    },
+    {
+      "id": "calcite",
+      "name": "Calcite",
+      "formula": "CaCO3",
+      "mineral_class": "Carbonate",
+      "crystal_system": "Trigonal",
+      "hardness": {
+        "min": 3,
+        "max": 3
+      },
+      "specific_gravity": 2.71,
+      "streak": "white",
+      "luster": "vitreous",
+      "cleavage": "perfect, 3 directions not at 90 deg (rhombohedral)",
+      "colors": [
+        "colorless",
+        "white"
+      ],
+      "diagnostic": "Fizzes strongly in cold dilute HCl; clear crystals show double refraction",
+      "occurrence": "limestone, marble, veins, caves",
+      "tier": 1
+    },
+    {
+      "id": "dolomite",
+      "name": "Dolomite",
+      "formula": "CaMg(CO3)2",
+      "mineral_class": "Carbonate",
+      "crystal_system": "Trigonal",
+      "hardness": {
+        "min": 3.5,
+        "max": 4
+      },
+      "specific_gravity": 2.85,
+      "streak": "white",
+      "luster": "vitreous to pearly",
+      "cleavage": "perfect, 3 directions (rhombohedral)",
+      "colors": [
+        "white",
+        "pink",
+        "grey"
+      ],
+      "diagnostic": "Fizzes in HCl only when powdered; curved saddle-shaped crystals",
+      "occurrence": "dolostone, hydrothermal veins",
+      "tier": 2
+    },
+    {
+      "id": "halite",
+      "name": "Halite",
+      "formula": "NaCl",
+      "mineral_class": "Halide",
+      "crystal_system": "Cubic",
+      "hardness": {
+        "min": 2.5,
+        "max": 2.5
+      },
+      "specific_gravity": 2.17,
+      "streak": "white",
+      "luster": "vitreous",
+      "cleavage": "perfect, 3 directions at 90 deg (cubic)",
+      "colors": [
+        "colorless",
+        "white",
+        "pink"
+      ],
+      "diagnostic": "Salty taste; dissolves in water",
+      "occurrence": "evaporite beds, salt domes",
+      "tier": 1
+    },
+    {
+      "id": "gypsum",
+      "name": "Gypsum",
+      "formula": "CaSO4·2H2O",
+      "mineral_class": "Sulfate",
+      "crystal_system": "Monoclinic",
+      "hardness": {
+        "min": 2,
+        "max": 2
+      },
+      "specific_gravity": 2.32,
+      "streak": "white",
+      "luster": "vitreous to pearly",
+      "cleavage": "perfect, 1 direction",
+      "colors": [
+        "colorless",
+        "white"
+      ],
+      "diagnostic": "Scratched by a fingernail; flexible thin sheets",
+      "occurrence": "evaporite beds, desert crusts",
+      "tier": 1
+    },
+    {
+      "id": "anhydrite",
+      "name": "Anhydrite",
+      "formula": "CaSO4",
+      "mineral_class": "Sulfate",
+      "crystal_system": "Orthorhombic",
+      "hardness": {
+        "min": 3.5,
+        "max": 3.5
+      },
+      "specific_gravity": 2.97,
+      "streak": "white",
+      "luster": "vitreous to pearly",
+      "cleavage": "good, 3 directions at 90 deg",
+      "colors": [
+        "white",
+        "grey",
+        "bluish"
+      ],
+      "diagnostic": "Harder than gypsum; no water in structure",
+      "occurrence": "deep evaporites, salt dome caprock",
+      "tier": 2
+    },
+    {
+      "id": "hematite",
+      "name": "Hematite",
+      "formula": "Fe2O3",
+      "mineral_class": "Oxide",
+      "crystal_system": "Trigonal",
+      "hardness": {
+        "min": 5.5,
+        "max": 6.5
+      },
+      "specific_gravity": 5.26,
+      "streak": "reddish brown",
+      "luster": "metallic to earthy",
+      "cleavage": "none",
+      "colors": [
+        "steel grey",
+        "black",
+        "red"
+      ],
+      "diagnostic": "Red-brown streak even when the sample is grey",
+      "occurrence": "banded iron formation, red beds, hydrothermal veins",
+      "tier": 1
+    },
+    {
+      "id": "magnetite",
+      "name": "Magnetite",
+      "formula": "Fe3O4",
+      "mineral_class": "Oxide",
+      "crystal_system": "Cubic",
+      "hardness": {
+        "min": 5.5,
+        "max": 6.5
+      },
+      "specific_gravity": 5.18,
+      "streak": "black",
+      "luster": "metallic",
+      "cleavage": "none (octahedral parting)",
+      "colors": [
+        "black"
+      ],
+      "diagnostic": "Strongly magnetic",
+      "occurrence": "mafic igneous rocks, black sands, banded iron formation",
+      "tier": 1
+    },
+    {
+      "id": "goethite",
+      "name": "Goethite",
+      "formula": "FeO(OH)",
+      "mineral_class": "Oxide-hydroxide",
+      "crystal_system": "Orthorhombic",
+      "hardness": {
+        "min": 5,
+        "max": 5.5
+      },
+      "specific_gravity": 4.3,
+      "streak": "yellowish brown",
+      "luster": "adamantine to earthy",
+      "cleavage": "perfect, 1 direction",
+      "colors": [
+        "brown",
+        "yellow-brown"
+      ],
+      "diagnostic": "Yellow-brown streak separates it from hematite",
+      "occurrence": "weathered iron-bearing rocks, bog iron, gossans",
+      "tier": 1
+    },
+    {
+      "id": "pyrite",
+      "name": "Pyrite",
+      "formula": "FeS2",
+      "mineral_class": "Sulfide",
+      "crystal_system": "Cubic",
+      "hardness": {
+        "min": 6,
+        "max": 6.5
+      },
+      "specific_gravity": 5.02,
+      "streak": "greenish black",
+      "luster": "metallic",
+      "cleavage": "none",
+      "colors": [
+        "brass yellow"
+      ],
+      "diagnostic": "Striated cubes; harder than a steel knife, unlike chalcopyrite",
+      "occurrence": "shale, coal, hydrothermal veins",
+      "tier": 2
+    },
+    {
+      "id": "galena",
+      "name": "Galena",
+      "formula": "PbS",
+      "mineral_class": "Sulfide",
+      "crystal_system": "Cubic",
+      "hardness": {
+        "min": 2.5,
+        "max": 2.5
+      },
+      "specific_gravity": 7.58,
+      "streak": "lead grey",
+      "luster": "metallic",
+      "cleavage": "perfect, 3 directions at 90 deg (cubic)",
+      "colors": [
+        "silver grey"
+      ],
+      "diagnostic": "Very heavy; breaks into small cubes",
+      "occurrence": "hydrothermal veins, carbonate-hosted Pb-Zn deposits",
+      "tier": 2
+    },
+    {
+      "id": "sphalerite",
+      "name": "Sphalerite",
+      "formula": "ZnS",
+      "mineral_class": "Sulfide",
+      "crystal_system": "Cubic",
+      "hardness": {
+        "min": 3.5,
+        "max": 4
+      },
+      "specific_gravity": 4.05,
+      "streak": "pale yellow to brown",
+      "luster": "resinous to adamantine",
+      "cleavage": "perfect, 6 directions (dodecahedral)",
+      "colors": [
+        "yellow",
+        "brown",
+        "black",
+        "red"
+      ],
+      "diagnostic": "Light streak despite dark color; smells of H2S in HCl",
+      "occurrence": "hydrothermal veins, carbonate-hosted Pb-Zn deposits",
+      "tier": 2
+    },
+    {
+      "id": "chalcopyrite",
+      "name": "Chalcopyrite",
+      "formula": "CuFeS2",
+      "mineral_class": "Sulfide",
+      "crystal_system": "Tetragonal",
+      "hardness": {
+        "min": 3.5,
+        "max": 4
+      },
+      "specific_gravity": 4.2,
+      "streak": "greenish black",
+      "luster": "metallic",
+      "cleavage": "poor",
+      "colors": [
+        "brass yellow",
+        "iridescent tarnish"
+      ],
+      "diagnostic": "Softer than pyrite (knife scratches it); deeper yellow",
+      "occurrence": "porphyry copper, VMS deposits, veins",
+      "tier": 4
+    },
+    {
+      "id": "fluorite",
+      "name": "Fluorite",
+      "formula": "CaF2",
+      "mineral_class": "Halide",
+      "crystal_system": "Cubic",
+      "hardness": {
+        "min": 4,
+        "max": 4
+      },
+      "specific_gravity": 3.18,
+      "streak": "white",
+      "luster": "vitreous",
+      "cleavage": "perfect, 4 directions (octahedral)",
+      "colors": [
+        "purple",
+        "green",
+        "yellow",
+        "colorless"
+      ],
+      "diagnostic": "Often fluoresces under UV light; cubic crystals",
+      "occurrence": "hydrothermal veins, granite pegmatites",
+      "tier": 2
+    },
+    {
+      "id": "barite",
+      "name": "Barite",
+      "formula": "BaSO4",
+      "mineral_class": "Sulfate",
+      "crystal_system": "Orthorhombic",
+      "hardness": {
+        "min": 3,
+        "max": 3.5
+      },
+      "specific_gravity": 4.48,
+      "streak": "white",
+      "luster": "vitreous",
+      "cleavage": "perfect 1 direction, good 2 more",
+      "colors": [
+        "colorless",
+        "white",
+        "blue"
+      ],
+      "diagnostic": "Unusually heavy for a light-colored mineral",
+      "occurrence": "hydrothermal veins, sedimentary nodules",
+      "tier": 2
+    },
+    {
+      "id": "orthoclase",
+      "name": "Orthoclase",
+      "formula": "KAlSi3O8",
+      "mineral_class": "Tectosilicate (K-feldspar)",
+      "crystal_system": "Monoclinic",
+      "hardness": {
+        "min": 6,
+        "max": 6
+      },
+      "specific_gravity": 2.56,
+      "streak": "white",
+      "luster": "vitreous",
+      "cleavage": "good, 2 directions at 90 deg",
+      "colors": [
+        "pink",
+        "white",
+        "cream"
+      ],
+      "diagnostic": "Pink color and Carlsbad twins; no striations",
+      "occurrence": "granite, syenite, pegmatite, arkose",
+      "tier": 4
+    },
+    {
+      "id": "plagioclase",
+      "name": "Plagioclase",
+      "formula": "(Na,Ca)(Si,Al)4O8 (albite NaAlSi3O8 to anorthite CaAl2Si2O8)",
+      "mineral_class": "Tectosilicate (feldspar)",
+      "crystal_system": "Triclinic",
+      "hardness": {
+        "min": 6,
+        "max": 6.5
+      },
+      "specific_gravity": 2.69,
+      "streak": "white",
+      "luster": "vitreous",
+      "cleavage": "good, 2 directions at about 94 deg",
+      "colors": [
+        "white",
+        "grey",
+        "blue-grey"
+      ],
+      "diagnostic": "Fine parallel striations on cleavage faces from polysynthetic twinning",
+      "occurrence": "nearly all igneous rocks, many metamorphic rocks",
+      "tier": 4
+    },
+    {
+      "id": "muscovite",
+      "name": "Muscovite",
+      "formula": "KAl2(AlSi3O10)(OH)2",
+      "mineral_class": "Phyllosilicate (mica)",
+      "crystal_system": "Monoclinic",
+      "hardness": {
+        "min": 2,
+        "max": 2.5
+      },
+      "specific_gravity": 2.82,
+      "streak": "white",
+      "luster": "vitreous to pearly",
+      "cleavage": "perfect, 1 direction (basal)",
+      "colors": [
+        "colorless",
+        "silvery",
+        "pale brown"
+      ],
+      "diagnostic": "Peels into clear, elastic sheets",
+      "occurrence": "granite, pegmatite, schist",
+      "tier": 3
+    },
+    {
+      "id": "biotite",
+      "name": "Biotite",
+      "formula": "K(Mg,Fe)3(AlSi3O10)(OH)2",
+      "mineral_class": "Phyllosilicate (mica)",
+      "crystal_system": "Monoclinic",
+      "hardness": {
+        "min": 2.5,
+        "max": 3
+      },
+      "specific_gravity": 3.0,
+      "streak": "white to grey",
+      "luster": "vitreous to pearly",
+      "cleavage": "perfect, 1 direction (basal)",
+      "colors": [
+        "black",
+        "dark brown"
+      ],
+      "diagnostic": "Dark elastic sheets",
+      "occurrence": "granite, diorite, schist, gneiss",
+      "tier": 4
+    },
+    {
+      "id": "chlorite",
+      "name": "Chlorite (clinochlore)",
+      "formula": "(Mg,Fe)5Al(AlSi3O10)(OH)8",
+      "mineral_class": "Phyllosilicate",
+      "crystal_system": "Monoclinic",
+      "hardness": {
+        "min": 2,
+        "max": 2.5
+      },
+      "specific_gravity": 2.8,
+      "streak": "pale green to white",
+      "luster": "vitreous to pearly",
+      "cleavage": "perfect, 1 direction (basal)",
+      "colors": [
+        "green",
+        "dark green"
+      ],
+      "diagnostic": "Flexible but not elastic sheets, unlike mica",
+      "occurrence": "greenschist, altered mafic rocks",
+      "tier": 3
+    },
+    {
+      "id": "olivine",
+      "name": "Olivine",
+      "formula": "(Mg,Fe)2SiO4",
+      "mineral_class": "Nesosilicate",
+      "crystal_system": "Orthorhombic",
+      "hardness": {
+        "min": 6.5,
+        "max": 7
+      },
+      "specific_gravity": 3.3,
+      "streak": "white",
+      "luster": "vitreous",
+      "cleavage": "poor (conchoidal fracture)",
+      "colors": [
+        "olive green",
+        "yellow-green"
+      ],
+      "diagnostic": "Granular green crystals; no cleavage",
+      "occurrence": "peridotite, basalt, gabbro, mantle xenoliths",
+      "tier": 7
+    },
+    {
+      "id": "augite",
+      "name": "Augite",
+      "formula": "(Ca,Na)(Mg,Fe,Al,Ti)(Si,Al)2O6",
+      "mineral_class": "Inosilicate (single chain, pyroxene)",
+      "crystal_system": "Monoclinic",
+      "hardness": {
+        "min": 5.5,
+        "max": 6
+      },
+      "specific_gravity": 3.35,
+      "streak": "greenish grey",
+      "luster": "vitreous",
+      "cleavage": "good, 2 directions at about 87 deg",
+      "colors": [
+        "dark green",
+        "black"
+      ],
+      "diagnostic": "Stubby crystals; near-90 deg cleavage separates it from hornblende",
+      "occurrence": "basalt, gabbro, andesite",
+      "tier": 7
+    },
+    {
+      "id": "hornblende",
+      "name": "Hornblende",
+      "formula": "Ca2(Mg,Fe,Al)5(Al,Si)8O22(OH)2",
+      "mineral_class": "Inosilicate (double chain, amphibole)",
+      "crystal_system": "Monoclinic",
+      "hardness": {
+        "min": 5,
+        "max": 6
+      },
+      "specific_gravity": 3.2,
+      "streak": "grey-green to white",
+      "luster": "vitreous",
+      "cleavage": "good, 2 directions at about 56 and 124 deg",
+      "colors": [
+        "black",
+        "dark green"
+      ],
+      "diagnostic": "Elongate crystals; 56/124 deg cleavage",
+      "occurrence": "diorite, andesite, amphibolite",
+      "tier": 4
+    },
+    {
+      "id": "almandine",
+      "name": "Almandine garnet",
+      "formula": "Fe3Al2(SiO4)3",
+      "mineral_class": "Nesosilicate (garnet)",
+      "crystal_system": "Cubic",
+      "hardness": {
+        "min": 7,
+        "max": 7.5
+      },
+      "specific_gravity": 4.32,
+      "streak": "white",
+      "luster": "vitreous",
+      "cleavage": "none",
+      "colors": [
+        "deep red",
+        "red-brown"
+      ],
+      "diagnostic": "Dodecahedral crystals; index mineral of the garnet zone",
+      "occurrence": "schist, gneiss, amphibolite",
+      "tier": 3
+    },
+    {
+      "id": "kaolinite",
+      "name": "Kaolinite",
+      "formula": "Al2Si2O5(OH)4",
+      "mineral_class": "Phyllosilicate (clay)",
+      "crystal_system": "Triclinic",
+      "hardness": {
+        "min": 2,
+        "max": 2.5
+      },
+      "specific_gravity": 2.6,
+      "streak": "white",
+      "luster": "earthy to dull",
+      "cleavage": "perfect, 1 direction (too fine to see)",
+      "colors": [
+        "white",
+        "cream"
+      ],
+      "diagnostic": "Earthy smell when breathed on; plastic when wet",
+      "occurrence": "weathered granite, soils, shale",
+      "tier": 1
+    },
+    {
+      "id": "talc",
+      "name": "Talc",
+      "formula": "Mg3Si4O10(OH)2",
+      "mineral_class": "Phyllosilicate",
+      "crystal_system": "Monoclinic",
+      "hardness": {
+        "min": 1,
+        "max": 1
+      },
+      "specific_gravity": 2.75,
+      "streak": "white",
+      "luster": "pearly to greasy",
+      "cleavage": "perfect, 1 direction (basal)",
+      "colors": [
+        "white",
+        "pale green",
+        "grey"
+      ],
+      "diagnostic": "Soapy feel; softest mineral on the Mohs scale",
+      "occurrence": "soapstone, altered ultramafic rocks",
+      "tier": 3
+    },
+    {
+      "id": "graphite",
+      "name": "Graphite",
+      "formula": "C",
+      "mineral_class": "Native element",
+      "crystal_system": "Hexagonal",
+      "hardness": {
+        "min": 1,
+        "max": 2
+      },
+      "specific_gravity": 2.23,
+      "streak": "black to grey",
+      "luster": "metallic to dull",
+      "cleavage": "perfect, 1 direction (basal)",
+      "colors": [
+        "black",
+        "steel grey"
+      ],
+      "diagnostic": "Writes on paper; greasy feel",
+      "occurrence": "marble, schist, gneiss from organic-rich protoliths",
+      "tier": 3
+    },
+    {
+      "id": "copper",
+      "name": "Native copper",
+      "formula": "Cu",
+      "mineral_class": "Native element",
+      "crystal_system": "Cubic",
+      "hardness": {
+        "min": 2.5,
+        "max": 3
+      },
+      "specific_gravity": 8.94,
+      "streak": "shiny copper-red",
+      "luster": "metallic",
+      "cleavage": "none (hackly fracture)",
+      "colors": [
+        "copper red",
+        "green tarnish"
+      ],
+      "diagnostic": "Malleable; bends instead of breaking",
+      "occurrence": "basalt vesicles, oxidized zones of copper deposits",
+      "tier": 4
+    },
+    {
+      "id": "malachite",
+      "name": "Malachite",
+      "formula": "Cu2CO3(OH)2",
+      "mineral_class": "Carbonate",
+      "crystal_system": "Monoclinic",
+      "hardness": {
+        "min": 3.5,
+        "max": 4
+      },
+      "specific_gravity": 4.0,
+      "streak": "light green",
+      "luster": "silky to adamantine",
+      "cleavage": "perfect, 1 direction (rarely seen)",
+      "colors": [
+        "green, banded"
+      ],
+      "diagnostic": "Banded green; fizzes in HCl",
+      "occurrence": "oxidized zones of copper deposits",
+      "tier": 4
+    },
+    {
+      "id": "kyanite",
+      "name": "Kyanite",
+      "formula": "Al2SiO5",
+      "mineral_class": "Nesosilicate",
+      "crystal_system": "Triclinic",
+      "hardness": {
+        "min": 4.5,
+        "max": 7
+      },
+      "specific_gravity": 3.6,
+      "streak": "white",
+      "luster": "vitreous",
+      "cleavage": "perfect, 1 direction",
+      "colors": [
+        "blue",
+        "blue-grey"
+      ],
+      "diagnostic": "Bladed blue crystals; hardness about 4.5 along the blade and 6.5 to 7 across it",
+      "occurrence": "high-pressure schist and gneiss",
+      "tier": 5
+    }
+  ]
+}
